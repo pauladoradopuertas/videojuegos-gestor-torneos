@@ -63,7 +63,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         }
 
         // Método para cargar los miembros del equipo
-        private void CargarMiembrosEquipo()
+        public void CargarMiembrosEquipo()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
@@ -226,6 +226,12 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     }
                 }
             }
+        }
+
+        private void button_anadir_miembro_Click(object sender, EventArgs e)
+        {
+            anadirMiembro formularioAnadir = new anadirMiembro(idEquipo, conexionString, this);
+            formularioAnadir.ShowDialog();
         }
     }
 }

@@ -123,3 +123,4 @@ C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\De
 C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\Debug\net8.0-windows\TfgMultiplataforma.pdb
 C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\Debug\net8.0-windows\TfgMultiplataforma.genruntimeconfig.cache
 C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\Debug\net8.0-windows\ref\TfgMultiplataforma.dll
+C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\Debug\net8.0-windows\TfgMultiplataforma.Paginas.Usuarios.anadirMiembro.resources

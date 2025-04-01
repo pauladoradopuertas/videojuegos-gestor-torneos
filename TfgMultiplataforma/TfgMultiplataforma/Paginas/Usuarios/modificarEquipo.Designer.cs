@@ -87,6 +87,7 @@
             button_anadir_miembro.TabIndex = 25;
             button_anadir_miembro.Text = "Añadir miembro";
             button_anadir_miembro.UseVisualStyleBackColor = true;
+            button_anadir_miembro.Click += button_anadir_miembro_Click;
             // 
             // comboBox_visible
             // 
