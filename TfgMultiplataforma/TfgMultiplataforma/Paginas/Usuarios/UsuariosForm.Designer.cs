@@ -38,11 +38,13 @@
             label_nombre_equipo = new Label();
             label_usuario_nombre_equipo = new Label();
             tabPage_usuario_eventos = new TabPage();
+            button_unir_torneo = new Button();
+            label_estado_torneo = new Label();
             button_unir_evento = new Button();
-            button_info1 = new Button();
-            listBox_eventos = new ListBox();
+            button_info_torneo = new Button();
+            listBox_torneos = new ListBox();
             comboBox_eventos = new ComboBox();
-            label_usuarios_eventos = new Label();
+            label_usuarios_torneo = new Label();
             tabControl_usuario.SuspendLayout();
             tabPage_usuario_equipo.SuspendLayout();
             tabPage_usuario_eventos.SuspendLayout();
@@ -145,18 +147,39 @@
             // 
             // tabPage_usuario_eventos
             // 
+            tabPage_usuario_eventos.Controls.Add(button_unir_torneo);
+            tabPage_usuario_eventos.Controls.Add(label_estado_torneo);
             tabPage_usuario_eventos.Controls.Add(button_unir_evento);
-            tabPage_usuario_eventos.Controls.Add(button_info1);
-            tabPage_usuario_eventos.Controls.Add(listBox_eventos);
+            tabPage_usuario_eventos.Controls.Add(button_info_torneo);
+            tabPage_usuario_eventos.Controls.Add(listBox_torneos);
             tabPage_usuario_eventos.Controls.Add(comboBox_eventos);
-            tabPage_usuario_eventos.Controls.Add(label_usuarios_eventos);
+            tabPage_usuario_eventos.Controls.Add(label_usuarios_torneo);
             tabPage_usuario_eventos.Location = new Point(4, 29);
             tabPage_usuario_eventos.Name = "tabPage_usuario_eventos";
             tabPage_usuario_eventos.Padding = new Padding(3);
             tabPage_usuario_eventos.Size = new Size(789, 396);
             tabPage_usuario_eventos.TabIndex = 1;
-            tabPage_usuario_eventos.Text = "Eventos";
+            tabPage_usuario_eventos.Text = "Torneos";
             tabPage_usuario_eventos.UseVisualStyleBackColor = true;
+            // 
+            // button_unir_torneo
+            // 
+            button_unir_torneo.Location = new Point(213, 323);
+            button_unir_torneo.Name = "button_unir_torneo";
+            button_unir_torneo.Size = new Size(103, 52);
+            button_unir_torneo.TabIndex = 48;
+            button_unir_torneo.Text = "Unirme a un torneo";
+            button_unir_torneo.UseVisualStyleBackColor = true;
+            // 
+            // label_estado_torneo
+            // 
+            label_estado_torneo.AutoSize = true;
+            label_estado_torneo.Font = new Font("Segoe UI", 15F);
+            label_estado_torneo.Location = new Point(22, 66);
+            label_estado_torneo.Name = "label_estado_torneo";
+            label_estado_torneo.Size = new Size(90, 35);
+            label_estado_torneo.TabIndex = 47;
+            label_estado_torneo.Text = "Estado";
             // 
             // button_unir_evento
             // 
@@ -168,43 +191,46 @@
             button_unir_evento.Text = "Unirme a un evento";
             button_unir_evento.UseVisualStyleBackColor = true;
             // 
-            // button_info1
+            // button_info_torneo
             // 
-            button_info1.Location = new Point(709, 159);
-            button_info1.Name = "button_info1";
-            button_info1.Size = new Size(91, 39);
-            button_info1.TabIndex = 4;
-            button_info1.Text = "Ver Info";
-            button_info1.UseVisualStyleBackColor = true;
+            button_info_torneo.Location = new Point(480, 323);
+            button_info_torneo.Name = "button_info_torneo";
+            button_info_torneo.Size = new Size(103, 52);
+            button_info_torneo.TabIndex = 4;
+            button_info_torneo.Text = "Ver Información";
+            button_info_torneo.UseVisualStyleBackColor = true;
             // 
-            // listBox_eventos
+            // listBox_torneos
             // 
-            listBox_eventos.Font = new Font("Segoe UI", 12F);
-            listBox_eventos.FormattingEnabled = true;
-            listBox_eventos.ItemHeight = 28;
-            listBox_eventos.Location = new Point(33, 159);
-            listBox_eventos.Name = "listBox_eventos";
-            listBox_eventos.Size = new Size(670, 200);
-            listBox_eventos.TabIndex = 3;
+            listBox_torneos.Font = new Font("Segoe UI", 10F);
+            listBox_torneos.FormattingEnabled = true;
+            listBox_torneos.HorizontalScrollbar = true;
+            listBox_torneos.ItemHeight = 23;
+            listBox_torneos.Location = new Point(33, 135);
+            listBox_torneos.Name = "listBox_torneos";
+            listBox_torneos.Size = new Size(718, 165);
+            listBox_torneos.TabIndex = 3;
+            listBox_torneos.SelectedIndexChanged += listBox_torneos_SelectedIndexChanged;
             // 
             // comboBox_eventos
             // 
             comboBox_eventos.Font = new Font("Segoe UI", 12F);
             comboBox_eventos.FormattingEnabled = true;
-            comboBox_eventos.Location = new Point(33, 81);
+            comboBox_eventos.Location = new Point(144, 66);
             comboBox_eventos.Name = "comboBox_eventos";
-            comboBox_eventos.Size = new Size(767, 36);
+            comboBox_eventos.Size = new Size(578, 36);
             comboBox_eventos.TabIndex = 2;
+            comboBox_eventos.SelectedIndexChanged += comboBox_eventos_SelectedIndexChanged;
             // 
-            // label_usuarios_eventos
+            // label_usuarios_torneo
             // 
-            label_usuarios_eventos.AutoSize = true;
-            label_usuarios_eventos.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label_usuarios_eventos.Location = new Point(364, 15);
-            label_usuarios_eventos.Name = "label_usuarios_eventos";
-            label_usuarios_eventos.Size = new Size(107, 35);
-            label_usuarios_eventos.TabIndex = 1;
-            label_usuarios_eventos.Text = "Eventos";
+            label_usuarios_torneo.AutoSize = true;
+            label_usuarios_torneo.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label_usuarios_torneo.Location = new Point(326, 16);
+            label_usuarios_torneo.Name = "label_usuarios_torneo";
+            label_usuarios_torneo.Size = new Size(108, 35);
+            label_usuarios_torneo.TabIndex = 1;
+            label_usuarios_torneo.Text = "Torneos";
             // 
             // UsuariosForm
             // 
@@ -237,11 +263,13 @@
         private Label label_nombre_equipo;
         private Button button_abandonar_equipo;
         private Button button_editar_equipo;
-        private Label label_usuarios_eventos;
+        private Label label_usuarios_torneo;
         private ComboBox comboBox_eventos;
-        private Button button_info1;
-        private ListBox listBox_eventos;
+        private Button button_info_torneo;
+        private ListBox listBox_torneos;
         private Button button_unir_evento;
         private ListBox listBox_miembros;
+        private Label label_estado_torneo;
+        private Button button_unir_torneo;
     }
 }

@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient; // Librería para MySQL
+using System.Text.RegularExpressions;
+
+
 
 namespace TfgMultiplataforma.Paginas.Usuarios
 {
@@ -17,14 +20,22 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         public int idCliente;
         private int idEquipo; // Almacenamos el id del equipo
         private string nombreEquipoActual; // Para almacenar el nombre actual del equipo
-
+                                           // Asegúrate de tener estos campos en tu clase
+        private int idTorneoSeleccionado = 0;
+        private string nombreTorneoSeleccionado = "";
         private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;";
 
         public UsuariosForm(int idCliente)
         {
             InitializeComponent();
             this.idCliente = idCliente;
-
+            CargarEstadosTorneos(); // Asegúrate de que esta línea está presente
+            button_info_torneo.Click += button_info_torneo_Click;
+            // Configura cómo se muestran los items
+            listBox_torneos.DisplayMember = "DisplayText"; // Muestra el texto completo
+            listBox_torneos.ValueMember = "Id";           // Guarda internamente el ID
+        
+        
         }
 
         private void UsuariosForm_Load(object sender, EventArgs e)
@@ -236,7 +247,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
-            // Método para verificar si el usuario es el capitán del equipo
+        // Método para verificar si el usuario es el capitán del equipo
         private bool EsCapitan(int idCliente, int idEquipo)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -264,35 +275,142 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
-        // Método para actualizar el nombre del equipo en la base de datos
-        private void ActualizarNombreEquipo(string nuevoNombre)
+        private void CargarEstadosTorneos()
         {
-            using (MySqlConnection conn = new MySqlConnection(conexionString))
+            try
             {
-                conn.Open();
-
-                // Actualizar el nombre del equipo en la base de datos
-                string queryActualizar = "UPDATE equipos SET nombre = @nuevoNombre WHERE id_equipos = @idEquipo";
-
-                using (MySqlCommand cmd = new MySqlCommand(queryActualizar, conn))
+                using (MySqlConnection conn = new MySqlConnection(conexionString))
                 {
-                    cmd.Parameters.AddWithValue("@nuevoNombre", nuevoNombre);
-                    cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
+                    conn.Open();
+                    string query = "SELECT id_estado, nombre FROM estados WHERE nombre IN ('Programado', 'En curso', 'Finalizado')";
 
-                    int filasAfectadas = cmd.ExecuteNonQuery();
-                    if (filasAfectadas > 0)
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        // Si la actualización fue exitosa, actualizar el TextBox con el nuevo nombre
-                        textBox_nombre_equipo.Text = nuevoNombre;
-                        MessageBox.Show("El nombre del equipo se ha actualizado correctamente.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error al actualizar el nombre del equipo.");
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            comboBox_eventos.Items.Clear();
+
+                            while (reader.Read())
+                            {
+                                comboBox_eventos.Items.Add(new
+                                {
+                                    Id = reader.GetInt32("id_estado"),
+                                    Nombre = reader.GetString("nombre")
+                                });
+                            }
+                            comboBox_eventos.DisplayMember = "Nombre";
+                            comboBox_eventos.ValueMember = "Id";
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar estados: " + ex.Message);
+            }
         }
 
+        private void comboBox_eventos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox_eventos.SelectedItem == null || idEquipo == 0)
+            {
+                listBox_torneos.Items.Clear();
+                listBox_torneos.Items.Add("Selecciona un estado para ver tus torneos");
+                return;
+            }
+
+            dynamic selectedEstado = comboBox_eventos.SelectedItem;
+            CargarTorneosInscritos(selectedEstado.Id, idEquipo);
+        }
+
+        private void CargarTorneosInscritos(int idEstado, int idEquipo)
+        {
+            try
+            {
+                listBox_torneos.Items.Clear();
+
+                using (MySqlConnection conn = new MySqlConnection(conexionString))
+                {
+                    conn.Open();
+                    string query = @"
+                SELECT 
+                    t.id_torneo,
+                    t.nombre,
+                    DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y') as fecha_inicio,
+                    DATE_FORMAT(t.fecha_fin, '%d/%m/%Y') as fecha_fin,
+                    t.dia_partida,
+                    t.max_equipos,
+                    (SELECT COUNT(*) FROM `equipos-torneos` WHERE id_torneo = t.id_torneo) as inscritos
+                FROM torneos t
+                INNER JOIN `equipos-torneos` et ON t.id_torneo = et.id_torneo
+                WHERE t.id_estado = @idEstado AND et.id_equipo = @idEquipo
+                ORDER BY t.fecha_inicio";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idEstado", idEstado);
+                        cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (!reader.HasRows)
+                            {
+                                listBox_torneos.Items.Add("No estás inscrito en ningún torneo con este estado");
+                                return;
+                            }
+
+                            while (reader.Read())
+                            {
+                                // Objeto con todos los datos para mostrar
+                                var torneoItem = new
+                                {
+                                    Id = reader.GetInt32("id_torneo"),
+                                    Nombre = reader.GetString("nombre"),
+                                    // Solo usaremos estos dos campos al pasar a la otra página
+                                    DisplayText = $"{reader["nombre"]} | " +
+                                                $"Fechas: {reader["fecha_inicio"]} - {reader["fecha_fin"]} | " +
+                                                $"Partidas: {reader["dia_partida"]} | " +
+                                                $"Inscritos: {reader["inscritos"]}/{reader["max_equipos"]}"
+                                };
+
+                                listBox_torneos.Items.Add(torneoItem);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar torneos: " + ex.Message);
+            }
+        }
+
+        private void listBox_torneos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox_torneos.SelectedItem == null ||
+            listBox_torneos.SelectedItem.ToString().Contains("No estás inscrito"))
+            {
+                button_info_torneo.Enabled = false;
+                return;
+            }
+
+            dynamic selectedTorneo = listBox_torneos.SelectedItem;
+            idTorneoSeleccionado = selectedTorneo.Id;
+            nombreTorneoSeleccionado = selectedTorneo.Nombre;
+            button_info_torneo.Enabled = true;
+        }
+
+        private void button_info_torneo_Click(object sender, EventArgs e)
+        {
+            if (listBox_torneos.SelectedItem == null)
+            {
+                MessageBox.Show("Selecciona un torneo primero");
+                return;
+            }
+
+            dynamic selected = listBox_torneos.SelectedItem;
+            infoTorneos infoForm = new infoTorneos(selected.Id, selected.Nombre);
+            infoForm.ShowDialog();
+        }
     }
 }

@@ -10,6 +10,9 @@
     <Compile Update="Paginas\Usuarios\crearEquipo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Paginas\Usuarios\infoTorneos.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Paginas\Usuarios\modificarEquipo.cs">
       <SubType>Form</SubType>
     </Compile>
