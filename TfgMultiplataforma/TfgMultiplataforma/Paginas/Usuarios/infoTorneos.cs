@@ -14,11 +14,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
     public partial class infoTorneos : Form
     {
         private int idTorneo;
+        private int idEquipo;
 
-        public infoTorneos(int idTorneo, string nombreTorneo)
+        public infoTorneos(int idTorneo, string nombreTorneo, int idEquipo)
         {
             InitializeComponent();
             this.idTorneo = idTorneo;
+            this.idEquipo = idEquipo;
 
             // Configurar el título
             label_titulo_torneo.Text = $"Torneo {nombreTorneo}";
@@ -202,11 +204,8 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     }
                 }
             }
-
-
             return null;
         }
-
 
 
         private void MostrarClasificacion()
@@ -288,7 +287,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     }
                 }
             }
-
             return clasificacion;
         }
 
@@ -299,13 +297,104 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             public int Puntos { get; set; }
         }
 
-       
-       
+
         private void MostrarResultado()
         {
-            // Lógica para mostrar clasificación
-            MessageBox.Show($"Mostrando resultado del torneo ID: {idTorneo}");
+            if (idEquipo == 0)
+            {
+                MessageBox.Show("No se ha encontrado un equipo para el usuario.");
+                return;
+            }
+
+            // Obtener los resultados de las partidas para el equipo
+            List<ResultadoPartida> resultados = ObtenerResultadosPartidas(idEquipo);
+            if (resultados.Count == 0)
+            {
+                MessageBox.Show("No hay resultados de partidas para el equipo.");
+                return;
+            }
+
+            // Crear el formulario para mostrar los resultados
+            Form resultadosForm = new Form
+            {
+                Text = "Resultados de Partidas",
+                Size = new Size(400, 300),
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            // Crear el DataGridView para mostrar los resultados
+            DataGridView dataGridView = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false
+            };
+
+            // Crear el DataTable para los resultados
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Resultado", typeof(string));  // Solo necesitamos la columna "Resultado"
+
+            // Rellenar el DataTable con los resultados
+            foreach (var resultado in resultados)
+            {
+                dt.Rows.Add(resultado.Resultado);
+            }
+
+            // Asignar el DataTable al DataGridView
+            dataGridView.DataSource = dt;
+            resultadosForm.Controls.Add(dataGridView);
+            resultadosForm.ShowDialog();
         }
+
+        private List<ResultadoPartida> ObtenerResultadosPartidas(int idEquipo)
+        {
+            List<ResultadoPartida> resultados = new List<ResultadoPartida>();
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;"))
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT 
+                            ep.resultado
+                        FROM 
+                            `equipos-partidas` ep
+                        WHERE 
+                            ep.id_equipo = @idEquipo";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                resultados.Add(new ResultadoPartida
+                                {
+                                    Resultado = reader["resultado"].ToString()  // Solo almacenamos el resultado
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al obtener los resultados: {ex.Message}");
+            }
+            return resultados;
+        }
+
+        // Clase interna para representar los resultados de las partidas
+        private class ResultadoPartida
+        {
+            public string Resultado { get; set; }
+        }
+
 
         private void MostrarEstadisticas()
         {
@@ -445,7 +534,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     }
                 }
             }
-
             return estadisticas;
         }
 

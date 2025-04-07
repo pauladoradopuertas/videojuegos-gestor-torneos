@@ -409,7 +409,9 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
 
             dynamic selected = listBox_torneos.SelectedItem;
-            infoTorneos infoForm = new infoTorneos(selected.Id, selected.Nombre);
+
+            // Llamar al formulario infoTorneos y pasar los datos
+            infoTorneos infoForm = new infoTorneos(selected.Id, selected.Nombre, idEquipo); // Pasar también el idEquipo
             infoForm.ShowDialog();
         }
     }
