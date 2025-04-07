@@ -3,6 +3,30 @@
   "WorkspaceRootPath": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|c:\\users\\paula\\documents\\github\\tfg\\tfgmultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\infotorneos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\infotorneos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\infotorneos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\infotorneos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\unirseequipo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\unirseequipo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|c:\\users\\paula\\documents\\github\\tfg\\tfgmultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\anadirmiembro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\anadirmiembro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|c:\\users\\paula\\documents\\github\\tfg\\tfgmultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\unirseequipo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\unirseequipo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\anadirmiembro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\anadirmiembro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\usuariosform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\usuariosform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
@@ -11,32 +35,8 @@
       "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\usuariosform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|c:\\users\\paula\\documents\\github\\tfg\\tfgmultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\infotorneos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\infotorneos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|c:\\users\\paula\\documents\\github\\tfg\\tfgmultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\infotorneos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\infotorneos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\tfgmultiplataforma\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\anadirmiembro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\anadirmiembro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|c:\\users\\paula\\documents\\github\\tfg\\tfgmultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\unirseequipo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\unirseequipo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|c:\\users\\paula\\documents\\github\\tfg\\tfgmultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\unirseequipo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\unirseequipo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|c:\\users\\paula\\documents\\github\\tfg\\tfgmultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\anadirmiembro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|solutionrelative:tfgmultiplataforma\\paginas\\usuarios\\anadirmiembro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{76E1666A-FE7C-4B95-896A-80376663642A}|TfgMultiplataforma\\TfgMultiplataforma.csproj|c:\\users\\paula\\documents\\github\\tfg\\tfgmultiplataforma\\tfgmultiplataforma\\paginas\\usuarios\\crearequipo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -74,11 +74,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 277,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 15,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "Login.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Login.cs",
               "RelativeDocumentMoniker": "TfgMultiplataforma\\Login.cs",
@@ -86,8 +86,7 @@
               "RelativeToolTip": "TfgMultiplataforma\\Login.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-25T15:16:22.314Z",
-              "IsPinned": true,
-              "EditorCaption": " [Dise\u00F1o]"
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -129,7 +128,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "UsuariosForm.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\UsuariosForm.cs",
               "RelativeDocumentMoniker": "TfgMultiplataforma\\Paginas\\Usuarios\\UsuariosForm.cs",
@@ -137,12 +136,11 @@
               "RelativeToolTip": "TfgMultiplataforma\\Paginas\\Usuarios\\UsuariosForm.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-26T16:19:28.748Z",
-              "IsPinned": true,
-              "EditorCaption": " [Dise\u00F1o]"
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "UsuariosForm.cs",
               "DocumentMoniker": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\UsuariosForm.cs",
               "RelativeDocumentMoniker": "TfgMultiplataforma\\Paginas\\Usuarios\\UsuariosForm.cs",
@@ -151,8 +149,7 @@
               "ViewState": "AgIAABEAAAAAAAAAAAA0wBwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-26T16:34:44.823Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -194,13 +191,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 3,
               "Title": "anadirMiembro.cs",
               "DocumentMoniker": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\anadirMiembro.cs",
               "RelativeDocumentMoniker": "TfgMultiplataforma\\Paginas\\Usuarios\\anadirMiembro.cs",
               "ToolTip": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\anadirMiembro.cs",
               "RelativeToolTip": "TfgMultiplataforma\\Paginas\\Usuarios\\anadirMiembro.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAABBwD0AAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAswD0AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-01T15:18:48.038Z",
               "IsPinned": true,
@@ -233,7 +230,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "unirseEquipo.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\unirseEquipo.cs",
               "RelativeDocumentMoniker": "TfgMultiplataforma\\Paginas\\Usuarios\\unirseEquipo.cs",
@@ -246,7 +243,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "unirseEquipo.cs",
               "DocumentMoniker": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\unirseEquipo.cs",
               "RelativeDocumentMoniker": "TfgMultiplataforma\\Paginas\\Usuarios\\unirseEquipo.cs",
@@ -260,12 +257,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "infoTorneos.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs",
               "RelativeDocumentMoniker": "TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs",
-              "ToolTip": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs [Dise\u00F1o]",
-              "RelativeToolTip": "TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs [Dise\u00F1o]",
+              "ToolTip": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs [Dise\u00F1o]*",
+              "RelativeToolTip": "TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs [Dise\u00F1o]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-03T15:58:45.499Z",
               "IsPinned": true,
@@ -273,13 +270,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "infoTorneos.cs",
               "DocumentMoniker": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs",
               "RelativeDocumentMoniker": "TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs",
-              "ToolTip": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs",
-              "RelativeToolTip": "TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAYwDgAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\paula\\Documents\\GitHub\\tfg\\TfgMultiplataforma\\TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs*",
+              "RelativeToolTip": "TfgMultiplataforma\\Paginas\\Usuarios\\infoTorneos.cs*",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAAwFMAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-03T16:04:54.6Z",
               "IsPinned": true,
