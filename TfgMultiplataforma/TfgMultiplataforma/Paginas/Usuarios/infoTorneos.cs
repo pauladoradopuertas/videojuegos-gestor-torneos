@@ -211,10 +211,96 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
         private void MostrarClasificacion()
         {
-            // Lógica para mostrar calendario
-            MessageBox.Show($"Mostrando clasificacion del torneo ID: {idTorneo}");
+            // Crear el formulario para la clasificación
+            Form clasificacionForm = new Form
+            {
+                Text = "Clasificación del Torneo",
+                Size = new Size(500, 400),
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            // Crear el DataGridView para mostrar la clasificación
+            DataGridView dataGridView = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                ReadOnly = true,  // Hace que el DataGridView sea solo lectura
+                AllowUserToAddRows = false,  // No se pueden agregar filas
+                AllowUserToDeleteRows = false,  // No se pueden eliminar filas
+                AllowUserToOrderColumns = false,  // No se pueden ordenar las columnas
+                AllowUserToResizeRows = false,  // No se pueden redimensionar filas
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,  // Permite seleccionar filas completas
+                RowHeadersVisible = false  // No muestra los encabezados de fila
+            };
+
+            clasificacionForm.Controls.Add(dataGridView);
+
+            // Obtener la clasificación desde la base de datos
+            List<EquipoClasificacion> clasificacion = ObtenerClasificacionTorneo();
+
+            // Crear un DataTable para cargar los datos en el DataGridView
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Equipo", typeof(string));
+            dt.Columns.Add("Puntos", typeof(int));
+
+            // Agregar los equipos y puntos al DataTable
+            foreach (var equipo in clasificacion)
+            {
+                dt.Rows.Add(equipo.Nombre, equipo.Puntos);
+            }
+
+            // Establecer el origen de datos del DataGridView
+            dataGridView.DataSource = dt;
+
+            // Mostrar el formulario con la clasificación
+            clasificacionForm.ShowDialog();
         }
 
+        // Método para obtener la clasificación de los equipos desde la base de datos
+        private List<EquipoClasificacion> ObtenerClasificacionTorneo()
+        {
+            List<EquipoClasificacion> clasificacion = new List<EquipoClasificacion>();
+
+            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;"))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT e.nombre, et.puntos
+                    FROM equipos e
+                    JOIN `equipos-torneos` et ON e.id_equipos = et.id_equipo
+                    WHERE et.id_torneo = @idTorneo
+                    ORDER BY et.puntos DESC";  // Ordenar por puntos de mayor a menor
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            clasificacion.Add(new EquipoClasificacion
+                            {
+                                Nombre = reader["nombre"].ToString(),
+                                Puntos = Convert.ToInt32(reader["puntos"])
+                            });
+                        }
+                    }
+                }
+            }
+
+            return clasificacion;
+        }
+
+        // Clase para representar un equipo y su puntuación
+        private class EquipoClasificacion
+        {
+            public string Nombre { get; set; }
+            public int Puntos { get; set; }
+        }
+
+       
+       
         private void MostrarResultado()
         {
             // Lógica para mostrar clasificación
