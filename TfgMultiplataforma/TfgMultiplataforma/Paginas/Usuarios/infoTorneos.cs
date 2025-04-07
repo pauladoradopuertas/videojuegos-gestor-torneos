@@ -309,8 +309,152 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
         private void MostrarEstadisticas()
         {
-            // Lógica para mostrar participantes
-            MessageBox.Show($"Mostrando estadisticas del torneo ID: {idTorneo}");
+            // Crear el formulario para las estadísticas
+            Form estadisticasForm = new Form
+            {
+                Text = "Estadísticas del Torneo",
+                Size = new Size(400, 300),
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            // Crear un panel para organizar los datos
+            Panel panel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                Padding = new Padding(10)
+            };
+
+            // Crear las etiquetas que mostrarán los resultados
+            Label labelVictorias = new Label
+            {
+                Text = "Equipo con más victorias: Cargando...",
+                AutoSize = true,
+                Font = new Font("Segoe UI", 12)
+            };
+
+            Label labelDerrotas = new Label
+            {
+                Text = "Equipo con más derrotas: Cargando...",
+                AutoSize = true,
+                Font = new Font("Segoe UI", 12)
+            };
+
+            Label labelEmpates = new Label
+            {
+                Text = "Equipo con más empates: Cargando...",
+                AutoSize = true,
+                Font = new Font("Segoe UI", 12)
+            };
+
+            // Añadir las etiquetas al panel
+            panel.Controls.Add(labelVictorias);
+            panel.Controls.Add(labelDerrotas);
+            panel.Controls.Add(labelEmpates);
+
+            // Ajustar la posición de las etiquetas
+            labelVictorias.Location = new Point(10, 20);
+            labelDerrotas.Location = new Point(10, 70);
+            labelEmpates.Location = new Point(10, 120);
+
+            estadisticasForm.Controls.Add(panel);
+
+            // Obtener las estadísticas desde la base de datos
+            var estadisticas = ObtenerEstadisticasTorneo();
+
+            // Asignar los resultados a las etiquetas
+            labelVictorias.Text = $"Equipo con más victorias: {estadisticas.VictoriasEquipo}";
+            labelDerrotas.Text = $"Equipo con más derrotas: {estadisticas.DerrotasEquipo}";
+            labelEmpates.Text = $"Equipo con más empates: {estadisticas.EmpatesEquipo}";
+
+            // Mostrar el formulario con las estadísticas
+            estadisticasForm.ShowDialog();
+        }
+
+        // Método para obtener las estadísticas de los equipos desde la base de datos
+        private EstadisticasTorneo ObtenerEstadisticasTorneo()
+        {
+            EstadisticasTorneo estadisticas = new EstadisticasTorneo();
+
+            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;"))
+            {
+                conn.Open();
+
+                // Consulta para el equipo con más victorias
+                string queryVictorias = @"
+                    SELECT e.nombre
+                    FROM equipos e
+                    JOIN `equipos-torneos` et ON e.id_equipos = et.id_equipo
+                    WHERE et.id_torneo = @idTorneo
+                    ORDER BY et.partidas_jugadas - et.partidas_perdidas DESC
+                    LIMIT 1";
+
+                // Consulta para el equipo con más derrotas
+                string queryDerrotas = @"
+                    SELECT e.nombre
+                    FROM equipos e
+                    JOIN `equipos-torneos` et ON e.id_equipos = et.id_equipo
+                    WHERE et.id_torneo = @idTorneo
+                    ORDER BY et.partidas_perdidas DESC
+                    LIMIT 1";
+
+                // Consulta para el equipo con más empates
+                string queryEmpates = @"
+                    SELECT e.nombre
+                    FROM equipos e
+                    JOIN `equipos-torneos` et ON e.id_equipos = et.id_equipo
+                    WHERE et.id_torneo = @idTorneo
+                    ORDER BY et.partidas_empatadas DESC
+                    LIMIT 1";
+
+                // Obtener equipo con más victorias
+                using (MySqlCommand cmd = new MySqlCommand(queryVictorias, conn))
+                {
+                    cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            estadisticas.VictoriasEquipo = reader["nombre"].ToString();
+                        }
+                    }
+                }
+
+                // Obtener equipo con más derrotas
+                using (MySqlCommand cmd = new MySqlCommand(queryDerrotas, conn))
+                {
+                    cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            estadisticas.DerrotasEquipo = reader["nombre"].ToString();
+                        }
+                    }
+                }
+
+                // Obtener equipo con más empates
+                using (MySqlCommand cmd = new MySqlCommand(queryEmpates, conn))
+                {
+                    cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            estadisticas.EmpatesEquipo = reader["nombre"].ToString();
+                        }
+                    }
+                }
+            }
+
+            return estadisticas;
+        }
+
+        // Clase para representar las estadísticas del torneo
+        private class EstadisticasTorneo
+        {
+            public string VictoriasEquipo { get; set; }
+            public string DerrotasEquipo { get; set; }
+            public string EmpatesEquipo { get; set; }
         }
     }
 }
