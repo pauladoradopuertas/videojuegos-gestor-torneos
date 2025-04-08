@@ -170,6 +170,7 @@
             button_unir_torneo.TabIndex = 48;
             button_unir_torneo.Text = "Unirme a un torneo";
             button_unir_torneo.UseVisualStyleBackColor = true;
+            button_unir_torneo.Click += button_unir_torneo_Click;
             // 
             // label_estado_torneo
             // 

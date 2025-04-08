@@ -25,6 +25,22 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             // Configurar el título
             label_titulo_torneo.Text = $"Torneo {nombreTorneo}";
 
+            // Obtener la información del torneo (fecha inicio, fecha fin, etc.)
+            var infoTorneo = ObtenerInfoTorneo();
+            if (infoTorneo == null)
+            {
+                MessageBox.Show("No se pudo obtener la información del torneo.");
+                return;
+            }
+
+            // Deshabilitar los botones si el torneo no ha comenzado
+            if (DateTime.Now < infoTorneo.FechaInicio)
+            {
+                button_clasificacion.Enabled = false;
+                button_resultado_partidas.Enabled = false;
+                button_estadisticas.Enabled = false;
+            }
+
             // Configurar eventos para los botones existentes
             button_calendario.Click += (s, e) => MostrarCalendario();
             button_clasificacion.Click += (s, e) => MostrarClasificacion();

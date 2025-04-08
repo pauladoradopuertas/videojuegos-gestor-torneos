@@ -19,6 +19,9 @@
     <Compile Update="Paginas\Usuarios\unirseEquipo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Paginas\Usuarios\unirseTorneo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Paginas\Usuarios\UsuariosForm.cs">
       <SubType>Form</SubType>
     </Compile>

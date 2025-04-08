@@ -127,3 +127,4 @@ C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\De
 C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\Debug\net8.0-windows\TfgMultiplataforma.Paginas.Usuarios.crearEquipo.resources
 C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\Debug\net8.0-windows\TfgMultiplataforma.Paginas.Usuarios.unirseEquipo.resources
 C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\Debug\net8.0-windows\TfgMultiplataforma.Paginas.Usuarios.infoTorneos.resources
+C:\Users\paula\Documents\GitHub\tfg\TfgMultiplataforma\TfgMultiplataforma\obj\Debug\net8.0-windows\TfgMultiplataforma.Paginas.Usuarios.unirseTorneo.resources

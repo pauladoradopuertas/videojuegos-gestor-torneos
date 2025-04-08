@@ -31,11 +31,12 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             this.idCliente = idCliente;
             CargarEstadosTorneos(); // Asegúrate de que esta línea está presente
             button_info_torneo.Click += button_info_torneo_Click;
+
             // Configura cómo se muestran los items
             listBox_torneos.DisplayMember = "DisplayText"; // Muestra el texto completo
             listBox_torneos.ValueMember = "Id";           // Guarda internamente el ID
-        
-        
+
+
         }
 
         private void UsuariosForm_Load(object sender, EventArgs e)
@@ -413,6 +414,25 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             // Llamar al formulario infoTorneos y pasar los datos
             infoTorneos infoForm = new infoTorneos(selected.Id, selected.Nombre, idEquipo); // Pasar también el idEquipo
             infoForm.ShowDialog();
+        }
+
+        private void button_unir_torneo_Click(object sender, EventArgs e)
+        {
+            if (idEquipo == 0)
+            {
+                MessageBox.Show("Debes pertenecer a un equipo para unirte a un torneo.");
+                return;
+            }
+
+            // Verificar si el usuario es el capitán del equipo
+            if (!EsCapitan(idCliente, idEquipo))
+            {
+                MessageBox.Show("Solo el capitán del equipo puede unirse a un torneo.");
+                return;
+            }
+
+            unirseTorneo formUnirseTorneo = new unirseTorneo(idCliente, idEquipo);
+            formUnirseTorneo.Show(); // En vez de ShowDialog
         }
     }
 }
