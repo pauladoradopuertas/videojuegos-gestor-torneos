@@ -186,7 +186,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         {
             var info = new InfoTorneo { DiasPartida = new List<DayOfWeek>() };
 
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;"))
+            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
             {
                 conn.Open();
                 string query = "SELECT fecha_inicio, fecha_fin, dia_partida FROM torneos WHERE id_torneo = @idTorneo";
@@ -276,13 +276,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         {
             List<EquipoClasificacion> clasificacion = new List<EquipoClasificacion>();
 
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;"))
+            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
             {
                 conn.Open();
                 string query = @"
                     SELECT e.nombre, et.puntos
                     FROM equipos e
-                    JOIN `equipos-torneos` et ON e.id_equipos = et.id_equipo
+                    JOIN `equipos-torneos` et ON e.id_equipo = et.id_equipo
                     WHERE et.id_torneo = @idTorneo
                     ORDER BY et.puntos DESC";  // Ordenar por puntos de mayor a menor
 
@@ -370,7 +370,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
             try
             {
-                using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;"))
+                using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
                 {
                     conn.Open();
                     string query = @"
@@ -480,7 +480,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         {
             EstadisticasTorneo estadisticas = new EstadisticasTorneo();
 
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;"))
+            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
             {
                 conn.Open();
 
@@ -488,7 +488,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 string queryVictorias = @"
                     SELECT e.nombre
                     FROM equipos e
-                    JOIN `equipos-torneos` et ON e.id_equipos = et.id_equipo
+                    JOIN `equipos-torneos` et ON e.id_equipo = et.id_equipo
                     WHERE et.id_torneo = @idTorneo
                     ORDER BY et.partidas_jugadas - et.partidas_perdidas DESC
                     LIMIT 1";
@@ -497,7 +497,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 string queryDerrotas = @"
                     SELECT e.nombre
                     FROM equipos e
-                    JOIN `equipos-torneos` et ON e.id_equipos = et.id_equipo
+                    JOIN `equipos-torneos` et ON e.id_equipo = et.id_equipo
                     WHERE et.id_torneo = @idTorneo
                     ORDER BY et.partidas_perdidas DESC
                     LIMIT 1";
@@ -506,7 +506,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 string queryEmpates = @"
                     SELECT e.nombre
                     FROM equipos e
-                    JOIN `equipos-torneos` et ON e.id_equipos = et.id_equipo
+                    JOIN `equipos-torneos` et ON e.id_equipo = et.id_equipo
                     WHERE et.id_torneo = @idTorneo
                     ORDER BY et.partidas_empatadas DESC
                     LIMIT 1";

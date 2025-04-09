@@ -14,7 +14,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
     public partial class unirseEquipo : Form
     {
 
-        private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;";
+        private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
         private int idUsuario;
 
         public unirseEquipo(int idUsuario)
@@ -35,7 +35,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
-                string query = @"SELECT id_equipos, nombre FROM equipos 
+                string query = @"SELECT id_equipo, nombre FROM equipos 
                         WHERE visible = 'si' 
                         AND nombre LIKE @filtro
                         ORDER BY nombre";
@@ -48,7 +48,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         while (reader.Read())
                         {
                             string nombreEquipo = reader["nombre"].ToString();
-                            int idEquipo = Convert.ToInt32(reader["id_equipos"]);
+                            int idEquipo = Convert.ToInt32(reader["id_equipo"]);
 
                             listBox_buscar_equipos.Items.Add(nombreEquipo); // Solo muestra el nombre
                             equiposDict[nombreEquipo] = idEquipo;    // Guarda relación nombre-ID
@@ -91,29 +91,26 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                 try
                 {
-                    // 1. Insertar relación en clientes-equipos
-                    string queryInsert = "INSERT INTO `clientes-equipos` (id_cliente, id_equipo) VALUES (@idUsuario, @idEquipo)";
-                    MySqlCommand cmdInsert = new MySqlCommand(queryInsert, conn, transaction);
-                    cmdInsert.Parameters.AddWithValue("@idUsuario", idUsuario);
-                    cmdInsert.Parameters.AddWithValue("@idEquipo", idEquipo);
-                    cmdInsert.ExecuteNonQuery();
-
-                    // 2. Actualizar estado Y ROL del usuario
-                    string queryUpdate = @"UPDATE clientes 
-                     SET id_estado_usuario = 1, 
-                         id_rol_usuario = 2
+                    // 1. Actualizar el campo id_equipo de la tabla clientes para asociar al usuario con el equipo
+                    string queryUpdateEquipo = @"UPDATE clientes 
+                     SET id_equipo = @idEquipo, 
+                         id_estado_usuario = 1, 
+                         id_rol_usuario = 2  -- Rol de miembro
                      WHERE id_cliente = @idUsuario";
 
-                    MySqlCommand cmdUpdate = new MySqlCommand(queryUpdate, conn, transaction);
-                    cmdUpdate.Parameters.AddWithValue("@idUsuario", idUsuario);
-                    cmdUpdate.ExecuteNonQuery();
+                    MySqlCommand cmdUpdateEquipo = new MySqlCommand(queryUpdateEquipo, conn, transaction);
+                    cmdUpdateEquipo.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    cmdUpdateEquipo.Parameters.AddWithValue("@idEquipo", idEquipo);  // Asignamos el equipo directamente
+                    cmdUpdateEquipo.ExecuteNonQuery();
 
+                    // Confirmar la transacción
                     transaction.Commit();
                     MessageBox.Show("Te has unido al equipo correctamente como Miembro.");
                     this.Close();
                 }
                 catch (Exception ex)
                 {
+                    // En caso de error, revertir la transacción
                     transaction.Rollback();
                     MessageBox.Show("Error al unirse al equipo: " + ex.Message);
                 }

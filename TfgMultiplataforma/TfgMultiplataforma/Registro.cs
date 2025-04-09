@@ -15,7 +15,7 @@ namespace TfgMultiplataforma
 {
     public partial class Registro : Form
     {
-        private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;";
+        private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
         public Registro()
         {
             InitializeComponent();

@@ -15,7 +15,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
     {
 
         private int idCliente;
-        private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;"; // Cadena de conexión a la base de datos
+        private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
 
         public perfil(int idCliente)
         {

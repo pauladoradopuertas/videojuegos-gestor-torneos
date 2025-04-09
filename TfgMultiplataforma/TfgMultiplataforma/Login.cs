@@ -14,7 +14,7 @@ namespace TfgMultiplataforma
 {
     public partial class Login : Form
     {
-        private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;";
+        private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
 
         public Login()
         {

@@ -13,7 +13,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 {
     public partial class anadirMiembro : Form
     {
-        private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;";
+        private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
         private int idEquipo;
         // Asegúrate de que estás añadiendo esta propiedad en la clase 'anadirMiembro'
         private modificarEquipo parentForm;
@@ -62,16 +62,12 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 }
 
                 int idCliente = Convert.ToInt32(result);
-                MySqlCommand actualizarCliente = new MySqlCommand("UPDATE clientes SET id_estado_usuario = @idEstado, id_rol_usuario = @idRol WHERE id_cliente = @idCliente", conexion);
+                MySqlCommand actualizarCliente = new MySqlCommand("UPDATE clientes SET id_estado_usuario = @idEstado, id_rol_usuario = @idRol, id_equipo = @idEquipo WHERE id_cliente = @idCliente", conexion);
                 actualizarCliente.Parameters.AddWithValue("@idEstado", idEstadoActivo);
                 actualizarCliente.Parameters.AddWithValue("@idRol", idRol);
+                actualizarCliente.Parameters.AddWithValue("@idEquipo", idEquipo);  // Asignamos al equipo directamente
                 actualizarCliente.Parameters.AddWithValue("@idCliente", idCliente);
                 actualizarCliente.ExecuteNonQuery();
-
-                MySqlCommand insertarRelacion = new MySqlCommand("INSERT INTO `clientes-equipos` (id_cliente, id_equipo) VALUES (@idCliente, @idEquipo)", conexion);
-                insertarRelacion.Parameters.AddWithValue("@idCliente", idCliente);
-                insertarRelacion.Parameters.AddWithValue("@idEquipo", idEquipo);
-                insertarRelacion.ExecuteNonQuery();
 
                 MessageBox.Show("Miembro añadido con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

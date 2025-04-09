@@ -23,7 +23,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                                            // Asegúrate de tener estos campos en tu clase
         private int idTorneoSeleccionado = 0;
         private string nombreTorneoSeleccionado = "";
-        private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;";
+        private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
 
         public UsuariosForm(int idCliente)
         {
@@ -54,10 +54,11 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                 // Consulta para obtener el id del equipo del cliente
                 string queryEquipo = @"
-                    SELECT ce.id_equipo, e.nombre 
-                    FROM `clientes-equipos` ce
-                    INNER JOIN equipos e ON ce.id_equipo = e.id_equipos
-                    WHERE ce.id_cliente = @idCliente";
+                    SELECT e.id_equipo AS id_equipo, e.nombre 
+                    FROM clientes c
+                    INNER JOIN equipos e ON c.id_equipo = e.id_equipo
+                    WHERE c.id_cliente = @idCliente";
+
 
                 using (MySqlCommand cmd = new MySqlCommand(queryEquipo, conn))
                 {
@@ -143,10 +144,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 // Consulta para obtener miembros y roles del equipo
                 string queryMiembros = @"
                     SELECT c.nombre, ru.nombre AS rol
-                    FROM `clientes-equipos` ce
-                    INNER JOIN clientes c ON ce.id_cliente = c.id_cliente
-                    INNER JOIN roles_usuario ru ON c.id_rol_usuario = ru.id_rol_usuario
-                    WHERE ce.id_equipo = @idEquipo";
+                    FROM clientes c
+                    LEFT JOIN roles_usuario ru ON c.id_rol_usuario = ru.id_rol_usuario
+                    WHERE c.id_equipo = @idEquipo";
+
 
                 using (MySqlCommand cmd = new MySqlCommand(queryMiembros, conn))
                 {
@@ -194,10 +195,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 MySqlTransaction transaction = conn.BeginTransaction();
                 try
                 {
-                    // Eliminar la relación de cliente y equipo de la tabla clientes-equipos
-                    string queryEliminar = "DELETE FROM `clientes-equipos` WHERE id_cliente = @idCliente AND id_equipo = @idEquipo";
+                    // Eliminar la relación de cliente y equipo
+                    string queryActualizar = @"
+                    UPDATE clientes
+                    SET id_equipo = NULL, id_estado_usuario = 2, id_rol_usuario = NULL
+                    WHERE id_cliente = @idCliente";
 
-                    using (MySqlCommand cmd = new MySqlCommand(queryEliminar, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(queryActualizar, conn))
                     {
                         cmd.Parameters.AddWithValue("@idCliente", idCliente);
                         cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
@@ -258,11 +262,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 // Consulta para verificar si el usuario es el capitán del equipo
                 string queryCapitan = @"
                     SELECT COUNT(*) 
-                    FROM `clientes-equipos` ce
-                    INNER JOIN clientes c ON ce.id_cliente = c.id_cliente
+                    FROM clientes c
                     INNER JOIN roles_usuario ru ON c.id_rol_usuario = ru.id_rol_usuario
-                    WHERE ce.id_cliente = @idCliente 
-                    AND ce.id_equipo = @idEquipo
+                    WHERE c.id_cliente = @idCliente 
+                    AND c.id_equipo = @idEquipo
                     AND ru.nombre = 'capitan'";
 
                 using (MySqlCommand cmd = new MySqlCommand(queryCapitan, conn))

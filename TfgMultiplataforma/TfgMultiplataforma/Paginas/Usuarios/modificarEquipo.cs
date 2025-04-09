@@ -15,7 +15,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
     {
 
         private int idEquipo;
-        private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;";
+        private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
         private UsuariosForm usuariosForm; // Atributo para la referencia del formulario
 
         public modificarEquipo(int idEquipo, UsuariosForm usuariosForm)
@@ -36,7 +36,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 string query = @"
                     SELECT nombre, visible 
                     FROM equipos 
-                    WHERE id_equipos = @idEquipo";
+                    WHERE id_equipo = @idEquipo";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -71,10 +71,9 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                 string query = @"
                     SELECT c.id_cliente, c.nombre, r.nombre AS rol 
-                    FROM `clientes-equipos` ce
-                    INNER JOIN clientes c ON ce.id_cliente = c.id_cliente
+                    FROM clientes c
                     LEFT JOIN roles_usuario r ON c.id_rol_usuario = r.id_rol_usuario
-                    WHERE ce.id_equipo = @idEquipo";
+                    WHERE c.id_equipo = @idEquipo";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -146,12 +145,11 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             {
                 conn.Open();
 
-                // Eliminar de clientes-equipos y actualizar su estado y rol
+                // Eliminar de clientes y actualizar su estado y rol
                 string queryEliminar = @"
-                    DELETE FROM `clientes-equipos` WHERE id_cliente = @idCliente;
                     UPDATE clientes 
-                    SET id_rol_usuario = NULL, id_estado_usuario = 2 
-                    WHERE id_cliente = @idCliente;";
+                    SET id_rol_usuario = NULL, id_estado_usuario = 2, id_equipo = NULL 
+                    WHERE id_cliente = @idCliente";
 
                 using (MySqlCommand cmd = new MySqlCommand(queryEliminar, conn))
                 {
@@ -200,7 +198,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 string queryActualizar = $@"
                     UPDATE equipos 
                     SET {string.Join(", ", camposActualizar)}
-                    WHERE id_equipos = @idEquipo";
+                    WHERE id_equipo = @idEquipo";
 
                 using (MySqlCommand cmd = new MySqlCommand(queryActualizar, conn))
                 {

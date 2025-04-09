@@ -16,7 +16,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
         private int idCliente;
         private int idEquipo;
-        private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;";
+        private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
 
         public unirseTorneo(int idCliente, int idEquipo)
         {

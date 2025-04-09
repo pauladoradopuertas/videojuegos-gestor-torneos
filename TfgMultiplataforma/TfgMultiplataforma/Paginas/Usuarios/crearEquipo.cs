@@ -13,7 +13,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 {
     public partial class crearEquipo : Form
     {
-        private string conexionString = "Server=localhost;Database=tfg_bbdd;Uid=root;Pwd=;";
+        private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
         private UsuariosForm usuariosForm;
         private int idUsuario;  // Asegúrate de tener el ID del usuario que está creando el equipo
 
@@ -114,7 +114,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     // 1. Asignar el rol de "Capitán" al cliente en la tabla clientes
                     string queryActualizarRol = @"
                         UPDATE clientes 
-                        SET id_rol_usuario = (SELECT id_rol_usuario FROM roles_usuario WHERE nombre = 'Capitán'),
+                        SET id_rol_usuario = (SELECT id_rol_usuario FROM roles_usuario WHERE nombre = 'capitan'),
                             id_estado_usuario = 1 
                         WHERE id_cliente = @idUsuario;";
 
@@ -122,21 +122,9 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     using (MySqlCommand cmd = new MySqlCommand(queryActualizarRol, conn))
                     {
                         cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                        cmd.Parameters.AddWithValue("@idEquipo", idEquipo);  // Asignamos el equipo directamente
                         cmd.Transaction = transaction;
-                        cmd.ExecuteNonQuery();  // Ejecutar la actualización del rol y estado
-                    }
-
-                    // 2. Insertar la relación entre el cliente y el equipo en la tabla clientes-equipos
-                    string queryInsertarClienteEquipo = @"
-                        INSERT INTO `clientes-equipos` (id_cliente, id_equipo) 
-                        VALUES (@idUsuario, @idEquipo);";
-
-                    using (MySqlCommand cmd = new MySqlCommand(queryInsertarClienteEquipo, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
-                        cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
-                        cmd.Transaction = transaction;
-                        cmd.ExecuteNonQuery();  // Insertar la relación cliente-equipo
+                        cmd.ExecuteNonQuery();  // Ejecutar la actualización del rol, estado y equipo
                     }
 
                     // Confirmar la transacción
