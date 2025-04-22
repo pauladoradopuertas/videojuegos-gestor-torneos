@@ -45,32 +45,33 @@
             textBox_info_usuario_admin = new TextBox();
             label_info_usuario_perfil = new Label();
             titulo_usuario_admin = new Label();
-            tabPage_equipo_admin = new TabPage();
-            button_unir_torneo = new Button();
-            label_estado_torneo = new Label();
-            button_unir_evento = new Button();
-            button_info_torneo = new Button();
-            listBox_torneos = new ListBox();
-            comboBox_eventos = new ComboBox();
-            label_usuarios_torneo = new Label();
-            tabPage_torneo_admin = new TabPage();
+            tabPage_historial_admin = new TabPage();
+            label_juegos_historial = new Label();
+            listBox_partidas_historial = new ListBox();
+            comboBox_juegos_historial = new ComboBox();
+            label_historial_admin = new Label();
+            tabPage_estadisticas_admin = new TabPage();
+            label_juegos_estadisticas = new Label();
+            listBox_estadisticas_estadisticas = new ListBox();
+            comboBox_juegos_estadisticas = new ComboBox();
             label1 = new Label();
-            tabPage_crear_admin = new TabPage();
+            tabPage_torneos_admin = new TabPage();
+            listBox_torneos_torneos = new ListBox();
             label2 = new Label();
             button_volver_perfil = new Button();
             tabControl_usuario.SuspendLayout();
             tabPage_info_usuario_admin.SuspendLayout();
-            tabPage_equipo_admin.SuspendLayout();
-            tabPage_torneo_admin.SuspendLayout();
-            tabPage_crear_admin.SuspendLayout();
+            tabPage_historial_admin.SuspendLayout();
+            tabPage_estadisticas_admin.SuspendLayout();
+            tabPage_torneos_admin.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl_usuario
             // 
             tabControl_usuario.Controls.Add(tabPage_info_usuario_admin);
-            tabControl_usuario.Controls.Add(tabPage_equipo_admin);
-            tabControl_usuario.Controls.Add(tabPage_torneo_admin);
-            tabControl_usuario.Controls.Add(tabPage_crear_admin);
+            tabControl_usuario.Controls.Add(tabPage_historial_admin);
+            tabControl_usuario.Controls.Add(tabPage_estadisticas_admin);
+            tabControl_usuario.Controls.Add(tabPage_torneos_admin);
             tabControl_usuario.Location = new Point(2, 11);
             tabControl_usuario.Name = "tabControl_usuario";
             tabControl_usuario.SelectedIndex = 0;
@@ -239,132 +240,150 @@
             titulo_usuario_admin.Text = "Datos del usuario ";
             titulo_usuario_admin.TextAlign = ContentAlignment.TopCenter;
             // 
-            // tabPage_equipo_admin
+            // tabPage_historial_admin
             // 
-            tabPage_equipo_admin.Controls.Add(button_unir_torneo);
-            tabPage_equipo_admin.Controls.Add(label_estado_torneo);
-            tabPage_equipo_admin.Controls.Add(button_unir_evento);
-            tabPage_equipo_admin.Controls.Add(button_info_torneo);
-            tabPage_equipo_admin.Controls.Add(listBox_torneos);
-            tabPage_equipo_admin.Controls.Add(comboBox_eventos);
-            tabPage_equipo_admin.Controls.Add(label_usuarios_torneo);
-            tabPage_equipo_admin.Location = new Point(4, 29);
-            tabPage_equipo_admin.Name = "tabPage_equipo_admin";
-            tabPage_equipo_admin.Padding = new Padding(3);
-            tabPage_equipo_admin.Size = new Size(853, 534);
-            tabPage_equipo_admin.TabIndex = 1;
-            tabPage_equipo_admin.Text = "Equipos";
-            tabPage_equipo_admin.UseVisualStyleBackColor = true;
+            tabPage_historial_admin.Controls.Add(label_juegos_historial);
+            tabPage_historial_admin.Controls.Add(listBox_partidas_historial);
+            tabPage_historial_admin.Controls.Add(comboBox_juegos_historial);
+            tabPage_historial_admin.Controls.Add(label_historial_admin);
+            tabPage_historial_admin.Location = new Point(4, 29);
+            tabPage_historial_admin.Name = "tabPage_historial_admin";
+            tabPage_historial_admin.Padding = new Padding(3);
+            tabPage_historial_admin.Size = new Size(853, 534);
+            tabPage_historial_admin.TabIndex = 1;
+            tabPage_historial_admin.Text = "Historial de partidas";
+            tabPage_historial_admin.UseVisualStyleBackColor = true;
             // 
-            // button_unir_torneo
+            // label_juegos_historial
             // 
-            button_unir_torneo.Location = new Point(213, 323);
-            button_unir_torneo.Name = "button_unir_torneo";
-            button_unir_torneo.Size = new Size(103, 52);
-            button_unir_torneo.TabIndex = 48;
-            button_unir_torneo.Text = "Unirme a un torneo";
-            button_unir_torneo.UseVisualStyleBackColor = true;
+            label_juegos_historial.AutoSize = true;
+            label_juegos_historial.Font = new Font("Segoe UI", 15F);
+            label_juegos_historial.Location = new Point(28, 107);
+            label_juegos_historial.Name = "label_juegos_historial";
+            label_juegos_historial.Size = new Size(92, 35);
+            label_juegos_historial.TabIndex = 47;
+            label_juegos_historial.Text = "Juegos";
             // 
-            // label_estado_torneo
+            // listBox_partidas_historial
             // 
-            label_estado_torneo.AutoSize = true;
-            label_estado_torneo.Font = new Font("Segoe UI", 15F);
-            label_estado_torneo.Location = new Point(28, 72);
-            label_estado_torneo.Name = "label_estado_torneo";
-            label_estado_torneo.Size = new Size(90, 35);
-            label_estado_torneo.TabIndex = 47;
-            label_estado_torneo.Text = "Estado";
+            listBox_partidas_historial.Font = new Font("Segoe UI", 10F);
+            listBox_partidas_historial.FormattingEnabled = true;
+            listBox_partidas_historial.HorizontalScrollbar = true;
+            listBox_partidas_historial.ItemHeight = 23;
+            listBox_partidas_historial.Location = new Point(28, 272);
+            listBox_partidas_historial.Name = "listBox_partidas_historial";
+            listBox_partidas_historial.Size = new Size(788, 234);
+            listBox_partidas_historial.TabIndex = 3;
             // 
-            // button_unir_evento
+            // comboBox_juegos_historial
             // 
-            button_unir_evento.Font = new Font("Segoe UI", 12F);
-            button_unir_evento.Location = new Point(313, 396);
-            button_unir_evento.Name = "button_unir_evento";
-            button_unir_evento.Size = new Size(195, 47);
-            button_unir_evento.TabIndex = 5;
-            button_unir_evento.Text = "Unirme a un evento";
-            button_unir_evento.UseVisualStyleBackColor = true;
+            comboBox_juegos_historial.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_juegos_historial.Font = new Font("Segoe UI", 12F);
+            comboBox_juegos_historial.FormattingEnabled = true;
+            comboBox_juegos_historial.Location = new Point(126, 109);
+            comboBox_juegos_historial.Name = "comboBox_juegos_historial";
+            comboBox_juegos_historial.Size = new Size(690, 36);
+            comboBox_juegos_historial.TabIndex = 2;
+            comboBox_juegos_historial.SelectedIndexChanged += comboBox_juegos_historial_SelectedIndexChanged;
             // 
-            // button_info_torneo
+            // label_historial_admin
             // 
-            button_info_torneo.Location = new Point(480, 323);
-            button_info_torneo.Name = "button_info_torneo";
-            button_info_torneo.Size = new Size(103, 52);
-            button_info_torneo.TabIndex = 4;
-            button_info_torneo.Text = "Ver Información";
-            button_info_torneo.UseVisualStyleBackColor = true;
+            label_historial_admin.AutoSize = true;
+            label_historial_admin.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label_historial_admin.Location = new Point(290, 24);
+            label_historial_admin.Name = "label_historial_admin";
+            label_historial_admin.Size = new Size(251, 35);
+            label_historial_admin.TabIndex = 1;
+            label_historial_admin.Text = "Historial de Partidas";
             // 
-            // listBox_torneos
+            // tabPage_estadisticas_admin
             // 
-            listBox_torneos.Font = new Font("Segoe UI", 10F);
-            listBox_torneos.FormattingEnabled = true;
-            listBox_torneos.HorizontalScrollbar = true;
-            listBox_torneos.ItemHeight = 23;
-            listBox_torneos.Location = new Point(33, 135);
-            listBox_torneos.Name = "listBox_torneos";
-            listBox_torneos.Size = new Size(718, 165);
-            listBox_torneos.TabIndex = 3;
+            tabPage_estadisticas_admin.Controls.Add(label_juegos_estadisticas);
+            tabPage_estadisticas_admin.Controls.Add(listBox_estadisticas_estadisticas);
+            tabPage_estadisticas_admin.Controls.Add(comboBox_juegos_estadisticas);
+            tabPage_estadisticas_admin.Controls.Add(label1);
+            tabPage_estadisticas_admin.Location = new Point(4, 29);
+            tabPage_estadisticas_admin.Name = "tabPage_estadisticas_admin";
+            tabPage_estadisticas_admin.Padding = new Padding(3);
+            tabPage_estadisticas_admin.Size = new Size(853, 534);
+            tabPage_estadisticas_admin.TabIndex = 2;
+            tabPage_estadisticas_admin.Text = "Estadísticas";
+            tabPage_estadisticas_admin.UseVisualStyleBackColor = true;
             // 
-            // comboBox_eventos
+            // label_juegos_estadisticas
             // 
-            comboBox_eventos.Font = new Font("Segoe UI", 12F);
-            comboBox_eventos.FormattingEnabled = true;
-            comboBox_eventos.Location = new Point(144, 66);
-            comboBox_eventos.Name = "comboBox_eventos";
-            comboBox_eventos.Size = new Size(578, 36);
-            comboBox_eventos.TabIndex = 2;
+            label_juegos_estadisticas.AutoSize = true;
+            label_juegos_estadisticas.Font = new Font("Segoe UI", 15F);
+            label_juegos_estadisticas.Location = new Point(32, 109);
+            label_juegos_estadisticas.Name = "label_juegos_estadisticas";
+            label_juegos_estadisticas.Size = new Size(92, 35);
+            label_juegos_estadisticas.TabIndex = 51;
+            label_juegos_estadisticas.Text = "Juegos";
             // 
-            // label_usuarios_torneo
+            // listBox_estadisticas_estadisticas
             // 
-            label_usuarios_torneo.AutoSize = true;
-            label_usuarios_torneo.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label_usuarios_torneo.Location = new Point(260, 18);
-            label_usuarios_torneo.Name = "label_usuarios_torneo";
-            label_usuarios_torneo.Size = new Size(204, 35);
-            label_usuarios_torneo.TabIndex = 1;
-            label_usuarios_torneo.Text = "Lista de Equipos";
+            listBox_estadisticas_estadisticas.Font = new Font("Segoe UI", 10F);
+            listBox_estadisticas_estadisticas.FormattingEnabled = true;
+            listBox_estadisticas_estadisticas.HorizontalScrollbar = true;
+            listBox_estadisticas_estadisticas.ItemHeight = 23;
+            listBox_estadisticas_estadisticas.Location = new Point(32, 274);
+            listBox_estadisticas_estadisticas.Name = "listBox_estadisticas_estadisticas";
+            listBox_estadisticas_estadisticas.Size = new Size(788, 234);
+            listBox_estadisticas_estadisticas.TabIndex = 50;
             // 
-            // tabPage_torneo_admin
+            // comboBox_juegos_estadisticas
             // 
-            tabPage_torneo_admin.Controls.Add(label1);
-            tabPage_torneo_admin.Location = new Point(4, 29);
-            tabPage_torneo_admin.Name = "tabPage_torneo_admin";
-            tabPage_torneo_admin.Padding = new Padding(3);
-            tabPage_torneo_admin.Size = new Size(853, 534);
-            tabPage_torneo_admin.TabIndex = 2;
-            tabPage_torneo_admin.Text = "Torneos";
-            tabPage_torneo_admin.UseVisualStyleBackColor = true;
+            comboBox_juegos_estadisticas.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_juegos_estadisticas.Font = new Font("Segoe UI", 12F);
+            comboBox_juegos_estadisticas.FormattingEnabled = true;
+            comboBox_juegos_estadisticas.Location = new Point(130, 111);
+            comboBox_juegos_estadisticas.Name = "comboBox_juegos_estadisticas";
+            comboBox_juegos_estadisticas.Size = new Size(690, 36);
+            comboBox_juegos_estadisticas.TabIndex = 49;
+            comboBox_juegos_estadisticas.SelectedIndexChanged += comboBox_juegos_estadisticas_SelectedIndexChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label1.Location = new Point(264, 26);
+            label1.Location = new Point(299, 21);
             label1.Name = "label1";
             label1.Size = new Size(205, 35);
             label1.TabIndex = 1;
             label1.Text = "Lista de Torneos";
             // 
-            // tabPage_crear_admin
+            // tabPage_torneos_admin
             // 
-            tabPage_crear_admin.Controls.Add(label2);
-            tabPage_crear_admin.Location = new Point(4, 29);
-            tabPage_crear_admin.Name = "tabPage_crear_admin";
-            tabPage_crear_admin.Padding = new Padding(3);
-            tabPage_crear_admin.Size = new Size(853, 534);
-            tabPage_crear_admin.TabIndex = 3;
-            tabPage_crear_admin.Text = "Crear cuenta admin";
-            tabPage_crear_admin.UseVisualStyleBackColor = true;
+            tabPage_torneos_admin.Controls.Add(listBox_torneos_torneos);
+            tabPage_torneos_admin.Controls.Add(label2);
+            tabPage_torneos_admin.Location = new Point(4, 29);
+            tabPage_torneos_admin.Name = "tabPage_torneos_admin";
+            tabPage_torneos_admin.Padding = new Padding(3);
+            tabPage_torneos_admin.Size = new Size(853, 534);
+            tabPage_torneos_admin.TabIndex = 3;
+            tabPage_torneos_admin.Text = "Torneos";
+            tabPage_torneos_admin.UseVisualStyleBackColor = true;
+            // 
+            // listBox_torneos_torneos
+            // 
+            listBox_torneos_torneos.Font = new Font("Segoe UI", 10F);
+            listBox_torneos_torneos.FormattingEnabled = true;
+            listBox_torneos_torneos.HorizontalScrollbar = true;
+            listBox_torneos_torneos.ItemHeight = 23;
+            listBox_torneos_torneos.Location = new Point(37, 78);
+            listBox_torneos_torneos.Name = "listBox_torneos_torneos";
+            listBox_torneos_torneos.Size = new Size(788, 441);
+            listBox_torneos_torneos.TabIndex = 52;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label2.Location = new Point(238, 19);
+            label2.Location = new Point(299, 24);
             label2.Name = "label2";
-            label2.Size = new Size(254, 35);
-            label2.TabIndex = 1;
-            label2.Text = "Crear Administrador";
+            label2.Size = new Size(205, 35);
+            label2.TabIndex = 51;
+            label2.Text = "Lista de Torneos";
             // 
             // button_volver_perfil
             // 
@@ -385,17 +404,18 @@
             Controls.Add(button_volver_perfil);
             Controls.Add(tabControl_usuario);
             Name = "InfoUsuario";
-            Text = "InfoUsuario";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Información del Usuario";
             Load += InfoUsuario_Load;
             tabControl_usuario.ResumeLayout(false);
             tabPage_info_usuario_admin.ResumeLayout(false);
             tabPage_info_usuario_admin.PerformLayout();
-            tabPage_equipo_admin.ResumeLayout(false);
-            tabPage_equipo_admin.PerformLayout();
-            tabPage_torneo_admin.ResumeLayout(false);
-            tabPage_torneo_admin.PerformLayout();
-            tabPage_crear_admin.ResumeLayout(false);
-            tabPage_crear_admin.PerformLayout();
+            tabPage_historial_admin.ResumeLayout(false);
+            tabPage_historial_admin.PerformLayout();
+            tabPage_estadisticas_admin.ResumeLayout(false);
+            tabPage_estadisticas_admin.PerformLayout();
+            tabPage_torneos_admin.ResumeLayout(false);
+            tabPage_torneos_admin.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -403,18 +423,14 @@
 
         private TabControl tabControl_usuario;
         private TabPage tabPage_info_usuario_admin;
-        private TabPage tabPage_equipo_admin;
-        private Button button_unir_torneo;
-        private Label label_estado_torneo;
-        private Button button_unir_evento;
-        private Button button_info_torneo;
-        private ListBox listBox_torneos;
-        private ComboBox comboBox_eventos;
-        private Label label_usuarios_torneo;
-        private TabPage tabPage_torneo_admin;
+        private TabPage tabPage_historial_admin;
+        private Label label_juegos_historial;
+        private ListBox listBox_partidas_historial;
+        private ComboBox comboBox_juegos_historial;
+        private Label label_historial_admin;
+        private TabPage tabPage_estadisticas_admin;
         private Label label1;
-        private TabPage tabPage_crear_admin;
-        private Label label2;
+        private TabPage tabPage_torneos_admin;
         private Button button_volver_perfil;
         private TextBox textBox_info_email_admin;
         private Label label_info_email_admin;
@@ -431,5 +447,10 @@
         private TextBox textBox_info_usuario_admin;
         private Label label_info_usuario_perfil;
         private Label titulo_usuario_admin;
+        private Label label_juegos_estadisticas;
+        private ListBox listBox_estadisticas_estadisticas;
+        private ComboBox comboBox_juegos_estadisticas;
+        private ListBox listBox_torneos_torneos;
+        private Label label2;
     }
 }
