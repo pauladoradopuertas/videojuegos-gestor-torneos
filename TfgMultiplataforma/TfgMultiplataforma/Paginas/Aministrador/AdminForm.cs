@@ -16,6 +16,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
     {
         private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
         private Dictionary<string, int> equiposDict = new Dictionary<string, int>();
+        public int PestañaInicialIndex { get; set; } = 0; // Por defecto la primera pestaña
 
         public AdminForm()
         {
@@ -27,6 +28,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             CargarEstadosUsuario();
             CargarEquipos("");
             CargarEstadosTorneo();
+            tabControl_usuario.SelectedIndex = PestañaInicialIndex;
         }
 
         private void CargarEstadosUsuario()
@@ -420,6 +422,22 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         MessageBox.Show("No se pudo borrar el torneo.");
                 }
             }
+        }
+
+        private void button_editar_torneo_admin_Click(object sender, EventArgs e)
+        {
+            if (listBox_torneo_admin.SelectedItem == null || listBox_torneo_admin.SelectedItem.ToString() == "No hay ningún torneo")
+            {
+                MessageBox.Show("Selecciona un torneo para editar.");
+                return;
+            }
+
+            // Obtener el nombre del torneo seleccionado
+            string nombreTorneo = listBox_torneo_admin.SelectedItem.ToString();
+
+            // Abrir el formulario de edición pasando el nombre del torneo
+            EditarTorneo editarTorneoForm = new EditarTorneo(nombreTorneo, this);
+            editarTorneoForm.ShowDialog(); // Utiliza ShowDialog si deseas que sea modal (espera hasta que se cierre)
         }
     }
 }

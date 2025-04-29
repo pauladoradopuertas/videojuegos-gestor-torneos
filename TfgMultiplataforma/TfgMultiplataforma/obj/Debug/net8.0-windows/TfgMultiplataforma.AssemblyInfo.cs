@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TfgMultiplataforma")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+27faa6a0ff16affa403404b1af2eda09922ed5df")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+20d993b9aadcd70ac87073e1a7700de214280997")]
 [assembly: System.Reflection.AssemblyProductAttribute("TfgMultiplataforma")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TfgMultiplataforma")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

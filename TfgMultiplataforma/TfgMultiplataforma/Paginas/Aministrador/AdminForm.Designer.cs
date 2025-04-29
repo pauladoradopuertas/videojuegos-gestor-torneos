@@ -284,6 +284,7 @@
             button_editar_torneo_admin.TabIndex = 59;
             button_editar_torneo_admin.Text = "Editar torneo";
             button_editar_torneo_admin.UseVisualStyleBackColor = true;
+            button_editar_torneo_admin.Click += button_editar_torneo_admin_Click;
             // 
             // button_borrar_torneo_admin
             // 
