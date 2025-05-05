@@ -281,7 +281,7 @@
             // 
             button_editar_torneo_admin.Location = new Point(487, 329);
             button_editar_torneo_admin.Name = "button_editar_torneo_admin";
-            button_editar_torneo_admin.Size = new Size(103, 52);
+            button_editar_torneo_admin.Size = new Size(114, 52);
             button_editar_torneo_admin.TabIndex = 59;
             button_editar_torneo_admin.Text = "Editar torneo";
             button_editar_torneo_admin.UseVisualStyleBackColor = true;

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tabControl1 = new TabControl();
+            tabControl_informacion_torneo = new TabControl();
             tabPage_info_torneo = new TabPage();
             textBox_estado_info_torneo = new TextBox();
             label_estado_info_torneo = new Label();
@@ -47,21 +47,31 @@
             textBox_nombre_info_torneo = new TextBox();
             label_nombre_info_torneo = new Label();
             label_info_torneo = new Label();
-            tabPage2 = new TabPage();
+            tabPage_partidas_torneo = new TabPage();
+            label_partidas_torneo = new Label();
+            button_editar_partidas_torneo = new Button();
+            listBox_partidas_torneo = new ListBox();
+            tabPage_resultado_torneo = new TabPage();
+            label_resultado_torneo = new Label();
+            button_estadisticas_torneo = new Button();
+            listBox_resultado_torneo = new ListBox();
             button_volver_info_torneo = new Button();
-            tabControl1.SuspendLayout();
+            tabControl_informacion_torneo.SuspendLayout();
             tabPage_info_torneo.SuspendLayout();
+            tabPage_partidas_torneo.SuspendLayout();
+            tabPage_resultado_torneo.SuspendLayout();
             SuspendLayout();
             // 
-            // tabControl1
+            // tabControl_informacion_torneo
             // 
-            tabControl1.Controls.Add(tabPage_info_torneo);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Location = new Point(13, 12);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(818, 773);
-            tabControl1.TabIndex = 0;
+            tabControl_informacion_torneo.Controls.Add(tabPage_info_torneo);
+            tabControl_informacion_torneo.Controls.Add(tabPage_partidas_torneo);
+            tabControl_informacion_torneo.Controls.Add(tabPage_resultado_torneo);
+            tabControl_informacion_torneo.Location = new Point(13, 12);
+            tabControl_informacion_torneo.Name = "tabControl_informacion_torneo";
+            tabControl_informacion_torneo.SelectedIndex = 0;
+            tabControl_informacion_torneo.Size = new Size(818, 773);
+            tabControl_informacion_torneo.TabIndex = 0;
             // 
             // tabPage_info_torneo
             // 
@@ -244,20 +254,96 @@
             label_info_torneo.TabIndex = 36;
             label_info_torneo.Text = "Torneo";
             // 
-            // tabPage2
+            // tabPage_partidas_torneo
             // 
-            tabPage2.Location = new Point(4, 29);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(810, 782);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
+            tabPage_partidas_torneo.Controls.Add(label_partidas_torneo);
+            tabPage_partidas_torneo.Controls.Add(button_editar_partidas_torneo);
+            tabPage_partidas_torneo.Controls.Add(listBox_partidas_torneo);
+            tabPage_partidas_torneo.Location = new Point(4, 29);
+            tabPage_partidas_torneo.Name = "tabPage_partidas_torneo";
+            tabPage_partidas_torneo.Padding = new Padding(3);
+            tabPage_partidas_torneo.Size = new Size(810, 740);
+            tabPage_partidas_torneo.TabIndex = 1;
+            tabPage_partidas_torneo.Text = "Partidas";
+            tabPage_partidas_torneo.UseVisualStyleBackColor = true;
+            // 
+            // label_partidas_torneo
+            // 
+            label_partidas_torneo.AutoSize = true;
+            label_partidas_torneo.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label_partidas_torneo.Location = new Point(346, 22);
+            label_partidas_torneo.Name = "label_partidas_torneo";
+            label_partidas_torneo.Size = new Size(109, 35);
+            label_partidas_torneo.TabIndex = 58;
+            label_partidas_torneo.Text = "Partidas";
+            // 
+            // button_editar_partidas_torneo
+            // 
+            button_editar_partidas_torneo.Font = new Font("Segoe UI", 12F);
+            button_editar_partidas_torneo.Location = new Point(323, 587);
+            button_editar_partidas_torneo.Name = "button_editar_partidas_torneo";
+            button_editar_partidas_torneo.Size = new Size(149, 37);
+            button_editar_partidas_torneo.TabIndex = 52;
+            button_editar_partidas_torneo.Text = "Editar";
+            button_editar_partidas_torneo.UseVisualStyleBackColor = true;
+            button_editar_partidas_torneo.Click += button_editar_partidas_torneo_Click;
+            // 
+            // listBox_partidas_torneo
+            // 
+            listBox_partidas_torneo.FormattingEnabled = true;
+            listBox_partidas_torneo.HorizontalScrollbar = true;
+            listBox_partidas_torneo.Location = new Point(17, 100);
+            listBox_partidas_torneo.Name = "listBox_partidas_torneo";
+            listBox_partidas_torneo.Size = new Size(787, 444);
+            listBox_partidas_torneo.TabIndex = 51;
+            // 
+            // tabPage_resultado_torneo
+            // 
+            tabPage_resultado_torneo.Controls.Add(label_resultado_torneo);
+            tabPage_resultado_torneo.Controls.Add(button_estadisticas_torneo);
+            tabPage_resultado_torneo.Controls.Add(listBox_resultado_torneo);
+            tabPage_resultado_torneo.Location = new Point(4, 29);
+            tabPage_resultado_torneo.Name = "tabPage_resultado_torneo";
+            tabPage_resultado_torneo.Padding = new Padding(3);
+            tabPage_resultado_torneo.Size = new Size(810, 740);
+            tabPage_resultado_torneo.TabIndex = 2;
+            tabPage_resultado_torneo.Text = "Resultado";
+            tabPage_resultado_torneo.UseVisualStyleBackColor = true;
+            // 
+            // label_resultado_torneo
+            // 
+            label_resultado_torneo.AutoSize = true;
+            label_resultado_torneo.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label_resultado_torneo.Location = new Point(346, 14);
+            label_resultado_torneo.Name = "label_resultado_torneo";
+            label_resultado_torneo.Size = new Size(130, 35);
+            label_resultado_torneo.TabIndex = 61;
+            label_resultado_torneo.Text = "Resultado";
+            // 
+            // button_estadisticas_torneo
+            // 
+            button_estadisticas_torneo.Font = new Font("Segoe UI", 12F);
+            button_estadisticas_torneo.Location = new Point(323, 579);
+            button_estadisticas_torneo.Name = "button_estadisticas_torneo";
+            button_estadisticas_torneo.Size = new Size(163, 37);
+            button_estadisticas_torneo.TabIndex = 60;
+            button_estadisticas_torneo.Text = "Ver estadísticas";
+            button_estadisticas_torneo.UseVisualStyleBackColor = true;
+            button_estadisticas_torneo.Click += button_estadisticas_torneo_Click;
+            // 
+            // listBox_resultado_torneo
+            // 
+            listBox_resultado_torneo.FormattingEnabled = true;
+            listBox_resultado_torneo.HorizontalScrollbar = true;
+            listBox_resultado_torneo.Location = new Point(17, 92);
+            listBox_resultado_torneo.Name = "listBox_resultado_torneo";
+            listBox_resultado_torneo.Size = new Size(787, 444);
+            listBox_resultado_torneo.TabIndex = 59;
             // 
             // button_volver_info_torneo
             // 
             button_volver_info_torneo.Font = new Font("Segoe UI", 12F);
-            button_volver_info_torneo.Location = new Point(369, 794);
+            button_volver_info_torneo.Location = new Point(363, 791);
             button_volver_info_torneo.Name = "button_volver_info_torneo";
             button_volver_info_torneo.Size = new Size(117, 43);
             button_volver_info_torneo.TabIndex = 52;
@@ -271,21 +357,26 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 846);
             Controls.Add(button_volver_info_torneo);
-            Controls.Add(tabControl1);
+            Controls.Add(tabControl_informacion_torneo);
             Name = "InfoTorneo";
-            Text = "InfoTorneo";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Información Torneo";
             Load += InfoTorneo_Load;
-            tabControl1.ResumeLayout(false);
+            tabControl_informacion_torneo.ResumeLayout(false);
             tabPage_info_torneo.ResumeLayout(false);
             tabPage_info_torneo.PerformLayout();
+            tabPage_partidas_torneo.ResumeLayout(false);
+            tabPage_partidas_torneo.PerformLayout();
+            tabPage_resultado_torneo.ResumeLayout(false);
+            tabPage_resultado_torneo.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TabControl tabControl1;
+        private TabControl tabControl_informacion_torneo;
         private TabPage tabPage_info_torneo;
-        private TabPage tabPage2;
+        private TabPage tabPage_partidas_torneo;
         private Label label_info_torneo;
         private TextBox textBox_nombre_info_torneo;
         private Label label_nombre_info_torneo;
@@ -304,5 +395,12 @@
         private TextBox textBox_estado_info_torneo;
         private Label label_estado_info_torneo;
         private Button button_volver_info_torneo;
+        private Button button_editar_partidas_torneo;
+        private ListBox listBox_partidas_torneo;
+        private Label label_partidas_torneo;
+        private TabPage tabPage_resultado_torneo;
+        private Label label_resultado_torneo;
+        private Button button_estadisticas_torneo;
+        private ListBox listBox_resultado_torneo;
     }
 }
