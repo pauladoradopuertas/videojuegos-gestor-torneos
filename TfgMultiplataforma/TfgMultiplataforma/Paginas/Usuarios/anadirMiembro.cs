@@ -15,7 +15,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
     {
         private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
         private int idEquipo;
-        // Asegúrate de que estás añadiendo esta propiedad en la clase 'anadirMiembro'
         private modificarEquipo parentForm;
 
         public anadirMiembro(int idEquipo, string conexionString, modificarEquipo parentForm)
@@ -23,10 +22,11 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             InitializeComponent();
             this.idEquipo = idEquipo;
             this.conexionString = conexionString;
-            this.parentForm = parentForm;  // Guardamos la referencia al formulario modificarEquipo
+            this.parentForm = parentForm;
             CargarRoles();
         }
 
+        //Cargar los roles en el comboBox
         private void CargarRoles()
         {
             using (MySqlConnection conexion = new MySqlConnection(conexionString))
@@ -42,10 +42,12 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Boton añadir
         private void button_anadir_Click(object sender, EventArgs e)
         {
             string usuario = textBox_usuario_anadir.Text;
             int idRol = Convert.ToInt32(comboBox_rol_anadir.SelectedValue);
+            //Por defecto ponemos el estado activo
             int idEstadoActivo = 1;
 
             using (MySqlConnection conexion = new MySqlConnection(conexionString))
@@ -53,6 +55,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 conexion.Open();
                 MySqlCommand buscarUsuario = new MySqlCommand("SELECT id_cliente FROM clientes WHERE usuario = @usuario", conexion);
                 buscarUsuario.Parameters.AddWithValue("@usuario", usuario);
+                //Obtenemos el id del usuario si existe
                 object result = buscarUsuario.ExecuteScalar();
 
                 if (result == null)
@@ -62,22 +65,25 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 }
 
                 int idCliente = Convert.ToInt32(result);
+
+                //Actualizamos el cliente
                 MySqlCommand actualizarCliente = new MySqlCommand("UPDATE clientes SET id_estado_usuario = @idEstado, id_rol_usuario = @idRol, id_equipo = @idEquipo WHERE id_cliente = @idCliente", conexion);
-                actualizarCliente.Parameters.AddWithValue("@idEstado", idEstadoActivo);
-                actualizarCliente.Parameters.AddWithValue("@idRol", idRol);
-                actualizarCliente.Parameters.AddWithValue("@idEquipo", idEquipo);  // Asignamos al equipo directamente
+                actualizarCliente.Parameters.AddWithValue("@idEstado", idEstadoActivo); //Cambio estado a activo
+                actualizarCliente.Parameters.AddWithValue("@idRol", idRol); //Le asignamos un rol
+                actualizarCliente.Parameters.AddWithValue("@idEquipo", idEquipo); //Le asignamos un equipo
                 actualizarCliente.Parameters.AddWithValue("@idCliente", idCliente);
                 actualizarCliente.ExecuteNonQuery();
 
                 MessageBox.Show("Miembro añadido con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Después de añadir el miembro, recargar los miembros en modificarEquipo
-                parentForm.CargarMiembrosEquipo();  // Llamamos a CargarMiembrosEquipo() desde modificarEquipo
+                //Recargar los miembros en modificarEquipo
+                parentForm.CargarMiembrosEquipo();
 
                 this.Close();
             }
         }
 
+        //Boton cancelar
         private void button_cancelar_anadir_Click(object sender, EventArgs e)
         {
             this.Close();

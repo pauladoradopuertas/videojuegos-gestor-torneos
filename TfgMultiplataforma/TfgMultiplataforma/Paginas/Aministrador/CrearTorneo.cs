@@ -23,13 +23,15 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             InitializeComponent();
         }
 
+        //Funciones que se llaman al cargar el formulario
         private void CrearTorneo_Load(object sender, EventArgs e)
         {
-            CrearPanelModalJuego(); // Llama al crear el modal
+            CrearPanelModalJuego();
             CargarJuegos();
             CargarPartidas();
         }
 
+        //Cargamos los juegos y los metemos en el comboBox
         private void CargarJuegos()
         {
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
@@ -50,14 +52,16 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Cargamos las partidas y las metemos en el comboBox
         private void CargarPartidas()
         {
             comboBox_partida_crear_torneo.Items.AddRange(new string[]
             {
-        "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"
+                "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"
             });
         }
 
+        //Crear torneo
         private void button_crear_torneo_Click(object sender, EventArgs e)
         {
             string nombre = textBox_nombre_crear_torneo.Text;
@@ -67,20 +71,18 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             int maxEquipos = int.Parse(textBox_cant_equipos_crear_torneo.Text);
             int idJuego = (int)comboBox_juego_crear_torneo.SelectedValue;
 
-            // Calcular el estado
+            //Calcular el estado
             string estado = ObtenerEstadoDesdeFechas(fechaInicio, fechaFin);
             textBox_estado_crear_torneo.Text = estado;
 
-            // Obtener id_estado desde la base de datos
             int idEstado = ObtenerIdEstado(estado);
 
-            // Insertar el torneo
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
             {
                 conn.Open();
                 string query = @"
-            INSERT INTO torneos (nombre, fecha_inicio, fecha_fin, dia_partida, max_equipos, id_juego, id_estado)
-            VALUES (@nombre, @fechaInicio, @fechaFin, @diaPartida, @maxEquipos, @idJuego, @idEstado)";
+                    INSERT INTO torneos (nombre, fecha_inicio, fecha_fin, dia_partida, max_equipos, id_juego, id_estado)
+                    VALUES (@nombre, @fechaInicio, @fechaFin, @diaPartida, @maxEquipos, @idJuego, @idEstado)";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -100,6 +102,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Calculamos el estado del torneo según la fecha actual
         private string ObtenerEstadoDesdeFechas(DateTime inicio, DateTime fin)
         {
             DateTime hoy = DateTime.Today;
@@ -112,6 +115,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 return "Finalizado";
         }
 
+        //Obtener el id del estado
         private int ObtenerIdEstado(string estado)
         {
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
@@ -123,16 +127,19 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 {
                     cmd.Parameters.AddWithValue("@estado", estado);
                     object result = cmd.ExecuteScalar();
-                    return result != null ? Convert.ToInt32(result) : 1; // Por defecto: 1 si no encuentra
+                    //Devuelve 1 si no lo encuentra
+                    return result != null ? Convert.ToInt32(result) : 1;
                 }
             }
         }
 
+        //Boton cancelar
         private void button_cancelar_crear_torneo_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Crear un modal para añadir un nuevo juego
         private void CrearPanelModalJuego()
         {
             panelModal = new Panel
@@ -185,6 +192,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
         }
 
 
+        //Mostrar el modal
         private void button_anadir_juego_Click(object sender, EventArgs e)
         {
             textBoxNuevoJuego.Text = "";
@@ -193,6 +201,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             textBoxNuevoJuego.Focus();
         }
 
+        //Crea un nuevo juego, verificando que no exista ese juego ya
         private void ButtonCrearJuegoModal_Click(object sender, EventArgs e)
         {
             string nuevoJuego = textBoxNuevoJuego.Text.Trim();
@@ -235,6 +244,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             CargarJuegos(); // Recarga los datos del ComboBox
         }
 
+        //Boton cancelar del modal
         private void ButtonCancelarJuegoModal_Click(object sender, EventArgs e)
         {
             panelModal.Visible = false;

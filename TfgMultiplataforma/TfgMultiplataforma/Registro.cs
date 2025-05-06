@@ -21,8 +21,10 @@ namespace TfgMultiplataforma
             InitializeComponent();
         }
 
+        //Boton para registrarse
         private void button_registro_Click(object sender, EventArgs e)
         {
+            //Obtiene los datos
             string nombre = textBox_nombre_registro.Text;
             string apellidos = textBox_apellidos_registro.Text;
             string usuario = textBox_usuario_registro.Text;
@@ -31,7 +33,7 @@ namespace TfgMultiplataforma
             string dni = textBox_dni_registro.Text;
             string email = textBox_email_registro.Text;
 
-            // Validar campos obligatorios
+            //Comprobar que no estan vacios
             if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(apellidos) ||
                 string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasena) ||
                 string.IsNullOrEmpty(email))
@@ -46,7 +48,7 @@ namespace TfgMultiplataforma
                 {
                     conexion.Open();
 
-                    // Verificar si el usuario o email ya existen
+                    //Verificar si el usuario o email ya existen
                     string consultaUsuarioExiste = "SELECT COUNT(*) FROM clientes WHERE usuario = @usuario OR email = @email";
                     using (MySqlCommand comandoUsuarioExiste = new MySqlCommand(consultaUsuarioExiste, conexion))
                     {
@@ -61,15 +63,14 @@ namespace TfgMultiplataforma
                         }
                     }
 
-                    // Consulta SQL para insertar el nuevo cliente
+                    //Consulta para insertar el nuevo cliente
                     string nuevoCliente = @"INSERT INTO clientes 
-                                    (nombre, apellidos, usuario, contrasena, telefono, dni, email, id_estado_usuario, id_rol_usuario) 
-                                    VALUES 
-                                    (@nombre, @apellidos, @usuario, @contrasena, @telefono, @dni, @email, @id_estado_usuario, @id_rol_usuario)";
+                        (nombre, apellidos, usuario, contrasena, telefono, dni, email, id_estado_usuario, id_rol_usuario) 
+                        VALUES 
+                        (@nombre, @apellidos, @usuario, @contrasena, @telefono, @dni, @email, @id_estado_usuario, @id_rol_usuario)";
 
                     using (MySqlCommand comando = new MySqlCommand(nuevoCliente, conexion))
                     {
-                        // Añadir parámetros para evitar SQL injection
                         comando.Parameters.AddWithValue("@nombre", nombre);
                         comando.Parameters.AddWithValue("@apellidos", apellidos);
                         comando.Parameters.AddWithValue("@usuario", usuario);
@@ -96,7 +97,6 @@ namespace TfgMultiplataforma
             }
             catch (MySqlException ex)
             {
-                // Manejar errores específicos de MySQL
                 if (ex.Number == 1062)
                 {
                     MessageBox.Show("El usuario o email ya está registrado");

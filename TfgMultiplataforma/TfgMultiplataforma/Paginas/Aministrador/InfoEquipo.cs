@@ -31,13 +31,13 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             CargarTorneosJugadosEquipo();
         }
 
+        //Cargar los datos de los equipos
         private void CargarDatosEquipo()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Obtener datos del equipo
                 string queryEquipo = "SELECT nombre, fecha_creacion, visible FROM equipos WHERE id_equipo = @id_equipo";
                 using (MySqlCommand cmd = new MySqlCommand(queryEquipo, conn))
                 {
@@ -56,12 +56,12 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     }
                 }
 
-                // Obtener miembros del equipo y sus roles
+                //Obtener los miembros del equipo y sus roles
                 string queryMiembros = @"
-            SELECT c.nombre, c.apellidos, c.usuario, ru.nombre AS rol
-            FROM clientes c
-            JOIN roles_usuario ru ON c.id_rol_usuario = ru.id_rol_usuario
-            WHERE c.id_equipo = @id_equipo";
+                    SELECT c.nombre, c.apellidos, c.usuario, ru.nombre AS rol
+                    FROM clientes c
+                    JOIN roles_usuario ru ON c.id_rol_usuario = ru.id_rol_usuario
+                    WHERE c.id_equipo = @id_equipo";
 
                 using (MySqlCommand cmd = new MySqlCommand(queryMiembros, conn))
                 {
@@ -88,11 +88,13 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Boton volver
         private void button_volver_info_equipo_admin_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Cargar los juegos en los que ha participado el equipo
         private void CargarJuegosHistorial()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -123,6 +125,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Cuando seleccionado un juego, muestra las partidas que ha jugado el equipo
         private void comboBox_equipo_juegos_historial_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox_equipo_juegos_historial.SelectedItem == null)
@@ -180,6 +183,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Cargamos las estadisticas dependiendo del juego
         private void CargarJuegosEstadisticasEquipo()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -187,11 +191,11 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 conn.Open();
 
                 string query = @"
-            SELECT DISTINCT j.nombre
-            FROM `equipos-torneos` et
-            JOIN torneos t ON et.id_torneo = t.id_torneo
-            JOIN juegos j ON t.id_juego = j.id_juego
-            WHERE et.id_equipo = @id_equipo";
+                    SELECT DISTINCT j.nombre
+                    FROM `equipos-torneos` et
+                    JOIN torneos t ON et.id_torneo = t.id_torneo
+                    JOIN juegos j ON t.id_juego = j.id_juego
+                    WHERE et.id_equipo = @id_equipo";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -210,6 +214,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Al seleccionar un juego, muestra el equipo que mas partidas ganadas, empatadas, perdidas tiene
         private void comboBox_equipo_juegos_estadisticas_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox_equipo_juegos_estadisticas.SelectedItem == null)
@@ -222,15 +227,15 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 conn.Open();
 
                 string query = @"
-            SELECT 
-                SUM(et.partidas_jugadas) AS jugadas,
-                SUM(et.partidas_ganadas) AS ganadas,
-                SUM(et.partidas_empatadas) AS empatadas,
-                SUM(et.partidas_perdidas) AS perdidas
-            FROM `equipos-torneos` et
-            JOIN torneos t ON et.id_torneo = t.id_torneo
-            JOIN juegos j ON t.id_juego = j.id_juego
-            WHERE et.id_equipo = @id_equipo AND j.nombre = @juego";
+                    SELECT 
+                        SUM(et.partidas_jugadas) AS jugadas,
+                        SUM(et.partidas_ganadas) AS ganadas,
+                        SUM(et.partidas_empatadas) AS empatadas,
+                        SUM(et.partidas_perdidas) AS perdidas
+                    FROM `equipos-torneos` et
+                    JOIN torneos t ON et.id_torneo = t.id_torneo
+                    JOIN juegos j ON t.id_juego = j.id_juego
+                    WHERE et.id_equipo = @id_equipo AND j.nombre = @juego";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -278,31 +283,30 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Cargar los torneos que ha jugado el equipo y el resultado
         private void CargarTorneosJugadosEquipo()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Obtener el id del equipo
                 string queryEquipo = "SELECT id_equipo FROM equipos WHERE id_equipo = @id_equipo";
-                int idEquipoSeleccionado = idEquipo; // ya tienes idEquipo como variable de clase
+                int idEquipoSeleccionado = idEquipo;
 
-                // Obtener los torneos jugados por el equipo
                 string queryTorneos = @"
-        SELECT 
-            t.nombre AS nombre_torneo,
-            et1.puntos AS puntos_equipo_usuario,
-            e.nombre AS nombre_equipo_usuario,
-            (
-                SELECT MAX(et2.puntos)
-                FROM `equipos-torneos` et2
-                WHERE et2.id_torneo = et1.id_torneo
-            ) AS max_puntos
-        FROM `equipos-torneos` et1
-        JOIN torneos t ON et1.id_torneo = t.id_torneo
-        JOIN equipos e ON et1.id_equipo = e.id_equipo
-        WHERE et1.id_equipo = @id_equipo";
+                    SELECT 
+                        t.nombre AS nombre_torneo,
+                        et1.puntos AS puntos_equipo_usuario,
+                        e.nombre AS nombre_equipo_usuario,
+                        (
+                            SELECT MAX(et2.puntos)
+                            FROM `equipos-torneos` et2
+                            WHERE et2.id_torneo = et1.id_torneo
+                        ) AS max_puntos
+                    FROM `equipos-torneos` et1
+                    JOIN torneos t ON et1.id_torneo = t.id_torneo
+                    JOIN equipos e ON et1.id_equipo = e.id_equipo
+                    WHERE et1.id_equipo = @id_equipo";
 
                 using (MySqlCommand cmd = new MySqlCommand(queryTorneos, conn))
                 {

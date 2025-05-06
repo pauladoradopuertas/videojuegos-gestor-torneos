@@ -22,12 +22,14 @@ namespace TfgMultiplataforma
             InitializeComponent();
         }
 
+        //Boton para registrarse
         private void button_registro_Click(object sender, EventArgs e)
         {
             Registro registro = new Registro();
             registro.Show();
         }
 
+        //Boton para iniciar sesion
         private void button_login_Click(object sender, EventArgs e)
         {
             string usuario = textBox_usuario_login.Text;
@@ -62,15 +64,17 @@ namespace TfgMultiplataforma
                                 int idCliente = Convert.ToInt32(reader["id_cliente"]);
                                 int idRolUsuario = Convert.ToInt32(reader["id_rol_usuario"]);
 
-                                this.Hide(); // Ocultamos el login
+                                this.Hide();
 
-                                if (idRolUsuario == 3) // Admin
+                                // Admin
+                                if (idRolUsuario == 3)
                                 {
                                     AdminForm adminForm = new AdminForm();
-                                    adminForm.FormClosed += (s, args) => this.Show(); // Para volver al login al cerrar
+                                    adminForm.FormClosed += (s, args) => this.Show();
                                     adminForm.Show();
                                 }
-                                else // Capitán o miembro
+                                // Capitán o miembro
+                                else
                                 {
                                     UsuariosForm usuariosForm = new UsuariosForm(idCliente);
                                     usuariosForm.FormClosed += (s, args) => this.Show();
@@ -91,7 +95,7 @@ namespace TfgMultiplataforma
             }
             finally
             {
-                // Limpiar campos después del intento de login, exitoso o no
+                //Limpiar campos después del login
                 textBox_usuario_login.Clear();
                 textBox_contrasena_login.Clear();
             }

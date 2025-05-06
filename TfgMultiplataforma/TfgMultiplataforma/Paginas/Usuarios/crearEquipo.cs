@@ -15,25 +15,28 @@ namespace TfgMultiplataforma.Paginas.Usuarios
     {
         private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
         private UsuariosForm usuariosForm;
-        private int idUsuario;  // Asegúrate de tener el ID del usuario que está creando el equipo
+        private int idUsuario;
 
+        //Crear equipo
         public crearEquipo(int idUsuario)
         {
             InitializeComponent();
-            this.idUsuario = idUsuario;  // Guardamos el id del usuario que está creando el equipo
+            this.idUsuario = idUsuario;
 
-            // Llenar el ComboBox con los valores del ENUM visible (si/no)
+            //Añadir los valores de la base de datos en el comboBox
             comboBox_visible_crear.Items.Add("si");
             comboBox_visible_crear.Items.Add("no");
-            comboBox_visible_crear.SelectedIndex = 0;  // Seleccionar "si" por defecto, si lo deseas
+            //Seleccionamos por defecto si
+            comboBox_visible_crear.SelectedIndex = 0;
         }
 
+        //Boton cancelar
         private void button_cancelar_crear_Click(object sender, EventArgs e)
         {
-            this.Close(); // Cerrar sin guardar cambios
-
+            this.Close();
         }
 
+        //Boton para crear el equipo
         private void button_editar_crear_Click(object sender, EventArgs e)
         {
             string nombreEquipo = textBox_nombre_crear.Text.Trim();
@@ -46,19 +49,20 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
 
             CrearNuevoEquipo(nombreEquipo, visible);
-            // Abrir UsuariosForm para cargar los datos del nuevo equipo
+            //Abrir UsuariosForm para cargar los datos del nuevo equipo
             UsuariosForm usuariosForm = new UsuariosForm(idUsuario);
             usuariosForm.Show();
-            this.Close(); // Cerrar crearEquipo
+            this.Close();
         }
 
+        //Crear el nuevo equipo
         private void CrearNuevoEquipo(string nombreEquipo, string visible)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // 1. Primero verificamos si el equipo ya existe
+                //Verificar si el equipo ya existe
                 string queryVerificar = "SELECT COUNT(*) FROM equipos WHERE nombre = @nombre";
                 using (MySqlCommand cmdVerificar = new MySqlCommand(queryVerificar, conn))
                 {
@@ -68,11 +72,11 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     if (existe > 0)
                     {
                         MessageBox.Show("Ya existe un equipo con ese nombre. Por favor, elige otro.");
-                        return; // Salir del método sin crear el equipo
+                        return;
                     }
                 }
 
-                // 2. Si no existe, procedemos a crearlo
+                //Si no existe lo creamos
                 string queryInsert = @"
                     INSERT INTO equipos (nombre, visible, fecha_creacion) 
                     VALUES (@nombre, @visible, CURDATE()); 
@@ -99,19 +103,18 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
-        // Método para asignar al usuario que crea el equipo como capitán
+        //Asignar al usuario que crea el equipo como capitán
         private void AsignarCapitanAlEquipo(int idEquipo)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Iniciar una transacción para asegurar que ambas operaciones sean atómicas
                 MySqlTransaction transaction = conn.BeginTransaction();
 
                 try
                 {
-                    // 1. Asignar el rol de "Capitán" al cliente en la tabla clientes
+                    //Asignar el rol de Capitán al cliente en la base de datos
                     string queryActualizarRol = @"
                         UPDATE clientes 
                         SET id_rol_usuario = (SELECT id_rol_usuario FROM roles_usuario WHERE nombre = 'capitan'),
@@ -122,26 +125,26 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     using (MySqlCommand cmd = new MySqlCommand(queryActualizarRol, conn))
                     {
                         cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
-                        cmd.Parameters.AddWithValue("@idEquipo", idEquipo);  // Asignamos el equipo directamente
+                        cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
                         cmd.Transaction = transaction;
-                        cmd.ExecuteNonQuery();  // Ejecutar la actualización del rol, estado y equipo
+                        cmd.ExecuteNonQuery();
                     }
 
-                    // Confirmar la transacción
+                    //Confirmar la transacción
                     transaction.Commit();
                 }
                 catch (Exception ex)
                 {
-                    // En caso de error, revertir la transacción
+                    //En caso de error, revertir la transacción
                     transaction.Rollback();
                     MessageBox.Show("Error al asignar el rol de Capitán y el estado activo: " + ex.Message);
                 }
             }
         }
 
+        //Boton añadir miembros
         private void button_anadir_crear_Click(object sender, EventArgs e)
         {
-            // Como el equipo está siendo creado, no tiene sentido agregar miembros inmediatamente
             MessageBox.Show("Primero debes crear el equipo antes de añadir miembros.");
         }
     }

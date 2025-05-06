@@ -30,7 +30,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             CargarJuegos();
         }
 
-        // Clase para mostrar los juegos en el ComboBox
+        //Mostrar los juegos en el ComboBox
         private class JuegoItem
         {
             public int Id { get; set; }
@@ -38,7 +38,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
             public override string ToString() => Nombre;
         }
-
+        //Mostrar los torneos
         private class TorneoItem
         {
             public int Id { get; set; }
@@ -54,6 +54,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Cargar los juegos y los añade al comboBox
         private void CargarJuegos()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -79,6 +80,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Carga los torneos dependiendo del juego seleccionado
         private void CargarTorneosDisponibles(int idJuego)
         {
             listBox_torneos_unir.Items.Clear();
@@ -130,6 +132,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Boton unirse al torneo
         private void button_unir_Click(object sender, EventArgs e)
         {
             if (listBox_torneos_unir.SelectedItem == null || listBox_torneos_unir.SelectedItem is string)
@@ -144,7 +147,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             {
                 conn.Open();
 
-                // Verificar si el equipo ya está inscrito
+                //Verificar si el equipo ya está inscrito
                 string checkQuery = "SELECT COUNT(*) FROM `equipos-torneos` WHERE id_torneo = @idTorneo AND id_equipo = @idEquipo";
                 using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
                 {
@@ -159,7 +162,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     }
                 }
 
-                // Si no está inscrito, insertar en la base de datos
+                //Si no está inscrito, insertar en la base de datos
                 string query = @"
                     INSERT INTO `equipos-torneos` 
                     (id_torneo, id_equipo, fecha_inscripcion) 
@@ -176,10 +179,9 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Te has inscrito correctamente al torneo.");
                         JuegoItem juegoSeleccionado = (JuegoItem)comboBox_torneos.SelectedItem;
-                        CargarTorneosDisponibles(juegoSeleccionado.Id); // Recargar lista
+                        CargarTorneosDisponibles(juegoSeleccionado.Id);
 
-                        // Cerrar el formulario unirseTorneo después de la inscripción
-                        this.Close(); // Esto cerrará el formulario actual (unirseTorneo)
+                        this.Close();
                     }
                     catch (Exception ex)
                     {
@@ -189,11 +191,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Boton volver
         private void button_volver_torneo_Click(object sender, EventArgs e)
         {
-            this.Close(); // Cierra correctamente si este formulario fue abierto con ShowDialog
+            this.Close();
         }
 
+        //Al seleccionar un juego en el comboBox
         private void comboBox_torneos_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox_torneos.SelectedItem is JuegoItem juegoSeleccionado)

@@ -22,10 +22,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             this.idTorneo = idTorneo;
             this.idEquipo = idEquipo;
 
-            // Configurar el título
+            //Modificamos el título con el nombre del torneo
             label_titulo_torneo.Text = $"Torneo {nombreTorneo}";
 
-            // Obtener la información del torneo (fecha inicio, fecha fin, etc.)
+            //Obtener la información del torneo
             var infoTorneo = ObtenerInfoTorneo();
             if (infoTorneo == null)
             {
@@ -33,7 +33,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            // Deshabilitar los botones si el torneo no ha comenzado
+            //Deshabilitar los botones si el torneo no ha comenzado
             if (DateTime.Now < infoTorneo.FechaInicio)
             {
                 button_clasificacion.Enabled = false;
@@ -41,13 +41,14 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 button_estadisticas.Enabled = false;
             }
 
-            // Configurar eventos para los botones existentes
+            //Configurar eventos para los botones existentes
             button_calendario.Click += (s, e) => MostrarCalendario();
             button_clasificacion.Click += (s, e) => MostrarClasificacion();
             button_resultado_partidas.Click += (s, e) => MostrarResultado();
             button_estadisticas.Click += (s, e) => MostrarEstadisticas();
         }
 
+        //Funcion para mostrar el calendario
         private void MostrarCalendario()
         {
             Form calendarioForm = new Form
@@ -57,7 +58,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 StartPosition = FormStartPosition.CenterParent
             };
 
-            // Panel superior con botones y mes
+            //Panel superior
             Panel topPanel = new Panel { Height = 40, Dock = DockStyle.Top };
             Label labelMes = new Label
             {
@@ -67,6 +68,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 Font = new Font("Segoe UI", 10, FontStyle.Bold)
             };
 
+            //Botones
             Button btnAnterior = new Button { Text = "<", Width = 40, Dock = DockStyle.Left };
             Button btnSiguiente = new Button { Text = ">", Width = 40, Dock = DockStyle.Right };
 
@@ -80,7 +82,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 ColumnCount = 7,
                 RowCount = 7,
                 CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
-                Padding = new Padding(0, 10, 0, 0)  // Margen superior para que no se corten los días de la semana
+                Padding = new Padding(0, 10, 0, 0)
             };
 
             for (int i = 0; i < 7; i++)
@@ -109,7 +111,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
             DateTime fechaBase = DateTime.Today;
 
-            // Obtener la info del torneo
+            //Obtener la info del torneo
             var infoTorneo = ObtenerInfoTorneo();
             if (infoTorneo == null)
             {
@@ -122,7 +124,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 labelMes.Text = mes.ToString("MMMM yyyy").ToUpper();
                 calendarioPanel.SuspendLayout();
 
-                // Eliminar días antiguos
+                //Eliminar días antiguos
                 while (calendarioPanel.Controls.Count > 7)
                     calendarioPanel.Controls.RemoveAt(7);
 
@@ -143,7 +145,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         Padding = new Padding(3)
                     };
 
-                    // Si está dentro del rango del torneo y cae en un día de partida, resaltar
+                    //Si está dentro de la fecha del torneo y es un día de partida, resaltar
                     if (fechaActual >= infoTorneo.FechaInicio &&
                         fechaActual <= infoTorneo.FechaFin &&
                         infoTorneo.DiasPartida.Contains(fechaActual.DayOfWeek))
@@ -223,10 +225,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             return null;
         }
 
-
+        //Funcion para mostrar la clasificacion
         private void MostrarClasificacion()
         {
-            // Crear el formulario para la clasificación
+            //Crear el formulario para la clasificación
             Form clasificacionForm = new Form
             {
                 Text = "Clasificación del Torneo",
@@ -234,44 +236,43 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 StartPosition = FormStartPosition.CenterParent
             };
 
-            // Crear el DataGridView para mostrar la clasificación
+            //Crear el DataGridView para mostrar la clasificación
             DataGridView dataGridView = new DataGridView
             {
                 Dock = DockStyle.Fill,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true,  // Hace que el DataGridView sea solo lectura
-                AllowUserToAddRows = false,  // No se pueden agregar filas
-                AllowUserToDeleteRows = false,  // No se pueden eliminar filas
-                AllowUserToOrderColumns = false,  // No se pueden ordenar las columnas
-                AllowUserToResizeRows = false,  // No se pueden redimensionar filas
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,  // Permite seleccionar filas completas
-                RowHeadersVisible = false  // No muestra los encabezados de fila
+                ReadOnly = true,  // Que sea solo lectura
+                AllowUserToAddRows = false,  //No se pueden agregar filas
+                AllowUserToDeleteRows = false,  //No se pueden eliminar filas
+                AllowUserToOrderColumns = false,  //No se pueden ordenar las columnas
+                AllowUserToResizeRows = false,  //No se pueden redimensionar filas
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,  //Permite seleccionar filas completas
+                RowHeadersVisible = false  //No muestra los encabezados de fila
             };
 
             clasificacionForm.Controls.Add(dataGridView);
 
-            // Obtener la clasificación desde la base de datos
+            //Obtener la clasificación de la base de datos
             List<EquipoClasificacion> clasificacion = ObtenerClasificacionTorneo();
 
-            // Crear un DataTable para cargar los datos en el DataGridView
+            //Crear un DataTable para cargar los datos en el DataGridView
             DataTable dt = new DataTable();
             dt.Columns.Add("Equipo", typeof(string));
             dt.Columns.Add("Puntos", typeof(int));
 
-            // Agregar los equipos y puntos al DataTable
+            //Agregar los equipos y puntos
             foreach (var equipo in clasificacion)
             {
                 dt.Rows.Add(equipo.Nombre, equipo.Puntos);
             }
 
-            // Establecer el origen de datos del DataGridView
+            //Establecer el origen de datos del DataGridView
             dataGridView.DataSource = dt;
 
-            // Mostrar el formulario con la clasificación
             clasificacionForm.ShowDialog();
         }
 
-        // Método para obtener la clasificación de los equipos desde la base de datos
+        //Método para obtener la clasificación de los equipos desde la base de datos
         private List<EquipoClasificacion> ObtenerClasificacionTorneo()
         {
             List<EquipoClasificacion> clasificacion = new List<EquipoClasificacion>();
@@ -284,7 +285,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     FROM equipos e
                     JOIN `equipos-torneos` et ON e.id_equipo = et.id_equipo
                     WHERE et.id_torneo = @idTorneo
-                    ORDER BY et.puntos DESC";  // Ordenar por puntos de mayor a menor
+                    ORDER BY et.puntos DESC";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -306,14 +307,14 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             return clasificacion;
         }
 
-        // Clase para representar un equipo y su puntuación
+        //Clase para representar un equipo y su puntuación
         private class EquipoClasificacion
         {
             public string Nombre { get; set; }
             public int Puntos { get; set; }
         }
 
-
+        //Funcion para mostrar el resultado
         private void MostrarResultado()
         {
             if (idEquipo == 0)
@@ -322,7 +323,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            // Obtener los resultados de las partidas para el equipo
+            //Obtener los resultados de las partidas para el equipo
             List<ResultadoPartida> resultados = ObtenerResultadosPartidas(idEquipo);
             if (resultados.Count == 0)
             {
@@ -330,7 +331,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            // Crear el formulario para mostrar los resultados
+            //Crear el formulario para mostrar los resultados
             Form resultadosForm = new Form
             {
                 Text = "Resultados de Partidas",
@@ -338,7 +339,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 StartPosition = FormStartPosition.CenterParent
             };
 
-            // Crear el DataGridView para mostrar los resultados
+            //Crear el DataGridView para mostrar los resultados
             DataGridView dataGridView = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -348,17 +349,16 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 AllowUserToDeleteRows = false
             };
 
-            // Crear el DataTable para los resultados
             DataTable dt = new DataTable();
-            dt.Columns.Add("Resultado", typeof(string));  // Solo necesitamos la columna "Resultado"
+            dt.Columns.Add("Resultado", typeof(string));  // Columna "Resultado"
 
-            // Rellenar el DataTable con los resultados
+            //Añadir los resultados
             foreach (var resultado in resultados)
             {
                 dt.Rows.Add(resultado.Resultado);
             }
 
-            // Asignar el DataTable al DataGridView
+            //Asignar el DataTable al DataGridView
             dataGridView.DataSource = dt;
             resultadosForm.Controls.Add(dataGridView);
             resultadosForm.ShowDialog();
@@ -391,7 +391,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                             {
                                 resultados.Add(new ResultadoPartida
                                 {
-                                    Resultado = reader["resultado"].ToString()  // Solo almacenamos el resultado
+                                    Resultado = reader["resultado"].ToString()
                                 });
                             }
                         }
@@ -405,16 +405,16 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             return resultados;
         }
 
-        // Clase interna para representar los resultados de las partidas
+        //Resultados de las partidas
         private class ResultadoPartida
         {
             public string Resultado { get; set; }
         }
 
-
+        //Funcion para mostrar las estadisticas
         private void MostrarEstadisticas()
         {
-            // Crear el formulario para las estadísticas
+            //Crear el formulario para las estadísticas
             Form estadisticasForm = new Form
             {
                 Text = "Estadísticas del Torneo",
@@ -422,14 +422,14 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 StartPosition = FormStartPosition.CenterParent
             };
 
-            // Crear un panel para organizar los datos
+            //Crear un panel para organizar los datos
             Panel panel = new Panel
             {
                 Dock = DockStyle.Fill,
                 Padding = new Padding(10)
             };
 
-            // Crear las etiquetas que mostrarán los resultados
+            //Crear las etiquetas para mostrar los resultados
             Label labelVictorias = new Label
             {
                 Text = "Equipo con más victorias: Cargando...",
@@ -451,31 +451,30 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 Font = new Font("Segoe UI", 12)
             };
 
-            // Añadir las etiquetas al panel
+            //Añadir las etiquetas al panel
             panel.Controls.Add(labelVictorias);
             panel.Controls.Add(labelDerrotas);
             panel.Controls.Add(labelEmpates);
 
-            // Ajustar la posición de las etiquetas
+            //Ajustar la posición de las etiquetas
             labelVictorias.Location = new Point(10, 20);
             labelDerrotas.Location = new Point(10, 70);
             labelEmpates.Location = new Point(10, 120);
 
             estadisticasForm.Controls.Add(panel);
 
-            // Obtener las estadísticas desde la base de datos
+            //Obtener las estadísticas desde la base de datos
             var estadisticas = ObtenerEstadisticasTorneo();
 
-            // Asignar los resultados a las etiquetas
+            //Asignar los resultados a las etiquetas
             labelVictorias.Text = $"Equipo con más victorias: {estadisticas.VictoriasEquipo}";
             labelDerrotas.Text = $"Equipo con más derrotas: {estadisticas.DerrotasEquipo}";
             labelEmpates.Text = $"Equipo con más empates: {estadisticas.EmpatesEquipo}";
 
-            // Mostrar el formulario con las estadísticas
             estadisticasForm.ShowDialog();
         }
 
-        // Método para obtener las estadísticas de los equipos desde la base de datos
+        //Método para obtener las estadísticas de los equipos desde la base de datos
         private EstadisticasTorneo ObtenerEstadisticasTorneo()
         {
             EstadisticasTorneo estadisticas = new EstadisticasTorneo();
@@ -484,7 +483,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             {
                 conn.Open();
 
-                // Consulta para el equipo con más victorias
+                //Consulta para el equipo con más victorias
                 string queryVictorias = @"
                     SELECT e.nombre
                     FROM equipos e
@@ -493,7 +492,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     ORDER BY et.partidas_jugadas - et.partidas_perdidas DESC
                     LIMIT 1";
 
-                // Consulta para el equipo con más derrotas
+                //Consulta para el equipo con más derrotas
                 string queryDerrotas = @"
                     SELECT e.nombre
                     FROM equipos e
@@ -502,7 +501,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     ORDER BY et.partidas_perdidas DESC
                     LIMIT 1";
 
-                // Consulta para el equipo con más empates
+                //Consulta para el equipo con más empates
                 string queryEmpates = @"
                     SELECT e.nombre
                     FROM equipos e
@@ -511,7 +510,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     ORDER BY et.partidas_empatadas DESC
                     LIMIT 1";
 
-                // Obtener equipo con más victorias
+                //Obtener equipo con más victorias
                 using (MySqlCommand cmd = new MySqlCommand(queryVictorias, conn))
                 {
                     cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
@@ -524,7 +523,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     }
                 }
 
-                // Obtener equipo con más derrotas
+                //Obtener equipo con más derrotas
                 using (MySqlCommand cmd = new MySqlCommand(queryDerrotas, conn))
                 {
                     cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
@@ -537,7 +536,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     }
                 }
 
-                // Obtener equipo con más empates
+                //Obtener equipo con más empates
                 using (MySqlCommand cmd = new MySqlCommand(queryEmpates, conn))
                 {
                     cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
@@ -553,7 +552,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             return estadisticas;
         }
 
-        // Clase para representar las estadísticas del torneo
+        //Clase para representar las estadísticas del torneo
         private class EstadisticasTorneo
         {
             public string VictoriasEquipo { get; set; }

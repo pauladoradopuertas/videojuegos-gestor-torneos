@@ -15,14 +15,17 @@ namespace TfgMultiplataforma.Paginas.Aministrador
     public partial class AdminForm : Form
     {
         private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
+        //nombre de los equipos
         private Dictionary<string, int> equiposDict = new Dictionary<string, int>();
-        public int PestañaInicialIndex { get; set; } = 0; // Por defecto la primera pestaña
+        //que pestaña mostramos al cargar
+        public int PestañaInicialIndex { get; set; } = 0;
 
         public AdminForm()
         {
             InitializeComponent();
         }
 
+        //Funciones que se llaman al cargar
         private void AdminForm_Load(object sender, EventArgs e)
         {
             CargarEstadosUsuario();
@@ -31,6 +34,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             tabControl_usuario.SelectedIndex = PestañaInicialIndex;
         }
 
+        //Obtenemos los estados de los usuarios
         private void CargarEstadosUsuario()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -51,17 +55,17 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 }
             }
 
-            // Evento de cambio de selección
+            //Evento cuando cambiamos el seleccionado
             comboBox_estado_admin.SelectedIndexChanged += comboBox_estado_admin_SelectedIndexChanged;
 
-            // Establecer el valor por defecto como 'activo' (id = 1)
+            //Establecemos el valor por defecto como activo
             comboBox_estado_admin.SelectedValue = 1;
 
-            // Cargar usuarios activos al inicio
+            //Cargar usuarios activos al inicio
             CargarUsuariosPorEstado(1);
         }
 
-
+        //Cambio de estado de usuario
         private void comboBox_estado_admin_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox_estado_admin.SelectedValue is int estadoSeleccionado)
@@ -70,6 +74,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Cargamos los usuarios dependiendo del estado
         private void CargarUsuariosPorEstado(int idEstado)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -78,7 +83,8 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
                 string query;
 
-                if (idEstado == 1) // Activo: con equipo
+                //Activo: con equipo
+                if (idEstado == 1)
                 {
                     query = @"
                         SELECT nombre, apellidos, usuario 
@@ -86,7 +92,8 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         WHERE id_estado_usuario = @estado 
                         AND id_equipo IS NOT NULL";
                 }
-                else if (idEstado == 2) // Inactivo: sin equipo
+                //Inactivo: sin equipo
+                else if (idEstado == 2)
                 {
                     query = @"
                         SELECT nombre, apellidos, usuario 
@@ -122,6 +129,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Borrar usuario
         private void button_borrar_usuario_admin_Click(object sender, EventArgs e)
         {
             if (listBox_usuarios_admin.SelectedItem == null)
@@ -130,7 +138,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 return;
             }
 
-            // Extraer el nombre de usuario entre paréntesis
+            //Extraer el nombre de usuario entre parentesis
             string item = listBox_usuarios_admin.SelectedItem.ToString();
             int start = item.IndexOf('(') + 1;
             int end = item.IndexOf(')');
@@ -149,6 +157,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Eliminar el usuario
         private void EliminarUsuario(string usuario)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -167,7 +176,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     {
                         MessageBox.Show("Usuario eliminado correctamente.");
 
-                        // Refrescar la lista según el estado actual seleccionado
                         if (comboBox_estado_admin.SelectedValue is int idEstado)
                         {
                             CargarUsuariosPorEstado(idEstado);
@@ -181,19 +189,20 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Ver informacion del cliente
         private void button_info_usuario_admin_Click(object sender, EventArgs e)
         {
             if (listBox_usuarios_admin.SelectedItem != null)
             {
-                // Extraer el nombre de usuario entre paréntesis del texto del listBox
+                //Extraer el nombre de usuario del texto del listBox
                 string item = listBox_usuarios_admin.SelectedItem.ToString();
                 int start = item.IndexOf('(') + 1;
                 int end = item.IndexOf(')');
                 string usuario = item.Substring(start, end - start);
 
-                // Abrir el formulario InfoUsuario pasándole el nombre de usuario
+                //Abrir el formulario InfoUsuario
                 InfoUsuario infoUsuarioForm = new InfoUsuario(usuario);
-                infoUsuarioForm.ShowDialog(); // Lo puedes cambiar por .Show() si no quieres que sea modal
+                infoUsuarioForm.ShowDialog();
             }
             else
             {
@@ -201,6 +210,8 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+
+        //Cargamos los equipos que sigan un filtro
         private void CargarEquipos(string filtro)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -230,12 +241,14 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Filtro para buscar los equipos
         private void button_buscar_equipo_admin_Click(object sender, EventArgs e)
         {
             string filtro = textBox_buscar_equipo_admin.Text.Trim();
             CargarEquipos(filtro);
         }
 
+        //Borrar equipo
         private void button_borrar_equipo_admin_Click(object sender, EventArgs e)
         {
             if (listBox_equipos_admin.SelectedItem == null)
@@ -246,14 +259,16 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
             string nombreEquipo = listBox_equipos_admin.SelectedItem.ToString();
 
+            //Validamos que encuentre el equipo
             if (!equiposDict.ContainsKey(nombreEquipo))
             {
-                MessageBox.Show("No se encontró el ID del equipo seleccionado.");
+                MessageBox.Show("No se encontró el equipo seleccionado.");
                 return;
             }
 
             int idEquipo = equiposDict[nombreEquipo];
 
+            //Confirmacion de borrar
             DialogResult confirmacion = MessageBox.Show(
                 $"¿Estás seguro de que quieres borrar el equipo '{nombreEquipo}'?",
                 "Confirmar eliminación",
@@ -261,6 +276,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 MessageBoxIcon.Warning
             );
 
+            //Llamamos a borrar equipo
             if (confirmacion == DialogResult.Yes)
             {
                 BorrarEquipo(idEquipo);
@@ -268,6 +284,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Eliminar equipo
         private void BorrarEquipo(int idEquipo)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -288,6 +305,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Ver informacion del equipo
         private void button_info_equipo_admin_Click(object sender, EventArgs e)
         {
             if (listBox_equipos_admin.SelectedItem == null)
@@ -300,15 +318,17 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
             if (!equiposDict.ContainsKey(nombreEquipo))
             {
-                MessageBox.Show("No se encontró el ID del equipo seleccionado.");
+                MessageBox.Show("No se encontró el equipo seleccionado.");
                 return;
             }
 
+            //Abre el formulario de InfoEquipo con el id del equipo
             int idEquipo = equiposDict[nombreEquipo];
             InfoEquipo infoEquipoForm = new InfoEquipo(idEquipo);
             infoEquipoForm.ShowDialog();
         }
 
+        //Obtenemos los estados de los torneos y los metemos en el comboBox
         private void CargarEstadosTorneo()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -331,7 +351,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
         }
 
-
+        //Cargamos los torneos segun el estado y los mete en el listbox
         private void CargarTorneosPorEstado(int idEstado)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -366,6 +386,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Cuando se selecciona un nuevo estado del torneo en el comboBox
         private void comboBox_estado_torneo_admin_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox_estado_torneo_admin.SelectedValue is int idEstado)
@@ -374,6 +395,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Borrar torneo
         private void button_borrar_torneo_admin_Click(object sender, EventArgs e)
         {
             if (listBox_torneo_admin.SelectedItem == null)
@@ -395,7 +417,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             {
                 BorrarTorneo(nombreTorneo);
 
-                // Volver a cargar la lista de torneos del estado actual
                 if (comboBox_estado_torneo_admin.SelectedValue is int idEstado)
                 {
                     CargarTorneosPorEstado(idEstado);
@@ -424,6 +445,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Editar el torneo
         private void button_editar_torneo_admin_Click(object sender, EventArgs e)
         {
             if (listBox_torneo_admin.SelectedItem == null || listBox_torneo_admin.SelectedItem.ToString() == "No hay ningún torneo")
@@ -432,20 +454,22 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 return;
             }
 
-            // Obtener el nombre del torneo seleccionado
+            //Obtener el nombre del torneo seleccionado
             string nombreTorneo = listBox_torneo_admin.SelectedItem.ToString();
 
-            // Abrir el formulario de edición pasando el nombre del torneo
+            //Abrir el formulario de editar
             EditarTorneo editarTorneoForm = new EditarTorneo(nombreTorneo, this);
-            editarTorneoForm.ShowDialog(); // Utiliza ShowDialog si deseas que sea modal (espera hasta que se cierre)
+            editarTorneoForm.ShowDialog();
         }
 
+        //Crear torneo
         private void button_crear_torneo_admin_Click(object sender, EventArgs e)
         {
             CrearTorneo crearTorneoForm = new CrearTorneo();
-            crearTorneoForm.ShowDialog(); // ShowDialog si quieres que sea modal
+            crearTorneoForm.ShowDialog();
         }
 
+        //Obtenemos el id del torneo
         private int ObtenerIdTorneoSeleccionado()
         {
             if (listBox_torneo_admin.SelectedItem == null || listBox_torneo_admin.SelectedItem.ToString() == "No hay ningún torneo")
@@ -473,10 +497,10 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             return -1;
         }
 
-
+        //Ver información del torneo
         private void button_info_torneo_admin_Click(object sender, EventArgs e)
         {
-            int idTorneoSeleccionado = ObtenerIdTorneoSeleccionado(); // Método que tú tengas para obtener el ID
+            int idTorneoSeleccionado = ObtenerIdTorneoSeleccionado();
             if (idTorneoSeleccionado > 0)
             {
                 InfoTorneo infoForm = new InfoTorneo(idTorneoSeleccionado);
@@ -484,6 +508,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Crear una cuenta de administrador
         private void button_crear_admin_Click(object sender, EventArgs e)
         {
             CrearNuevoAdmin();
@@ -499,7 +524,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             string dni = textBox_dni_admin.Text.Trim().ToUpper();
             string email = textBox_email_admin.Text.Trim();
 
-            // Validaciones de formato
+            //Validaciones
             if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena))
             {
                 MessageBox.Show("Usuario y contraseña son obligatorios.");
@@ -528,10 +553,10 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             {
                 conn.Open();
 
-                // Comprobamos si ya existe un admin con el mismo usuario, dni, teléfono o email
+                //Comprobamos si ya existe un admin con el mismo usuario, dni, teléfono o email
                 string comprobarQuery = @"
-            SELECT COUNT(*) FROM clientes 
-            WHERE usuario = @usuario OR dni = @dni OR telefono = @telefono OR email = @email";
+                    SELECT COUNT(*) FROM clientes 
+                    WHERE usuario = @usuario OR dni = @dni OR telefono = @telefono OR email = @email";
 
                 using (MySqlCommand checkCmd = new MySqlCommand(comprobarQuery, conn))
                 {
@@ -549,10 +574,10 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     }
                 }
 
-                // Insertamos el nuevo administrador
+                //Añadimos el nuevo administrador a la base de datos
                 string insertarQuery = @"
-            INSERT INTO clientes (nombre, apellidos, usuario, contrasena, telefono, dni, email, id_estado_usuario, id_rol_usuario, id_equipo)
-            VALUES (@nombre, @apellidos, @usuario, @contrasena, @telefono, @dni, @email, NULL, 3, NULL)";
+                    INSERT INTO clientes (nombre, apellidos, usuario, contrasena, telefono, dni, email, id_estado_usuario, id_rol_usuario, id_equipo)
+                    VALUES (@nombre, @apellidos, @usuario, @contrasena, @telefono, @dni, @email, NULL, 3, NULL)";
 
                 using (MySqlCommand insertCmd = new MySqlCommand(insertarQuery, conn))
                 {
@@ -578,6 +603,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Cerrar sesión. Cierra el formulario
         private void button_cerrar_sesion_Click(object sender, EventArgs e)
         {
             this.Close();

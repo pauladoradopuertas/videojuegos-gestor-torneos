@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient; // Librería para MySQL
+using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 
 
@@ -18,9 +18,8 @@ namespace TfgMultiplataforma.Paginas.Usuarios
     public partial class UsuariosForm : Form
     {
         public int idCliente;
-        private int idEquipo; // Almacenamos el id del equipo
-        private string nombreEquipoActual; // Para almacenar el nombre actual del equipo
-                                           // Asegúrate de tener estos campos en tu clase
+        private int idEquipo;
+        private string nombreEquipoActual;
         private int idTorneoSeleccionado = 0;
         private string nombreTorneoSeleccionado = "";
         private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
@@ -29,30 +28,26 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         {
             InitializeComponent();
             this.idCliente = idCliente;
-            CargarEstadosTorneos(); // Asegúrate de que esta línea está presente
+            CargarEstadosTorneos();
             button_info_torneo.Click += button_info_torneo_Click;
 
-            // Configura cómo se muestran los items
-            listBox_torneos.DisplayMember = "DisplayText"; // Muestra el texto completo
-            listBox_torneos.ValueMember = "Id";           // Guarda internamente el ID
-
-
+            listBox_torneos.DisplayMember = "DisplayText";
+            listBox_torneos.ValueMember = "Id";
         }
 
         private void UsuariosForm_Load(object sender, EventArgs e)
         {
-            // Obtener el id del equipo del cliente
             ObtenerEquipoDelCliente(idCliente);
         }
 
-        // Método para obtener el id del equipo al que pertenece el cliente
+        //Método para obtener el id del equipo al que pertenece el cliente
         public void ObtenerEquipoDelCliente(int idCliente)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Consulta para obtener el id del equipo del cliente
+                //Consulta para obtener el id del equipo del cliente
                 string queryEquipo = @"
                     SELECT e.id_equipo AS id_equipo, e.nombre 
                     FROM clientes c
@@ -69,12 +64,12 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         {
                             idEquipo = Convert.ToInt32(reader["id_equipo"]);
                             string nombreEquipo = reader["nombre"].ToString();
-                            textBox_nombre_equipo.Text = nombreEquipo; // Mostrar nombre del equipo en el formulario
-                            CargarMiembrosEquipo(idEquipo); // Cargar los miembros del equipo
+                            textBox_nombre_equipo.Text = nombreEquipo;
+                            CargarMiembrosEquipo(idEquipo);
                         }
                         else
                         {
-                            // Si no pertenece a ningún equipo, mostrar los botones de acción
+                            //Si no pertenece a ningún equipo, mostrar los botones de acción
                             MostrarPantallaSinEquipo();
                         }
                     }
@@ -82,66 +77,65 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Pantalla que sale si no perteneces a ningun equipo
         private void MostrarPantallaSinEquipo()
         {
-            // Limpiar todos los controles del formulario antes de agregar los nuevos
             this.Controls.Clear();
 
-            // Crear y mostrar el texto que indica que no pertenece a ningún equipo
+            //Crear y mostrar el texto que indica que no pertenece a ningún equipo
             Label mensaje = new Label();
             mensaje.Text = "No perteneces a ningún equipo";
             mensaje.Font = new Font("Arial", 16);
-            mensaje.AutoSize = true; // Esto ajusta automáticamente el tamaño del texto para que se ajuste al contenido
-            mensaje.Location = new Point((this.ClientSize.Width - mensaje.Width) / 2 - 150, 50); // Desplazar más hacia la izquierda
+            mensaje.AutoSize = true; 
+            mensaje.Location = new Point((this.ClientSize.Width - mensaje.Width) / 2 - 150, 50);
             this.Controls.Add(mensaje);
 
-            // Crear el botón para crear equipo
+            //Crear el botón para crear equipo
             Button buttonCrearEquipo = new Button();
             buttonCrearEquipo.Text = "Crear equipo";
             buttonCrearEquipo.Size = new Size(200, 40);
-            buttonCrearEquipo.Location = new Point((this.ClientSize.Width - buttonCrearEquipo.Width) / 2, mensaje.Bottom + 20); // Centrado y debajo del mensaje
-            buttonCrearEquipo.Click += ButtonCrearEquipo_Click; // Evento click para crear equipo
+            buttonCrearEquipo.Location = new Point((this.ClientSize.Width - buttonCrearEquipo.Width) / 2, mensaje.Bottom + 20);
+            buttonCrearEquipo.Click += ButtonCrearEquipo_Click;
             this.Controls.Add(buttonCrearEquipo);
 
-            // Crear el botón para unirse a un equipo
+            //Crear el botón para unirse a un equipo
             Button buttonUnirseEquipo = new Button();
             buttonUnirseEquipo.Text = "Unirse a un equipo";
             buttonUnirseEquipo.Size = new Size(200, 40);
-            buttonUnirseEquipo.Location = new Point((this.ClientSize.Width - buttonUnirseEquipo.Width) / 2, buttonCrearEquipo.Bottom + 20); // Centrado y debajo del primer botón
-            buttonUnirseEquipo.Click += ButtonUnirseEquipo_Click; // Evento click para unirse a un equipo
+            buttonUnirseEquipo.Location = new Point((this.ClientSize.Width - buttonUnirseEquipo.Width) / 2, buttonCrearEquipo.Bottom + 20);
+            buttonUnirseEquipo.Click += ButtonUnirseEquipo_Click;
             this.Controls.Add(buttonUnirseEquipo);
         }
 
         private void ButtonCrearEquipo_Click(object sender, EventArgs e)
         {
-            // Crear el formulario crearEquipo (lo abrimos como una nueva página para la creación de equipos)
-            crearEquipo formularioCrearEquipo = new crearEquipo(idCliente);  // Suponiendo que tienes un formulario llamado crearEquipo
+            //Crear el formulario crearEquipo
+            crearEquipo formularioCrearEquipo = new crearEquipo(idCliente);
 
-            // Mostrar el formulario para crear un nuevo equipo
+            //Mostrar el formulario para crear un nuevo equipo
             formularioCrearEquipo.ShowDialog();
-            this.Close(); // Cerrar definitivamente la ventana actual
+            this.Close();
         }
 
         private void ButtonUnirseEquipo_Click(object sender, EventArgs e)
         {
-            this.Hide(); // Ocultar la ventana actual
+            this.Hide();
             unirseEquipo formUnirse = new unirseEquipo(idCliente);
             formUnirse.ShowDialog();
 
-            // Al cerrar el formulario de unirse, mostrar el formulario actualizado
+            //Al cerrar el formulario de unirse, mostrar el formulario actualizado
             UsuariosForm nuevosUsuariosForm = new UsuariosForm(idCliente);
             nuevosUsuariosForm.Show();
             this.Close();
         }
 
-        // Método para cargar los miembros del equipo
+        //Método para cargar los miembros del equipo
         private void CargarMiembrosEquipo(int idEquipo)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Consulta para obtener miembros y roles del equipo
                 string queryMiembros = @"
                     SELECT c.nombre, ru.nombre AS rol
                     FROM clientes c
@@ -154,14 +148,14 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        listBox_miembros.Items.Clear(); // Limpiar el ListBox antes de añadir los miembros
+                        listBox_miembros.Items.Clear();
 
                         while (reader.Read())
                         {
                             string nombreMiembro = reader["nombre"].ToString();
                             string rolMiembro = reader["rol"].ToString();
 
-                            // Agregar miembro y rol al ListBox con el formato "Nombre - Rol"
+                            //Agregar miembro y rol al ListBox
                             listBox_miembros.Items.Add($"{nombreMiembro} - {rolMiembro}");
                         }
                     }
@@ -169,47 +163,45 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Boton abandonar equipo
         private void button_abandonar_equipo_Click(object sender, EventArgs e)
         {
-            // Mostrar un mensaje de confirmación al usuario
             DialogResult dialogResult = MessageBox.Show("¿Quieres abandonar el equipo?", "Confirmación", MessageBoxButtons.YesNo);
 
             if (dialogResult == DialogResult.Yes)
             {
                 AbandonarEquipo(idCliente, idEquipo);
-                // Cerrar este formulario y abrir uno nuevo
-                this.Close(); // Cierra la ventana actual
-                UsuariosForm nuevosUsuariosForm = new UsuariosForm(idCliente); // Nueva instancia
-                nuevosUsuariosForm.Show(); // Mostrar (recargará los datos limpios)
+                this.Close();
+                UsuariosForm nuevosUsuariosForm = new UsuariosForm(idCliente);
+                nuevosUsuariosForm.Show();
             }
         }
 
-        // Método para abandonar el equipo (eliminar la relación en la base de datos)
+        //Método para abandonar el equipo
         private void AbandonarEquipo(int idCliente, int idEquipo)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Iniciar una transacción
                 MySqlTransaction transaction = conn.BeginTransaction();
                 try
                 {
-                    // Eliminar la relación de cliente y equipo
+                    //Eliminar la relación de cliente y equipo
                     string queryActualizar = @"
-                    UPDATE clientes
-                    SET id_equipo = NULL, id_estado_usuario = 2, id_rol_usuario = NULL
-                    WHERE id_cliente = @idCliente";
+                        UPDATE clientes
+                        SET id_equipo = NULL, id_estado_usuario = 2, id_rol_usuario = NULL
+                        WHERE id_cliente = @idCliente";
 
                     using (MySqlCommand cmd = new MySqlCommand(queryActualizar, conn))
                     {
                         cmd.Parameters.AddWithValue("@idCliente", idCliente);
                         cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
-                        cmd.Transaction = transaction; // Usar la transacción
+                        cmd.Transaction = transaction;
                         cmd.ExecuteNonQuery();
                     }
 
-                    // Actualizar los campos id_estado_usuario y id_rol_usuario en la tabla clientes
+                    //Actualizar los campos id_estado_usuario y id_rol_usuario en la tabla clientes
                     string queryActualizarCliente = @"
                         UPDATE clientes
                         SET id_estado_usuario = 2, id_rol_usuario = NULL
@@ -218,33 +210,32 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     using (MySqlCommand cmd = new MySqlCommand(queryActualizarCliente, conn))
                     {
                         cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                        cmd.Transaction = transaction; // Usar la transacción
+                        cmd.Transaction = transaction;
                         cmd.ExecuteNonQuery();
                     }
 
-                    // Confirmar la transacción
+                    //Confirmar la transacción
                     transaction.Commit();
 
                     MessageBox.Show("Has abandonado el equipo correctamente.");
-                    // Actualizar la UI si es necesario, como cargar nuevamente los datos.
-                    listBox_miembros.Items.Clear(); // Limpiar la lista de miembros
-                    textBox_nombre_equipo.Clear(); // Limpiar el nombre del equipo
+                    listBox_miembros.Items.Clear();
+                    textBox_nombre_equipo.Clear();
                 }
                 catch (Exception ex)
                 {
-                    // En caso de error, revertir la transacción
                     transaction.Rollback();
                     MessageBox.Show("Error al abandonar el equipo: " + ex.Message);
                 }
             }
         }
 
+        //Boton editar equipo
         private void button_editar_equipo_Click(object sender, EventArgs e)
         {
             if (EsCapitan(idCliente, idEquipo))
             {
                 modificarEquipo modificarEquipoForm = new modificarEquipo(idEquipo, this);
-                modificarEquipoForm.ShowDialog(); // Abrir el formulario de edición
+                modificarEquipoForm.ShowDialog();
             }
             else
             {
@@ -252,14 +243,14 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
-        // Método para verificar si el usuario es el capitán del equipo
+        //Método para verificar si el usuario es el capitán del equipo
         private bool EsCapitan(int idCliente, int idEquipo)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Consulta para verificar si el usuario es el capitán del equipo
+                //Consulta para verificar si el usuario es el capitán del equipo
                 string queryCapitan = @"
                     SELECT COUNT(*) 
                     FROM clientes c
@@ -279,6 +270,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Cargar los estado de los torneos
         private void CargarEstadosTorneos()
         {
             try
@@ -314,6 +306,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Al seleccionar un estado que aparezcan los torneos con ese estado
         private void comboBox_eventos_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox_eventos.SelectedItem == null || idEquipo == 0)
@@ -327,6 +320,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             CargarTorneosInscritos(selectedEstado.Id, idEquipo);
         }
 
+        //Cargar los torneos en los que el equipo esta inscrito
         private void CargarTorneosInscritos(int idEstado, int idEquipo)
         {
             try
@@ -337,18 +331,18 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 {
                     conn.Open();
                     string query = @"
-                SELECT 
-                    t.id_torneo,
-                    t.nombre,
-                    DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y') as fecha_inicio,
-                    DATE_FORMAT(t.fecha_fin, '%d/%m/%Y') as fecha_fin,
-                    t.dia_partida,
-                    t.max_equipos,
-                    (SELECT COUNT(*) FROM `equipos-torneos` WHERE id_torneo = t.id_torneo) as inscritos
-                FROM torneos t
-                INNER JOIN `equipos-torneos` et ON t.id_torneo = et.id_torneo
-                WHERE t.id_estado = @idEstado AND et.id_equipo = @idEquipo
-                ORDER BY t.fecha_inicio";
+                        SELECT 
+                            t.id_torneo,
+                            t.nombre,
+                            DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y') as fecha_inicio,
+                            DATE_FORMAT(t.fecha_fin, '%d/%m/%Y') as fecha_fin,
+                            t.dia_partida,
+                            t.max_equipos,
+                            (SELECT COUNT(*) FROM `equipos-torneos` WHERE id_torneo = t.id_torneo) as inscritos
+                        FROM torneos t
+                        INNER JOIN `equipos-torneos` et ON t.id_torneo = et.id_torneo
+                        WHERE t.id_estado = @idEstado AND et.id_equipo = @idEquipo
+                        ORDER BY t.fecha_inicio";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
@@ -365,18 +359,15 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                             while (reader.Read())
                             {
-                                // Objeto con todos los datos para mostrar
                                 var torneoItem = new
                                 {
                                     Id = reader.GetInt32("id_torneo"),
                                     Nombre = reader.GetString("nombre"),
-                                    // Solo usaremos estos dos campos al pasar a la otra página
                                     DisplayText = $"{reader["nombre"]} | " +
-                                                $"Fechas: {reader["fecha_inicio"]} - {reader["fecha_fin"]} | " +
-                                                $"Partidas: {reader["dia_partida"]} | " +
-                                                $"Inscritos: {reader["inscritos"]}/{reader["max_equipos"]}"
+                                        $"Fechas: {reader["fecha_inicio"]} - {reader["fecha_fin"]} | " +
+                                        $"Partidas: {reader["dia_partida"]} | " +
+                                        $"Inscritos: {reader["inscritos"]}/{reader["max_equipos"]}"
                                 };
-
                                 listBox_torneos.Items.Add(torneoItem);
                             }
                         }
@@ -389,21 +380,21 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Listbox con los torneos
         private void listBox_torneos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBox_torneos.SelectedItem == null ||
-            listBox_torneos.SelectedItem.ToString().Contains("No estás inscrito"))
+            if (listBox_torneos.SelectedItem == null || listBox_torneos.SelectedItem.ToString().Contains("No estás inscrito"))
             {
                 button_info_torneo.Enabled = false;
                 return;
             }
-
             dynamic selectedTorneo = listBox_torneos.SelectedItem;
             idTorneoSeleccionado = selectedTorneo.Id;
             nombreTorneoSeleccionado = selectedTorneo.Nombre;
             button_info_torneo.Enabled = true;
         }
 
+        //Boton ver informacion del torneo
         private void button_info_torneo_Click(object sender, EventArgs e)
         {
             if (listBox_torneos.SelectedItem == null)
@@ -411,14 +402,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 MessageBox.Show("Selecciona un torneo primero");
                 return;
             }
-
             dynamic selected = listBox_torneos.SelectedItem;
 
-            // Llamar al formulario infoTorneos y pasar los datos
-            infoTorneos infoForm = new infoTorneos(selected.Id, selected.Nombre, idEquipo); // Pasar también el idEquipo
+            infoTorneos infoForm = new infoTorneos(selected.Id, selected.Nombre, idEquipo);
             infoForm.ShowDialog();
         }
 
+        //Boton unirse al torneo
         private void button_unir_torneo_Click(object sender, EventArgs e)
         {
             if (idEquipo == 0)
@@ -427,7 +417,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            // Verificar si el usuario es el capitán del equipo
+            //Verificar si el usuario es el capitán del equipo
             if (!EsCapitan(idCliente, idEquipo))
             {
                 MessageBox.Show("Solo el capitán del equipo puede unirse a un torneo.");
@@ -435,16 +425,17 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
 
             unirseTorneo formUnirseTorneo = new unirseTorneo(idCliente, idEquipo);
-            formUnirseTorneo.Show(); // En vez de ShowDialog
+            formUnirseTorneo.Show();
         }
 
+        //Boton ver perfil
         private void button_ver_perfil_Click(object sender, EventArgs e)
         {
-            // Crear una nueva instancia del formulario Perfil (perfil.cs)
-            perfil perfilForm = new perfil(idCliente); // Asegúrate de que el formulario PerfilForm existe y acepta el idCliente como parámetro.
+            //Crear una nueva instancia del formulario perfil
+            perfil perfilForm = new perfil(idCliente);
 
-            // Mostrar el formulario de perfil
-            perfilForm.ShowDialog(); // Usamos ShowDialog para mostrarlo como una ventana modal (bloqueante)
+            //Mostrar el formulario de perfil
+            perfilForm.ShowDialog();
         }
     }
 }

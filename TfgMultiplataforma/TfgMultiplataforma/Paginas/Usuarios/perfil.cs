@@ -26,18 +26,17 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         private void perfil_Load(object sender, EventArgs e)
         {
             CargarDatosCliente(idCliente);
-            CargarHistorialPartidas(idCliente);  // Cargar el historial de partidas
+            CargarHistorialPartidas(idCliente);
             CargarEstadisticasCliente(idCliente);
         }
 
-        // Método para cargar los datos del cliente
+        //Cargar datos del cliente
         private void CargarDatosCliente(int idCliente)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Consulta para obtener los datos del cliente
                 string query = "SELECT nombre, apellidos, usuario, contrasena, telefono, dni, email FROM clientes WHERE id_cliente = @idCliente";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -48,7 +47,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     {
                         if (reader.Read())
                         {
-                            // Asignar los datos a los TextBox
+                            //Asignar los datos a los TextBox
                             textBox_usuario_perfil.Text = reader["usuario"].ToString();
                             textBox_contrasena_perfil.Text = reader["contrasena"].ToString();
                             textBox_nombre_perfil.Text = reader["nombre"].ToString();
@@ -66,12 +65,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Boton volver
         private void button_volver_perfil_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        // Método para comprobar si el valor ya existe en la base de datos
+        //Comprobar si ya existe en la base de datos
         private bool ExisteValorEnBaseDeDatos(string campo, string valor, int idCliente)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -80,7 +80,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                 string query = "";
 
-                // Dependiendo del campo a comprobar (usuario, telefono o email)
                 switch (campo)
                 {
                     case "usuario":
@@ -105,10 +104,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
-        // Método para guardar los cambios realizados en el perfil
+        //Guardar los cambios
         private void GuardarCambios()
         {
-            // Validar los datos antes de actualizar
+            //Validar los datos
             if (string.IsNullOrEmpty(textBox_nombre_perfil.Text) || string.IsNullOrEmpty(textBox_apellidos_perfil.Text) ||
                 string.IsNullOrEmpty(textBox_usuario_perfil.Text) || string.IsNullOrEmpty(textBox_contrasena_perfil.Text) ||
                 string.IsNullOrEmpty(textBox_telefono_perfil.Text) || string.IsNullOrEmpty(textBox_dni_perfil.Text) ||
@@ -118,7 +117,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            // Comprobar si el usuario, teléfono o email ya existen en la base de datos
+            //Comprobar si el usuario, teléfono o email ya existen en la base de datos
             if (ExisteValorEnBaseDeDatos("usuario", textBox_usuario_perfil.Text, idCliente))
             {
                 MessageBox.Show("Este nombre de usuario ya está en uso. Elija otro.");
@@ -141,7 +140,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             {
                 conn.Open();
 
-                // Consulta para actualizar los datos del cliente
                 string query = @"
                     UPDATE clientes
                     SET nombre = @nombre,
@@ -166,7 +164,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                     try
                     {
-                        // Ejecutar la actualización en la base de datos
+                        //Ejecutar la actualización en la base de datos
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Los cambios se han guardado correctamente.");
                     }
@@ -178,39 +176,39 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Guardar los datos modificamos
         private void button_editar_perfil_Click(object sender, EventArgs e)
         {
-            GuardarCambios(); // Llamamos al método para guardar los cambios
+            GuardarCambios();
         }
 
+        //Cargar las partidas jugadas por el cliente
         private void CargarHistorialPartidas(int idCliente)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Obtener el id del equipo del cliente
                 int idEquipo = ObtenerIdEquipoCliente(idCliente);
 
-                // Consulta para obtener las partidas en las que ha participado el equipo
                 string query = @"
-        SELECT 
-            ep1.id_partida,  -- Añadir el campo id_partida
-            e1.nombre AS equipo1, 
-            e2.nombre AS equipo2, 
-            ep1.puntos AS puntos_equipo1, 
-            ep2.puntos AS puntos_equipo2
-        FROM 
-            `equipos-partidas` ep1
-        INNER JOIN 
-            `equipos-partidas` ep2 ON ep1.id_partida = ep2.id_partida AND ep1.id_equipo != ep2.id_equipo
-        INNER JOIN 
-            equipos e1 ON ep1.id_equipo = e1.id_equipo
-        INNER JOIN 
-            equipos e2 ON ep2.id_equipo = e2.id_equipo
-        WHERE 
-            ep1.id_partida IN (SELECT id_partida FROM `equipos-partidas` WHERE id_equipo = @idEquipo)
-        ORDER BY ep1.id_partida";
+                    SELECT 
+                        ep1.id_partida,
+                        e1.nombre AS equipo1, 
+                        e2.nombre AS equipo2, 
+                        ep1.puntos AS puntos_equipo1, 
+                        ep2.puntos AS puntos_equipo2
+                    FROM 
+                        `equipos-partidas` ep1
+                    INNER JOIN 
+                        `equipos-partidas` ep2 ON ep1.id_partida = ep2.id_partida AND ep1.id_equipo != ep2.id_equipo
+                    INNER JOIN 
+                        equipos e1 ON ep1.id_equipo = e1.id_equipo
+                    INNER JOIN 
+                        equipos e2 ON ep2.id_equipo = e2.id_equipo
+                    WHERE 
+                        ep1.id_partida IN (SELECT id_partida FROM `equipos-partidas` WHERE id_equipo = @idEquipo)
+                    ORDER BY ep1.id_partida";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -218,16 +216,16 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        listBox_partidas_perfil.Items.Clear();  // Limpiar el ListBox
+                        listBox_partidas_perfil.Items.Clear();
 
-                        // Usamos un HashSet para evitar duplicados
+                        //HashSet para evitar duplicados
                         HashSet<int> partidasCargadas = new HashSet<int>();
 
                         while (reader.Read())
                         {
-                            int idPartida = Convert.ToInt32(reader["id_partida"]);  // Ahora se puede acceder a id_partida
+                            int idPartida = Convert.ToInt32(reader["id_partida"]);
 
-                            // Solo agregar la partida si no se ha añadido antes
+                            //Agregar la partida
                             if (!partidasCargadas.Contains(idPartida))
                             {
                                 string equipo1 = reader["equipo1"].ToString();
@@ -238,7 +236,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                                 string partidaInfo = $"{equipo1} ({puntosEquipo1} puntos) vs {equipo2} ({puntosEquipo2} puntos)";
                                 listBox_partidas_perfil.Items.Add(partidaInfo);
 
-                                // Añadimos el id de la partida al HashSet para evitar duplicados
+                                //Añadimos el id de la partida al HashSet para evitar duplicados
                                 partidasCargadas.Add(idPartida);
                             }
                         }
@@ -247,7 +245,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
-        // Método para obtener el id del equipo del cliente
+        //Método para obtener el id del equipo del cliente
         private int ObtenerIdEquipoCliente(int idCliente)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -266,11 +264,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Boton volver en el historial
         private void button_volver_historial_perfil_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Cargar las estadisticas del usuario
         private void CargarEstadisticasCliente(int idCliente)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -311,23 +311,25 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Boton volver en las estadisticas
         private void button_volver_estadisticas_perfil_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Boton cerrar sesion
         private void button_cerrarSesion_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("¿Seguro que deseas cerrar sesión?", "Cerrar sesión", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
-                // Reinicia completamente la aplicación (cerrando todos los formularios)
-                System.Diagnostics.Process.Start(Application.ExecutablePath); // Relanza la app (volverá a mostrar el login)
-                Application.Exit(); // Cierra completamente la aplicación
+                //Cierra todos los formularios
+                System.Diagnostics.Process.Start(Application.ExecutablePath); //Abre el login
+                Application.Exit(); //Cierra la aplicación
 
-            // Mostrar el formulario de login
-            Login loginForm = new Login();
+                //Mostrar el formulario de login
+                Login loginForm = new Login();
                 loginForm.Show();
             }
         }

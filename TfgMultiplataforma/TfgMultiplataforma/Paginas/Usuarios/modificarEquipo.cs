@@ -16,17 +16,17 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
         private int idEquipo;
         private string conexionString = "Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;";
-        private UsuariosForm usuariosForm; // Atributo para la referencia del formulario
+        private UsuariosForm usuariosForm;
 
         public modificarEquipo(int idEquipo, UsuariosForm usuariosForm)
         {
             InitializeComponent();
             this.idEquipo = idEquipo;
-            this.usuariosForm = usuariosForm; // Guardamos la referencia correctamente
-            CargarDatosEquipo(); // Cargar datos del equipo al abrir el formulario
+            this.usuariosForm = usuariosForm;
+            CargarDatosEquipo();
         }
 
-        // Método para cargar los datos del equipo en los controles
+        //Método para cargar los datos del equip
         private void CargarDatosEquipo()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -47,22 +47,21 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         {
                             textBox_nombre_editar.Text = reader["nombre"].ToString();
 
-                            // Llenar el comboBox con valores del ENUM
+                            //Llenar el comboBox con valores de la base de datos
                             comboBox_visible.Items.Clear();
                             comboBox_visible.Items.Add("si");
                             comboBox_visible.Items.Add("no");
 
-                            // Seleccionar el valor actual
+                            //Seleccionar el valor actual
                             comboBox_visible.SelectedItem = reader["visible"].ToString();
                         }
                     }
                 }
             }
-
             CargarMiembrosEquipo();
         }
 
-        // Método para cargar los miembros del equipo
+        //Método para cargar los usuarios del equipo
         public void CargarMiembrosEquipo()
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -87,7 +86,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                             string rol = reader["rol"] != DBNull.Value ? reader["rol"].ToString() : "Sin rol";
                             int idCliente = Convert.ToInt32(reader["id_cliente"]);
 
-                            // Agregar el nombre y el rol al ListBox
+                            //Agregar el nombre y el rol al ListBox
                             listBox_miembros_editar.Items.Add(new ListBoxItem(idCliente, $"{nombre} - {rol}"));
                         }
                     }
@@ -95,7 +94,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
-        // Clase auxiliar para manejar los datos en el ListBox
+        //Clase para manejar los datos en el ListBox
         private class ListBoxItem
         {
             public int IdCliente { get; }
@@ -113,13 +112,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
-
-
+        //Boton cancelar
         private void button_cancelar_Click(object sender, EventArgs e)
         {
-            this.Close(); // Cerrar sin guardar cambios
+            this.Close();
         }
 
+        //Doble click en un usuario para eliminar
         private void listBox_miembros_editar_DoubleClick(object sender, EventArgs e)
         {
             if (listBox_miembros_editar.SelectedItem is ListBoxItem selectedItem)
@@ -138,14 +137,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
-        // Método para eliminar al miembro del equipo y actualizar su estado y rol
+        //Método para eliminar al usuario del equipo y actualizar su estado y rol
         private void EliminarMiembroEquipo(int idCliente)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Eliminar de clientes y actualizar su estado y rol
                 string queryEliminar = @"
                     UPDATE clientes 
                     SET id_rol_usuario = NULL, id_estado_usuario = 2, id_equipo = NULL 
@@ -159,7 +157,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     if (filasAfectadas > 0)
                     {
                         MessageBox.Show("Miembro eliminado correctamente.");
-                        CargarMiembrosEquipo(); // Recargar la lista después de eliminar
+                        CargarMiembrosEquipo();
                     }
                     else
                     {
@@ -170,12 +168,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
         }
 
+        //Boton para guardar los cambios
         private void button_editar_Click(object sender, EventArgs e)
         {
             string nuevoNombre = textBox_nombre_editar.Text.Trim();
             string nuevoVisible = comboBox_visible.SelectedItem?.ToString();
 
-            // Verificar si hay algún dato que actualizar
+            //Verificar si hay algún dato que actualizar
             if (string.IsNullOrEmpty(nuevoNombre) && string.IsNullOrEmpty(nuevoVisible))
             {
                 MessageBox.Show("No hay cambios para guardar.");
@@ -186,14 +185,14 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             {
                 conn.Open();
 
-                // Construir la consulta dinámicamente
+                //Construir la consulta dinámicamente
                 List<string> camposActualizar = new List<string>();
                 if (!string.IsNullOrEmpty(nuevoNombre))
                     camposActualizar.Add("nombre = @nuevoNombre");
                 if (!string.IsNullOrEmpty(nuevoVisible))
                     camposActualizar.Add("visible = @nuevoVisible");
 
-                if (camposActualizar.Count == 0) return; // Si no hay cambios, salir
+                if (camposActualizar.Count == 0) return;
 
                 string queryActualizar = $@"
                     UPDATE equipos 
@@ -213,10 +212,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     {
                         MessageBox.Show("Los cambios se han guardado correctamente.");
 
-                        // Llamar al método de actualización en UsuariosForm antes de cerrar
+                        //Llamar al método de actualización en UsuariosForm antes de cerrar
                         usuariosForm.ObtenerEquipoDelCliente(usuariosForm.idCliente);
 
-                        this.Close(); // Cerrar la ventana después de guardar los cambios
+                        this.Close();
                     }
                     else
                     {
@@ -226,6 +225,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        //Boton para añadir un nuevo miembro al equipo
         private void button_anadir_miembro_Click(object sender, EventArgs e)
         {
             anadirMiembro formularioAnadir = new anadirMiembro(idEquipo, conexionString, this);

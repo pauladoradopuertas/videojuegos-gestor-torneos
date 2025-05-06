@@ -15,7 +15,8 @@ namespace TfgMultiplataforma.Paginas.Aministrador
     {
         private string nombreTorneo;
         private AdminForm adminForm;
-        private List<int> equiposAEliminar = new List<int>();  // Lista para guardar temporalmente los equipos a eliminar
+        //Almacenar los id de los equipos para eliminarlos
+        private List<int> equiposAEliminar = new List<int>();
 
         public EditarTorneo(string nombreTorneo, AdminForm adminForm)
         {
@@ -24,14 +25,16 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             this.adminForm = adminForm;
         }
 
+        //Funciones que cargan cuando se abre la pagina
         private void EditarTorneo_Load(object sender, EventArgs e)
         {
-            CargarPartidas();  // Primero cargas las opciones
+            CargarPartidas();
             CargarJuegos();
             CargarEquiposInscritos();
             CargarDatosTorneo(nombreTorneo);
         }
 
+        //Cargamos los datos del torneo
         private void CargarDatosTorneo(string nombreTorneo)
         {
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
@@ -52,7 +55,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     {
                         if (reader.Read())
                         {
-                            // Cargar los valores en los controles correspondientes
                             textBox_nombre_editar_torneo.Text = reader["nombre"].ToString();
                             DateTime fechaInicio = Convert.ToDateTime(reader["fecha_inicio"]);
                             DateTime fechaFin = Convert.ToDateTime(reader["fecha_fin"]);
@@ -73,15 +75,15 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                             }
                             comboBox_juego_editar_torneo.SelectedValue = reader["id_juego"];
 
-                            // Cargar el estado desde la base de datos
-                            textBox_estado_editar_torneo.Text = reader["estado_nombre"].ToString(); // Estado desde la base de datos
+                            //Cargar el estado desde la base de datos
+                            textBox_estado_editar_torneo.Text = reader["estado_nombre"].ToString();
                         }
                     }
                 }
             }
         }
 
-        // Cargar las opciones de los días de la semana (ENUM 'lunes', 'martes', etc.)
+        //Cargar los días de la semana de la base de datos
         private void CargarPartidas()
         {
             comboBox_partida_editar_torneo.Items.Clear();
@@ -95,7 +97,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
         }
 
-        // Cargar los juegos desde la base de datos
+        //Cargar los juegos desde la base de datos
         private void CargarJuegos()
         {
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
@@ -119,7 +121,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
-        // Cargar los equipos inscritos en el torneo
+        //Cargar los equipos inscritos en el torneo
         private void CargarEquiposInscritos()
         {
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
@@ -127,11 +129,11 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 conn.Open();
 
                 string query = @"
-            SELECT e.nombre
-            FROM equipos e
-            INNER JOIN `equipos-torneos` te ON e.id_equipo = te.id_equipo
-            INNER JOIN torneos t ON te.id_torneo = t.id_torneo
-            WHERE t.nombre = @nombreTorneo";
+                    SELECT e.nombre
+                    FROM equipos e
+                    INNER JOIN `equipos-torneos` te ON e.id_equipo = te.id_equipo
+                    INNER JOIN torneos t ON te.id_torneo = t.id_torneo
+                    WHERE t.nombre = @nombreTorneo";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -149,6 +151,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Guardamos los datos que hemos modificado en el torneo
         private void button_editar_torneo_Click_1(object sender, EventArgs e)
         {
             string nombre = textBox_nombre_editar_torneo.Text;
@@ -157,23 +160,21 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             string diaPartida = comboBox_partida_editar_torneo.SelectedItem.ToString();
             int maxEquipos = int.Parse(textBox_cant_equipos_editar_torneo.Text);
             int idJuego = (int)comboBox_juego_editar_torneo.SelectedValue;
-            string estado = textBox_estado_editar_torneo.Text; // El estado se toma directamente del TextBox
+            string estado = textBox_estado_editar_torneo.Text;
 
-            // Actualizar la base de datos con los nuevos valores
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=basedatos_tfg;Uid=root;Pwd=;"))
             {
                 conn.Open();
 
-                // Actualizar los datos del torneo (nombre, fechas, etc.)
                 string query = @"
-            UPDATE torneos
-            SET nombre = @nombre, 
-                fecha_inicio = @fechaInicio, 
-                fecha_fin = @fechaFin, 
-                dia_partida = @diaPartida, 
-                max_equipos = @maxEquipos, 
-                id_juego = @idJuego
-            WHERE nombre = @nombreTorneo";
+                    UPDATE torneos
+                    SET nombre = @nombre, 
+                        fecha_inicio = @fechaInicio, 
+                        fecha_fin = @fechaFin, 
+                        dia_partida = @diaPartida, 
+                        max_equipos = @maxEquipos, 
+                        id_juego = @idJuego
+                    WHERE nombre = @nombreTorneo";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -197,41 +198,43 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     }
                 }
 
-                // Eliminar los equipos marcados para eliminar
+                //Eliminar los equipos seleccionados para eliminar
                 foreach (int idEquipo in equiposAEliminar)
                 {
                     string deleteQuery = @"
-                DELETE FROM `equipos-torneos`
-                WHERE id_equipo = @idEquipo AND id_torneo = @idTorneo";
+                        DELETE FROM `equipos-torneos`
+                        WHERE id_equipo = @idEquipo AND id_torneo = @idTorneo";
 
                     using (MySqlCommand cmdDelete = new MySqlCommand(deleteQuery, conn))
                     {
                         cmdDelete.Parameters.AddWithValue("@idEquipo", idEquipo);
-                        int idTorneo = ObtenerIdTorneo(nombreTorneo);  // Obtener el id del torneo
+                        int idTorneo = ObtenerIdTorneo(nombreTorneo);
                         cmdDelete.Parameters.AddWithValue("@idTorneo", idTorneo);
 
                         cmdDelete.ExecuteNonQuery();
                     }
                 }
 
-                // Vaciar la lista de equipos eliminados temporalmente
+                //Vaciar la lista de equipos eliminados temporalmente
                 equiposAEliminar.Clear();
 
-                // Actualizar el ListBox
+                //Actualizar el ListBox
                 CargarEquiposInscritos();
-                this.Close(); // Cerrar el formulario después de guardar los cambios
+                this.Close();
             }
 
         }
 
+        //Cerramos el formulario sin guardar los cambios
         private void button_cancelar_torneo_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Seleccionamos un equipo para borrar
         private void button_borrar_equipo_editar_torneo_Click(object sender, EventArgs e)
         {
-            // Verificar que haya un equipo seleccionado en el ListBox
+            //Verificar que haya un equipo seleccionado en el ListBox
             if (listBox_equipos_editar_torneo.SelectedItem == null)
             {
                 MessageBox.Show("Por favor, selecciona un equipo para borrar.");
@@ -247,13 +250,13 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 return;
             }
 
-            // Agregar el equipo a la lista de equipos a eliminar (sin borrar de la base de datos)
+            //Agregar el equipo a la lista de equipos a eliminar, sin borrarlo de la base de datos
             if (!equiposAEliminar.Contains(idEquipo))
             {
                 equiposAEliminar.Add(idEquipo);
             }
 
-            // Actualizar el ListBox
+            //Actualizar el ListBox
             CargarEquiposInscritos();
             MessageBox.Show("Equipo marcado para eliminar, se eliminará al guardar.");
         }
@@ -295,11 +298,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     return result != null ? Convert.ToInt32(result) : -1;
                 }
             }
-        }
-
-        private void textBox_cant_equipos_editar_torneo_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
