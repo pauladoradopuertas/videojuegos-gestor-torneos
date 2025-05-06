@@ -483,5 +483,104 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 infoForm.ShowDialog();
             }
         }
+
+        private void button_crear_admin_Click(object sender, EventArgs e)
+        {
+            CrearNuevoAdmin();
+        }
+
+        private void CrearNuevoAdmin()
+        {
+            string usuario = textBox_usuario_admin.Text.Trim();
+            string contrasena = textBox_contrasena_admin.Text.Trim();
+            string nombre = textBox_nombre_admin.Text.Trim();
+            string apellidos = textBox_apellidos_admin.Text.Trim();
+            string telefono = textBox_telefono_admin.Text.Trim();
+            string dni = textBox_dni_admin.Text.Trim().ToUpper();
+            string email = textBox_email_admin.Text.Trim();
+
+            // Validaciones de formato
+            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena))
+            {
+                MessageBox.Show("Usuario y contraseña son obligatorios.");
+                return;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                MessageBox.Show("Formato de email inválido.");
+                return;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(telefono, @"^\d{9}$"))
+            {
+                MessageBox.Show("El teléfono debe tener exactamente 9 dígitos.");
+                return;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(dni, @"^\d{8}[A-Za-z]$"))
+            {
+                MessageBox.Show("El DNI debe tener 8 números seguidos de una letra (ej: 12345678A).");
+                return;
+            }
+
+            using (MySqlConnection conn = new MySqlConnection(conexionString))
+            {
+                conn.Open();
+
+                // Comprobamos si ya existe un admin con el mismo usuario, dni, teléfono o email
+                string comprobarQuery = @"
+            SELECT COUNT(*) FROM clientes 
+            WHERE usuario = @usuario OR dni = @dni OR telefono = @telefono OR email = @email";
+
+                using (MySqlCommand checkCmd = new MySqlCommand(comprobarQuery, conn))
+                {
+                    checkCmd.Parameters.AddWithValue("@usuario", usuario);
+                    checkCmd.Parameters.AddWithValue("@dni", dni);
+                    checkCmd.Parameters.AddWithValue("@telefono", telefono);
+                    checkCmd.Parameters.AddWithValue("@email", email);
+
+                    int existe = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (existe > 0)
+                    {
+                        MessageBox.Show("Ya existe un administrador con esos datos (usuario, dni, teléfono o email).");
+                        return;
+                    }
+                }
+
+                // Insertamos el nuevo administrador
+                string insertarQuery = @"
+            INSERT INTO clientes (nombre, apellidos, usuario, contrasena, telefono, dni, email, id_estado_usuario, id_rol_usuario, id_equipo)
+            VALUES (@nombre, @apellidos, @usuario, @contrasena, @telefono, @dni, @email, NULL, 3, NULL)";
+
+                using (MySqlCommand insertCmd = new MySqlCommand(insertarQuery, conn))
+                {
+                    insertCmd.Parameters.AddWithValue("@nombre", nombre);
+                    insertCmd.Parameters.AddWithValue("@apellidos", apellidos);
+                    insertCmd.Parameters.AddWithValue("@usuario", usuario);
+                    insertCmd.Parameters.AddWithValue("@contrasena", contrasena);
+                    insertCmd.Parameters.AddWithValue("@telefono", telefono);
+                    insertCmd.Parameters.AddWithValue("@dni", dni);
+                    insertCmd.Parameters.AddWithValue("@email", email);
+
+                    int filasAfectadas = insertCmd.ExecuteNonQuery();
+
+                    if (filasAfectadas > 0)
+                    {
+                        MessageBox.Show("Administrador creado correctamente.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo crear el administrador.");
+                    }
+                }
+            }
+        }
+
+        private void button_cerrar_sesion_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

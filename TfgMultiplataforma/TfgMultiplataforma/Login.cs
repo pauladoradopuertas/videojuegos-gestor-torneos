@@ -89,6 +89,12 @@ namespace TfgMultiplataforma
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
+            finally
+            {
+                // Limpiar campos después del intento de login, exitoso o no
+                textBox_usuario_login.Clear();
+                textBox_contrasena_login.Clear();
+            }
         }
     }
 }
