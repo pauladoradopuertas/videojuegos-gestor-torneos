@@ -80,6 +80,7 @@
             textBox_contrasena_registro.Name = "textBox_contrasena_registro";
             textBox_contrasena_registro.Size = new Size(578, 27);
             textBox_contrasena_registro.TabIndex = 7;
+            textBox_contrasena_registro.UseSystemPasswordChar = true;
             // 
             // label_contrasena_registro
             // 

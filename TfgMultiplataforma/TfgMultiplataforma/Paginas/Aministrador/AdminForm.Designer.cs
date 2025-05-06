@@ -493,6 +493,7 @@
             textBox_contrasena_admin.Name = "textBox_contrasena_admin";
             textBox_contrasena_admin.Size = new Size(578, 27);
             textBox_contrasena_admin.TabIndex = 11;
+            textBox_contrasena_admin.UseSystemPasswordChar = true;
             // 
             // label_contrasena_admin
             // 

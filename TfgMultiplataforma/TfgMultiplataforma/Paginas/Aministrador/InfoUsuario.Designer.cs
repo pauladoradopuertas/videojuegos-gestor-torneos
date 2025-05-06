@@ -200,6 +200,7 @@
             textBox_info_contrasena_admin.ReadOnly = true;
             textBox_info_contrasena_admin.Size = new Size(578, 27);
             textBox_info_contrasena_admin.TabIndex = 38;
+            textBox_info_contrasena_admin.UseSystemPasswordChar = true;
             // 
             // label_info_contrasena_admin
             // 

@@ -71,6 +71,7 @@
             textBox_contrasena_login.Name = "textBox_contrasena_login";
             textBox_contrasena_login.Size = new Size(578, 27);
             textBox_contrasena_login.TabIndex = 9;
+            textBox_contrasena_login.UseSystemPasswordChar = true;
             // 
             // label_contrasena_login
             // 
