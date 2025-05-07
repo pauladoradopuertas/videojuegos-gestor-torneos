@@ -67,17 +67,20 @@
             // 
             // button_editar_perfil
             // 
-            button_editar_perfil.Font = new Font("Segoe UI", 12F);
-            button_editar_perfil.Location = new Point(170, 537);
+            button_editar_perfil.BackColor = Color.DodgerBlue;
+            button_editar_perfil.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_editar_perfil.Location = new Point(170, 528);
             button_editar_perfil.Name = "button_editar_perfil";
-            button_editar_perfil.Size = new Size(149, 37);
+            button_editar_perfil.Size = new Size(149, 38);
             button_editar_perfil.TabIndex = 20;
             button_editar_perfil.Text = "Editar";
-            button_editar_perfil.UseVisualStyleBackColor = true;
+            button_editar_perfil.UseVisualStyleBackColor = false;
             button_editar_perfil.Click += button_editar_perfil_Click;
             // 
             // textBox_usuario_perfil
             // 
+            textBox_usuario_perfil.BackColor = Color.White;
+            textBox_usuario_perfil.BorderStyle = BorderStyle.FixedSingle;
             textBox_usuario_perfil.Location = new Point(170, 77);
             textBox_usuario_perfil.Name = "textBox_usuario_perfil";
             textBox_usuario_perfil.Size = new Size(578, 27);
@@ -87,6 +90,7 @@
             // 
             label_usuario_perfil.AutoSize = true;
             label_usuario_perfil.Font = new Font("Segoe UI", 15F);
+            label_usuario_perfil.ForeColor = Color.FromArgb(51, 51, 51);
             label_usuario_perfil.Location = new Point(24, 69);
             label_usuario_perfil.Name = "label_usuario_perfil";
             label_usuario_perfil.Size = new Size(100, 35);
@@ -96,10 +100,11 @@
             // titulo_perfil
             // 
             titulo_perfil.AutoSize = true;
-            titulo_perfil.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            titulo_perfil.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            titulo_perfil.ForeColor = Color.OliveDrab;
             titulo_perfil.Location = new Point(366, 3);
             titulo_perfil.Name = "titulo_perfil";
-            titulo_perfil.Size = new Size(106, 46);
+            titulo_perfil.Size = new Size(101, 46);
             titulo_perfil.TabIndex = 17;
             titulo_perfil.Text = "Perfil";
             titulo_perfil.TextAlign = ContentAlignment.TopCenter;
@@ -117,6 +122,7 @@
             // 
             // tabPage_perfil
             // 
+            tabPage_perfil.BackColor = Color.White;
             tabPage_perfil.Controls.Add(button_volver_perfil);
             tabPage_perfil.Controls.Add(textBox_email_perfil);
             tabPage_perfil.Controls.Add(label_email_perfil);
@@ -140,21 +146,23 @@
             tabPage_perfil.Size = new Size(892, 584);
             tabPage_perfil.TabIndex = 0;
             tabPage_perfil.Text = "Perfil";
-            tabPage_perfil.UseVisualStyleBackColor = true;
             // 
             // button_volver_perfil
             // 
-            button_volver_perfil.Font = new Font("Segoe UI", 12F);
-            button_volver_perfil.Location = new Point(599, 537);
+            button_volver_perfil.BackColor = Color.DodgerBlue;
+            button_volver_perfil.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_volver_perfil.Location = new Point(599, 528);
             button_volver_perfil.Name = "button_volver_perfil";
-            button_volver_perfil.Size = new Size(149, 37);
+            button_volver_perfil.Size = new Size(149, 38);
             button_volver_perfil.TabIndex = 33;
             button_volver_perfil.Text = "Volver";
-            button_volver_perfil.UseVisualStyleBackColor = true;
+            button_volver_perfil.UseVisualStyleBackColor = false;
             button_volver_perfil.Click += button_volver_perfil_Click;
             // 
             // textBox_email_perfil
             // 
+            textBox_email_perfil.BackColor = Color.White;
+            textBox_email_perfil.BorderStyle = BorderStyle.FixedSingle;
             textBox_email_perfil.Location = new Point(170, 479);
             textBox_email_perfil.Name = "textBox_email_perfil";
             textBox_email_perfil.Size = new Size(578, 27);
@@ -164,6 +172,7 @@
             // 
             label_email_perfil.AutoSize = true;
             label_email_perfil.Font = new Font("Segoe UI", 15F);
+            label_email_perfil.ForeColor = Color.FromArgb(51, 51, 51);
             label_email_perfil.Location = new Point(24, 471);
             label_email_perfil.Name = "label_email_perfil";
             label_email_perfil.Size = new Size(75, 35);
@@ -172,6 +181,8 @@
             // 
             // textBox_dni_perfil
             // 
+            textBox_dni_perfil.BackColor = Color.White;
+            textBox_dni_perfil.BorderStyle = BorderStyle.FixedSingle;
             textBox_dni_perfil.Location = new Point(170, 403);
             textBox_dni_perfil.Name = "textBox_dni_perfil";
             textBox_dni_perfil.Size = new Size(578, 27);
@@ -181,6 +192,7 @@
             // 
             label_dni_perfil.AutoSize = true;
             label_dni_perfil.Font = new Font("Segoe UI", 15F);
+            label_dni_perfil.ForeColor = Color.FromArgb(51, 51, 51);
             label_dni_perfil.Location = new Point(24, 395);
             label_dni_perfil.Name = "label_dni_perfil";
             label_dni_perfil.Size = new Size(53, 35);
@@ -189,6 +201,8 @@
             // 
             // textBox_telefono_perfil
             // 
+            textBox_telefono_perfil.BackColor = Color.White;
+            textBox_telefono_perfil.BorderStyle = BorderStyle.FixedSingle;
             textBox_telefono_perfil.Location = new Point(170, 335);
             textBox_telefono_perfil.Name = "textBox_telefono_perfil";
             textBox_telefono_perfil.Size = new Size(578, 27);
@@ -198,6 +212,7 @@
             // 
             label_telefono_perfil.AutoSize = true;
             label_telefono_perfil.Font = new Font("Segoe UI", 15F);
+            label_telefono_perfil.ForeColor = Color.FromArgb(51, 51, 51);
             label_telefono_perfil.Location = new Point(24, 327);
             label_telefono_perfil.Name = "label_telefono_perfil";
             label_telefono_perfil.Size = new Size(110, 35);
@@ -206,6 +221,8 @@
             // 
             // textBox_apellidos_perfil
             // 
+            textBox_apellidos_perfil.BackColor = Color.White;
+            textBox_apellidos_perfil.BorderStyle = BorderStyle.FixedSingle;
             textBox_apellidos_perfil.Location = new Point(170, 267);
             textBox_apellidos_perfil.Name = "textBox_apellidos_perfil";
             textBox_apellidos_perfil.Size = new Size(578, 27);
@@ -215,6 +232,7 @@
             // 
             label_apellidos_perfil.AutoSize = true;
             label_apellidos_perfil.Font = new Font("Segoe UI", 15F);
+            label_apellidos_perfil.ForeColor = Color.FromArgb(51, 51, 51);
             label_apellidos_perfil.Location = new Point(24, 259);
             label_apellidos_perfil.Name = "label_apellidos_perfil";
             label_apellidos_perfil.Size = new Size(118, 35);
@@ -223,6 +241,8 @@
             // 
             // textBox_nombre_perfil
             // 
+            textBox_nombre_perfil.BackColor = Color.White;
+            textBox_nombre_perfil.BorderStyle = BorderStyle.FixedSingle;
             textBox_nombre_perfil.Location = new Point(170, 204);
             textBox_nombre_perfil.Name = "textBox_nombre_perfil";
             textBox_nombre_perfil.Size = new Size(578, 27);
@@ -232,6 +252,7 @@
             // 
             label_nombre_perfil.AutoSize = true;
             label_nombre_perfil.Font = new Font("Segoe UI", 15F);
+            label_nombre_perfil.ForeColor = Color.FromArgb(51, 51, 51);
             label_nombre_perfil.Location = new Point(24, 196);
             label_nombre_perfil.Name = "label_nombre_perfil";
             label_nombre_perfil.Size = new Size(108, 35);
@@ -240,6 +261,8 @@
             // 
             // textBox_contrasena_perfil
             // 
+            textBox_contrasena_perfil.BackColor = Color.White;
+            textBox_contrasena_perfil.BorderStyle = BorderStyle.FixedSingle;
             textBox_contrasena_perfil.Location = new Point(170, 143);
             textBox_contrasena_perfil.Name = "textBox_contrasena_perfil";
             textBox_contrasena_perfil.Size = new Size(578, 27);
@@ -249,6 +272,7 @@
             // 
             label_contrasena_perfil.AutoSize = true;
             label_contrasena_perfil.Font = new Font("Segoe UI", 15F);
+            label_contrasena_perfil.ForeColor = Color.FromArgb(51, 51, 51);
             label_contrasena_perfil.Location = new Point(24, 135);
             label_contrasena_perfil.Name = "label_contrasena_perfil";
             label_contrasena_perfil.Size = new Size(140, 35);
@@ -257,52 +281,57 @@
             // 
             // tabPage_historial
             // 
+            tabPage_historial.BackColor = Color.White;
             tabPage_historial.Controls.Add(label_historial_perfil);
             tabPage_historial.Controls.Add(button_volver_historial_perfil);
             tabPage_historial.Controls.Add(listBox_partidas_perfil);
             tabPage_historial.Location = new Point(4, 29);
             tabPage_historial.Name = "tabPage_historial";
             tabPage_historial.Padding = new Padding(3);
-            tabPage_historial.Size = new Size(892, 600);
+            tabPage_historial.Size = new Size(892, 584);
             tabPage_historial.TabIndex = 1;
             tabPage_historial.Text = "Historial de partidas";
-            tabPage_historial.UseVisualStyleBackColor = true;
             // 
             // label_historial_perfil
             // 
             label_historial_perfil.AutoSize = true;
-            label_historial_perfil.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            label_historial_perfil.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_historial_perfil.ForeColor = Color.OliveDrab;
             label_historial_perfil.Location = new Point(278, 13);
             label_historial_perfil.Name = "label_historial_perfil";
-            label_historial_perfil.Size = new Size(345, 46);
+            label_historial_perfil.Size = new Size(332, 46);
             label_historial_perfil.TabIndex = 18;
             label_historial_perfil.Text = "Historial de partidas";
             label_historial_perfil.TextAlign = ContentAlignment.TopCenter;
             // 
             // button_volver_historial_perfil
             // 
-            button_volver_historial_perfil.Font = new Font("Segoe UI", 12F);
+            button_volver_historial_perfil.BackColor = Color.DodgerBlue;
+            button_volver_historial_perfil.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button_volver_historial_perfil.Location = new Point(323, 330);
             button_volver_historial_perfil.Name = "button_volver_historial_perfil";
             button_volver_historial_perfil.Size = new Size(195, 47);
             button_volver_historial_perfil.TabIndex = 5;
             button_volver_historial_perfil.Text = "Volver";
-            button_volver_historial_perfil.UseVisualStyleBackColor = true;
+            button_volver_historial_perfil.UseVisualStyleBackColor = false;
             button_volver_historial_perfil.Click += button_volver_historial_perfil_Click;
             // 
             // listBox_partidas_perfil
             // 
+            listBox_partidas_perfil.BackColor = Color.White;
+            listBox_partidas_perfil.BorderStyle = BorderStyle.FixedSingle;
             listBox_partidas_perfil.Font = new Font("Segoe UI", 10F);
             listBox_partidas_perfil.FormattingEnabled = true;
             listBox_partidas_perfil.HorizontalScrollbar = true;
             listBox_partidas_perfil.ItemHeight = 23;
             listBox_partidas_perfil.Location = new Point(78, 116);
             listBox_partidas_perfil.Name = "listBox_partidas_perfil";
-            listBox_partidas_perfil.Size = new Size(718, 165);
+            listBox_partidas_perfil.Size = new Size(718, 163);
             listBox_partidas_perfil.TabIndex = 3;
             // 
             // Estadisticas
             // 
+            Estadisticas.BackColor = Color.White;
             Estadisticas.Controls.Add(label_partidas_empatadas);
             Estadisticas.Controls.Add(label_partidas_perdidas);
             Estadisticas.Controls.Add(label_partidas_ganadas);
@@ -315,85 +344,92 @@
             Estadisticas.Size = new Size(892, 584);
             Estadisticas.TabIndex = 2;
             Estadisticas.Text = "Estadísticas";
-            Estadisticas.UseVisualStyleBackColor = true;
             // 
             // label_partidas_empatadas
             // 
             label_partidas_empatadas.AutoSize = true;
-            label_partidas_empatadas.Font = new Font("Segoe UI", 12F);
+            label_partidas_empatadas.Font = new Font("Segoe UI", 15F);
+            label_partidas_empatadas.ForeColor = Color.FromArgb(51, 51, 51);
             label_partidas_empatadas.Location = new Point(101, 323);
             label_partidas_empatadas.Name = "label_partidas_empatadas";
-            label_partidas_empatadas.Size = new Size(65, 28);
+            label_partidas_empatadas.Size = new Size(81, 35);
             label_partidas_empatadas.TabIndex = 24;
             label_partidas_empatadas.Text = "label4";
             // 
             // label_partidas_perdidas
             // 
             label_partidas_perdidas.AutoSize = true;
-            label_partidas_perdidas.Font = new Font("Segoe UI", 12F);
+            label_partidas_perdidas.Font = new Font("Segoe UI", 15F);
+            label_partidas_perdidas.ForeColor = Color.FromArgb(51, 51, 51);
             label_partidas_perdidas.Location = new Point(101, 248);
             label_partidas_perdidas.Name = "label_partidas_perdidas";
-            label_partidas_perdidas.Size = new Size(65, 28);
+            label_partidas_perdidas.Size = new Size(81, 35);
             label_partidas_perdidas.TabIndex = 23;
             label_partidas_perdidas.Text = "label3";
             // 
             // label_partidas_ganadas
             // 
             label_partidas_ganadas.AutoSize = true;
-            label_partidas_ganadas.Font = new Font("Segoe UI", 12F);
+            label_partidas_ganadas.Font = new Font("Segoe UI", 15F);
+            label_partidas_ganadas.ForeColor = Color.FromArgb(51, 51, 51);
             label_partidas_ganadas.Location = new Point(101, 167);
             label_partidas_ganadas.Name = "label_partidas_ganadas";
-            label_partidas_ganadas.Size = new Size(65, 28);
+            label_partidas_ganadas.Size = new Size(81, 35);
             label_partidas_ganadas.TabIndex = 22;
             label_partidas_ganadas.Text = "label2";
             // 
             // label_partidas_jugadas
             // 
             label_partidas_jugadas.AutoSize = true;
-            label_partidas_jugadas.Font = new Font("Segoe UI", 12F);
+            label_partidas_jugadas.Font = new Font("Segoe UI", 15F);
+            label_partidas_jugadas.ForeColor = Color.FromArgb(51, 51, 51);
             label_partidas_jugadas.Location = new Point(101, 96);
             label_partidas_jugadas.Name = "label_partidas_jugadas";
-            label_partidas_jugadas.Size = new Size(65, 28);
+            label_partidas_jugadas.Size = new Size(81, 35);
             label_partidas_jugadas.TabIndex = 21;
             label_partidas_jugadas.Text = "label1";
             // 
             // label_estadisticas_perfil
             // 
             label_estadisticas_perfil.AutoSize = true;
-            label_estadisticas_perfil.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            label_estadisticas_perfil.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_estadisticas_perfil.ForeColor = Color.OliveDrab;
             label_estadisticas_perfil.Location = new Point(303, 17);
             label_estadisticas_perfil.Name = "label_estadisticas_perfil";
-            label_estadisticas_perfil.Size = new Size(202, 46);
+            label_estadisticas_perfil.Size = new Size(197, 46);
             label_estadisticas_perfil.TabIndex = 20;
             label_estadisticas_perfil.Text = "Estadísticas";
             label_estadisticas_perfil.TextAlign = ContentAlignment.TopCenter;
             // 
             // button_volver_estadisticas_perfil
             // 
-            button_volver_estadisticas_perfil.Font = new Font("Segoe UI", 12F);
+            button_volver_estadisticas_perfil.BackColor = Color.DodgerBlue;
+            button_volver_estadisticas_perfil.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button_volver_estadisticas_perfil.Location = new Point(303, 420);
             button_volver_estadisticas_perfil.Name = "button_volver_estadisticas_perfil";
             button_volver_estadisticas_perfil.Size = new Size(195, 47);
             button_volver_estadisticas_perfil.TabIndex = 19;
             button_volver_estadisticas_perfil.Text = "Volver";
-            button_volver_estadisticas_perfil.UseVisualStyleBackColor = true;
+            button_volver_estadisticas_perfil.UseVisualStyleBackColor = false;
             button_volver_estadisticas_perfil.Click += button_volver_estadisticas_perfil_Click;
             // 
             // button_cerrarSesion
             // 
-            button_cerrarSesion.Font = new Font("Segoe UI", 12F);
-            button_cerrarSesion.Location = new Point(763, 9);
+            button_cerrarSesion.BackColor = Color.Orange;
+            button_cerrarSesion.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_cerrarSesion.Location = new Point(760, 8);
             button_cerrarSesion.Name = "button_cerrarSesion";
-            button_cerrarSesion.Size = new Size(145, 42);
+            button_cerrarSesion.Size = new Size(145, 43);
             button_cerrarSesion.TabIndex = 25;
             button_cerrarSesion.Text = "Cerrar Sesión";
-            button_cerrarSesion.UseVisualStyleBackColor = true;
+            button_cerrarSesion.UseVisualStyleBackColor = false;
             button_cerrarSesion.Click += button_cerrarSesion_Click;
             // 
             // perfil
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(924, 657);
             Controls.Add(button_cerrarSesion);
             Controls.Add(tabControl_perfil);

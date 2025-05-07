@@ -71,6 +71,8 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             //Botones
             Button btnAnterior = new Button { Text = "<", Width = 40, Dock = DockStyle.Left };
             Button btnSiguiente = new Button { Text = ">", Width = 40, Dock = DockStyle.Right };
+            btnAnterior.BackColor = Color.DodgerBlue;
+            btnSiguiente.BackColor = Color.DodgerBlue;
 
             topPanel.Controls.Add(btnAnterior);
             topPanel.Controls.Add(btnSiguiente);

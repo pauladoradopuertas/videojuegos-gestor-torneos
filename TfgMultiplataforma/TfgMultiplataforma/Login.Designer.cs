@@ -39,17 +39,22 @@
             // 
             // titulo_login
             // 
+            titulo_login.Anchor = AnchorStyles.Top;
             titulo_login.AutoSize = true;
-            titulo_login.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            titulo_login.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            titulo_login.ForeColor = Color.OliveDrab;
             titulo_login.Location = new Point(436, 38);
             titulo_login.Name = "titulo_login";
-            titulo_login.Size = new Size(270, 46);
+            titulo_login.Size = new Size(261, 46);
             titulo_login.TabIndex = 2;
             titulo_login.Text = "Inicio de Sesión";
             titulo_login.TextAlign = ContentAlignment.TopCenter;
             // 
             // textBox_usuario_login
             // 
+            textBox_usuario_login.Anchor = AnchorStyles.Top;
+            textBox_usuario_login.BackColor = Color.White;
+            textBox_usuario_login.BorderStyle = BorderStyle.FixedSingle;
             textBox_usuario_login.Location = new Point(388, 158);
             textBox_usuario_login.Name = "textBox_usuario_login";
             textBox_usuario_login.Size = new Size(578, 27);
@@ -57,8 +62,10 @@
             // 
             // label_usuario_login
             // 
+            label_usuario_login.Anchor = AnchorStyles.Top;
             label_usuario_login.AutoSize = true;
             label_usuario_login.Font = new Font("Segoe UI", 15F);
+            label_usuario_login.ForeColor = Color.FromArgb(51, 51, 51);
             label_usuario_login.Location = new Point(138, 158);
             label_usuario_login.Name = "label_usuario_login";
             label_usuario_login.Size = new Size(100, 35);
@@ -67,6 +74,9 @@
             // 
             // textBox_contrasena_login
             // 
+            textBox_contrasena_login.Anchor = AnchorStyles.Top;
+            textBox_contrasena_login.BackColor = Color.White;
+            textBox_contrasena_login.BorderStyle = BorderStyle.FixedSingle;
             textBox_contrasena_login.Location = new Point(388, 250);
             textBox_contrasena_login.Name = "textBox_contrasena_login";
             textBox_contrasena_login.Size = new Size(578, 27);
@@ -75,8 +85,10 @@
             // 
             // label_contrasena_login
             // 
+            label_contrasena_login.Anchor = AnchorStyles.Top;
             label_contrasena_login.AutoSize = true;
             label_contrasena_login.Font = new Font("Segoe UI", 15F);
+            label_contrasena_login.ForeColor = Color.FromArgb(51, 51, 51);
             label_contrasena_login.Location = new Point(138, 250);
             label_contrasena_login.Name = "label_contrasena_login";
             label_contrasena_login.Size = new Size(140, 35);
@@ -85,30 +97,37 @@
             // 
             // button_registro
             // 
-            button_registro.Font = new Font("Segoe UI", 12F);
-            button_registro.Location = new Point(474, 472);
+            button_registro.Anchor = AnchorStyles.Bottom;
+            button_registro.BackColor = Color.DodgerBlue;
+            button_registro.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_registro.ForeColor = Color.Black;
+            button_registro.Location = new Point(474, 466);
             button_registro.Name = "button_registro";
-            button_registro.Size = new Size(141, 43);
+            button_registro.Size = new Size(147, 49);
             button_registro.TabIndex = 10;
             button_registro.Text = "Regístrate";
-            button_registro.UseVisualStyleBackColor = true;
+            button_registro.UseVisualStyleBackColor = false;
             button_registro.Click += button_registro_Click;
             // 
             // button_login
             // 
-            button_login.Font = new Font("Segoe UI", 12F);
-            button_login.Location = new Point(474, 382);
+            button_login.Anchor = AnchorStyles.Bottom;
+            button_login.BackColor = Color.DodgerBlue;
+            button_login.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_login.ForeColor = Color.Black;
+            button_login.Location = new Point(474, 376);
             button_login.Name = "button_login";
-            button_login.Size = new Size(141, 43);
+            button_login.Size = new Size(147, 49);
             button_login.TabIndex = 11;
             button_login.Text = "Inicia Sesión";
-            button_login.UseVisualStyleBackColor = true;
+            button_login.UseVisualStyleBackColor = false;
             button_login.Click += button_login_Click;
             // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1101, 598);
             Controls.Add(button_login);
             Controls.Add(button_registro);
@@ -117,6 +136,7 @@
             Controls.Add(textBox_usuario_login);
             Controls.Add(label_usuario_login);
             Controls.Add(titulo_login);
+            ForeColor = Color.WhiteSmoke;
             Name = "Login";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Inicio Sesión";

@@ -49,16 +49,19 @@
             // titulo_registro
             // 
             titulo_registro.AutoSize = true;
-            titulo_registro.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            titulo_registro.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            titulo_registro.ForeColor = Color.OliveDrab;
             titulo_registro.Location = new Point(393, 20);
             titulo_registro.Name = "titulo_registro";
-            titulo_registro.Size = new Size(181, 46);
+            titulo_registro.Size = new Size(175, 46);
             titulo_registro.TabIndex = 1;
             titulo_registro.Text = "Regístrate";
             titulo_registro.TextAlign = ContentAlignment.TopCenter;
             // 
             // textBox_usuario_registro
             // 
+            textBox_usuario_registro.BackColor = Color.White;
+            textBox_usuario_registro.BorderStyle = BorderStyle.FixedSingle;
             textBox_usuario_registro.Location = new Point(214, 104);
             textBox_usuario_registro.Name = "textBox_usuario_registro";
             textBox_usuario_registro.Size = new Size(578, 27);
@@ -68,6 +71,7 @@
             // 
             label_usuario_registro.AutoSize = true;
             label_usuario_registro.Font = new Font("Segoe UI", 15F);
+            label_usuario_registro.ForeColor = Color.FromArgb(51, 51, 51);
             label_usuario_registro.Location = new Point(32, 104);
             label_usuario_registro.Name = "label_usuario_registro";
             label_usuario_registro.Size = new Size(100, 35);
@@ -76,6 +80,8 @@
             // 
             // textBox_contrasena_registro
             // 
+            textBox_contrasena_registro.BackColor = Color.White;
+            textBox_contrasena_registro.BorderStyle = BorderStyle.FixedSingle;
             textBox_contrasena_registro.Location = new Point(214, 177);
             textBox_contrasena_registro.Name = "textBox_contrasena_registro";
             textBox_contrasena_registro.Size = new Size(578, 27);
@@ -86,6 +92,7 @@
             // 
             label_contrasena_registro.AutoSize = true;
             label_contrasena_registro.Font = new Font("Segoe UI", 15F);
+            label_contrasena_registro.ForeColor = Color.FromArgb(51, 51, 51);
             label_contrasena_registro.Location = new Point(32, 177);
             label_contrasena_registro.Name = "label_contrasena_registro";
             label_contrasena_registro.Size = new Size(140, 35);
@@ -94,6 +101,8 @@
             // 
             // textBox_nombre_registro
             // 
+            textBox_nombre_registro.BackColor = Color.White;
+            textBox_nombre_registro.BorderStyle = BorderStyle.FixedSingle;
             textBox_nombre_registro.Location = new Point(214, 246);
             textBox_nombre_registro.Name = "textBox_nombre_registro";
             textBox_nombre_registro.Size = new Size(578, 27);
@@ -103,6 +112,7 @@
             // 
             label_nombre_registro.AutoSize = true;
             label_nombre_registro.Font = new Font("Segoe UI", 15F);
+            label_nombre_registro.ForeColor = Color.FromArgb(51, 51, 51);
             label_nombre_registro.Location = new Point(32, 246);
             label_nombre_registro.Name = "label_nombre_registro";
             label_nombre_registro.Size = new Size(108, 35);
@@ -111,6 +121,8 @@
             // 
             // textBox_apellidos_registro
             // 
+            textBox_apellidos_registro.BackColor = Color.White;
+            textBox_apellidos_registro.BorderStyle = BorderStyle.FixedSingle;
             textBox_apellidos_registro.Location = new Point(214, 317);
             textBox_apellidos_registro.Name = "textBox_apellidos_registro";
             textBox_apellidos_registro.Size = new Size(578, 27);
@@ -120,6 +132,7 @@
             // 
             label_apellidos_registro.AutoSize = true;
             label_apellidos_registro.Font = new Font("Segoe UI", 15F);
+            label_apellidos_registro.ForeColor = Color.FromArgb(51, 51, 51);
             label_apellidos_registro.Location = new Point(32, 317);
             label_apellidos_registro.Name = "label_apellidos_registro";
             label_apellidos_registro.Size = new Size(118, 35);
@@ -128,6 +141,8 @@
             // 
             // textBox_telefono_registro
             // 
+            textBox_telefono_registro.BackColor = Color.White;
+            textBox_telefono_registro.BorderStyle = BorderStyle.FixedSingle;
             textBox_telefono_registro.Location = new Point(214, 389);
             textBox_telefono_registro.Name = "textBox_telefono_registro";
             textBox_telefono_registro.Size = new Size(578, 27);
@@ -137,6 +152,7 @@
             // 
             label_teléfono_registro.AutoSize = true;
             label_teléfono_registro.Font = new Font("Segoe UI", 15F);
+            label_teléfono_registro.ForeColor = Color.FromArgb(51, 51, 51);
             label_teléfono_registro.Location = new Point(32, 389);
             label_teléfono_registro.Name = "label_teléfono_registro";
             label_teléfono_registro.Size = new Size(110, 35);
@@ -145,6 +161,8 @@
             // 
             // textBox_dni_registro
             // 
+            textBox_dni_registro.BackColor = Color.White;
+            textBox_dni_registro.BorderStyle = BorderStyle.FixedSingle;
             textBox_dni_registro.Location = new Point(214, 459);
             textBox_dni_registro.Name = "textBox_dni_registro";
             textBox_dni_registro.Size = new Size(578, 27);
@@ -154,6 +172,7 @@
             // 
             label_dni_registro.AutoSize = true;
             label_dni_registro.Font = new Font("Segoe UI", 15F);
+            label_dni_registro.ForeColor = Color.FromArgb(51, 51, 51);
             label_dni_registro.Location = new Point(32, 459);
             label_dni_registro.Name = "label_dni_registro";
             label_dni_registro.Size = new Size(53, 35);
@@ -162,17 +181,21 @@
             // 
             // button_registro
             // 
-            button_registro.Font = new Font("Segoe UI", 12F);
-            button_registro.Location = new Point(393, 599);
+            button_registro.BackColor = Color.DodgerBlue;
+            button_registro.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button_registro.ForeColor = Color.Black;
+            button_registro.Location = new Point(393, 587);
             button_registro.Name = "button_registro";
-            button_registro.Size = new Size(149, 37);
+            button_registro.Size = new Size(175, 49);
             button_registro.TabIndex = 16;
             button_registro.Text = "Registrarse";
-            button_registro.UseVisualStyleBackColor = true;
+            button_registro.UseVisualStyleBackColor = false;
             button_registro.Click += button_registro_Click;
             // 
             // textBox_email_registro
             // 
+            textBox_email_registro.BackColor = Color.White;
+            textBox_email_registro.BorderStyle = BorderStyle.FixedSingle;
             textBox_email_registro.Location = new Point(214, 528);
             textBox_email_registro.Name = "textBox_email_registro";
             textBox_email_registro.Size = new Size(578, 27);
@@ -182,6 +205,7 @@
             // 
             label_email_registro.AutoSize = true;
             label_email_registro.Font = new Font("Segoe UI", 15F);
+            label_email_registro.ForeColor = Color.FromArgb(51, 51, 51);
             label_email_registro.Location = new Point(32, 528);
             label_email_registro.Name = "label_email_registro";
             label_email_registro.Size = new Size(75, 35);
@@ -192,6 +216,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1001, 648);
             Controls.Add(textBox_email_registro);
             Controls.Add(label_email_registro);

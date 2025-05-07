@@ -146,7 +146,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             {
                 Size = new Size(300, 150),
                 Location = new Point((this.Width - 300) / 2, (this.Height - 150) / 2),
-                BackColor = Color.LightGray,
+                BackColor = Color.WhiteSmoke,
                 BorderStyle = BorderStyle.FixedSingle,
                 Visible = false
             };
@@ -172,7 +172,9 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 Location = new Point(10, 80),
                 Width = 120,
                 Height = 40,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold)
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                BackColor = Color.DodgerBlue,
+                ForeColor = Color.White
             };
             buttonCrearJuegoModal.Click += ButtonCrearJuegoModal_Click;
             panelModal.Controls.Add(buttonCrearJuegoModal);
@@ -183,7 +185,10 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 Location = new Point(180, 80),
                 Width = 100,
                 Height = 40,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold)
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                BackColor = Color.Pink,
+                ForeColor = Color.Black
+
             };
             buttonCancelarJuegoModal.Click += ButtonCancelarJuegoModal_Click;
             panelModal.Controls.Add(buttonCancelarJuegoModal);

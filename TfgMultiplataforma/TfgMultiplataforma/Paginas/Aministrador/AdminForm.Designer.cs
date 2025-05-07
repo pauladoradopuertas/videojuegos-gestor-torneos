@@ -93,6 +93,7 @@
             // 
             // tabPage_usuario_admin
             // 
+            tabPage_usuario_admin.BackColor = Color.White;
             tabPage_usuario_admin.Controls.Add(button_borrar_usuario_admin);
             tabPage_usuario_admin.Controls.Add(label_estado_admin);
             tabPage_usuario_admin.Controls.Add(button_info_usuario_admin);
@@ -105,22 +106,25 @@
             tabPage_usuario_admin.Size = new Size(824, 639);
             tabPage_usuario_admin.TabIndex = 0;
             tabPage_usuario_admin.Text = "Usuarios";
-            tabPage_usuario_admin.UseVisualStyleBackColor = true;
             // 
             // button_borrar_usuario_admin
             // 
-            button_borrar_usuario_admin.Location = new Point(183, 525);
+            button_borrar_usuario_admin.BackColor = Color.FromArgb(255, 0, 127);
+            button_borrar_usuario_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_borrar_usuario_admin.ForeColor = Color.Black;
+            button_borrar_usuario_admin.Location = new Point(170, 541);
             button_borrar_usuario_admin.Name = "button_borrar_usuario_admin";
-            button_borrar_usuario_admin.Size = new Size(103, 52);
+            button_borrar_usuario_admin.Size = new Size(144, 59);
             button_borrar_usuario_admin.TabIndex = 53;
             button_borrar_usuario_admin.Text = "Borrar";
-            button_borrar_usuario_admin.UseVisualStyleBackColor = true;
+            button_borrar_usuario_admin.UseVisualStyleBackColor = false;
             button_borrar_usuario_admin.Click += button_borrar_usuario_admin_Click;
             // 
             // label_estado_admin
             // 
             label_estado_admin.AutoSize = true;
-            label_estado_admin.Font = new Font("Segoe UI", 15F);
+            label_estado_admin.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label_estado_admin.ForeColor = Color.FromArgb(81, 51, 51);
             label_estado_admin.Location = new Point(29, 69);
             label_estado_admin.Name = "label_estado_admin";
             label_estado_admin.Size = new Size(90, 35);
@@ -129,23 +133,27 @@
             // 
             // button_info_usuario_admin
             // 
-            button_info_usuario_admin.Location = new Point(511, 525);
+            button_info_usuario_admin.BackColor = Color.DodgerBlue;
+            button_info_usuario_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_info_usuario_admin.ForeColor = Color.Black;
+            button_info_usuario_admin.Location = new Point(498, 541);
             button_info_usuario_admin.Name = "button_info_usuario_admin";
-            button_info_usuario_admin.Size = new Size(103, 52);
+            button_info_usuario_admin.Size = new Size(144, 59);
             button_info_usuario_admin.TabIndex = 51;
             button_info_usuario_admin.Text = "Ver Información";
-            button_info_usuario_admin.UseVisualStyleBackColor = true;
+            button_info_usuario_admin.UseVisualStyleBackColor = false;
             button_info_usuario_admin.Click += button_info_usuario_admin_Click;
             // 
             // listBox_usuarios_admin
             // 
+            listBox_usuarios_admin.BorderStyle = BorderStyle.FixedSingle;
             listBox_usuarios_admin.Font = new Font("Segoe UI", 10F);
             listBox_usuarios_admin.FormattingEnabled = true;
             listBox_usuarios_admin.HorizontalScrollbar = true;
             listBox_usuarios_admin.ItemHeight = 23;
             listBox_usuarios_admin.Location = new Point(29, 138);
             listBox_usuarios_admin.Name = "listBox_usuarios_admin";
-            listBox_usuarios_admin.Size = new Size(751, 349);
+            listBox_usuarios_admin.Size = new Size(751, 347);
             listBox_usuarios_admin.TabIndex = 50;
             // 
             // comboBox_estado_admin
@@ -161,10 +169,11 @@
             // label_usuario_nombre_equipo
             // 
             label_usuario_nombre_equipo.AutoSize = true;
-            label_usuario_nombre_equipo.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label_usuario_nombre_equipo.Location = new Point(301, 15);
+            label_usuario_nombre_equipo.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_usuario_nombre_equipo.ForeColor = Color.OliveDrab;
+            label_usuario_nombre_equipo.Location = new Point(243, 12);
             label_usuario_nombre_equipo.Name = "label_usuario_nombre_equipo";
-            label_usuario_nombre_equipo.Size = new Size(212, 35);
+            label_usuario_nombre_equipo.Size = new Size(281, 46);
             label_usuario_nombre_equipo.TabIndex = 0;
             label_usuario_nombre_equipo.Text = "Lista de Usuarios";
             // 
@@ -188,19 +197,22 @@
             // 
             // button_buscar_equipo_admin
             // 
-            button_buscar_equipo_admin.Font = new Font("Segoe UI", 12F);
-            button_buscar_equipo_admin.Location = new Point(673, 63);
+            button_buscar_equipo_admin.BackColor = Color.DodgerBlue;
+            button_buscar_equipo_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_buscar_equipo_admin.ForeColor = Color.Black;
+            button_buscar_equipo_admin.Location = new Point(656, 63);
             button_buscar_equipo_admin.Name = "button_buscar_equipo_admin";
-            button_buscar_equipo_admin.Size = new Size(110, 41);
+            button_buscar_equipo_admin.Size = new Size(144, 46);
             button_buscar_equipo_admin.TabIndex = 52;
             button_buscar_equipo_admin.Text = "Buscar";
-            button_buscar_equipo_admin.UseVisualStyleBackColor = true;
+            button_buscar_equipo_admin.UseVisualStyleBackColor = false;
             button_buscar_equipo_admin.Click += button_buscar_equipo_admin_Click;
             // 
             // label_buscar_equipo_admin
             // 
             label_buscar_equipo_admin.AutoSize = true;
             label_buscar_equipo_admin.Font = new Font("Segoe UI", 15F);
+            label_buscar_equipo_admin.ForeColor = Color.FromArgb(51, 51, 51);
             label_buscar_equipo_admin.Location = new Point(33, 63);
             label_buscar_equipo_admin.Name = "label_buscar_equipo_admin";
             label_buscar_equipo_admin.Size = new Size(88, 35);
@@ -209,59 +221,70 @@
             // 
             // textBox_buscar_equipo_admin
             // 
-            textBox_buscar_equipo_admin.Location = new Point(129, 71);
+            textBox_buscar_equipo_admin.BackColor = Color.White;
+            textBox_buscar_equipo_admin.BorderStyle = BorderStyle.FixedSingle;
+            textBox_buscar_equipo_admin.Location = new Point(137, 71);
             textBox_buscar_equipo_admin.Name = "textBox_buscar_equipo_admin";
             textBox_buscar_equipo_admin.Size = new Size(506, 27);
             textBox_buscar_equipo_admin.TabIndex = 50;
             // 
             // button_borrar_equipo_admin
             // 
-            button_borrar_equipo_admin.Location = new Point(202, 436);
+            button_borrar_equipo_admin.BackColor = Color.FromArgb(255, 0, 127);
+            button_borrar_equipo_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_borrar_equipo_admin.ForeColor = Color.Black;
+            button_borrar_equipo_admin.Location = new Point(183, 442);
             button_borrar_equipo_admin.Name = "button_borrar_equipo_admin";
-            button_borrar_equipo_admin.Size = new Size(103, 52);
+            button_borrar_equipo_admin.Size = new Size(137, 57);
             button_borrar_equipo_admin.TabIndex = 48;
             button_borrar_equipo_admin.Text = "Borrar";
-            button_borrar_equipo_admin.UseVisualStyleBackColor = true;
+            button_borrar_equipo_admin.UseVisualStyleBackColor = false;
             button_borrar_equipo_admin.Click += button_borrar_equipo_admin_Click;
             // 
             // button_unir_evento
             // 
-            button_unir_evento.Font = new Font("Segoe UI", 12F);
-            button_unir_evento.Location = new Point(312, 556);
+            button_unir_evento.BackColor = Color.DodgerBlue;
+            button_unir_evento.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_unir_evento.Location = new Point(344, 548);
             button_unir_evento.Name = "button_unir_evento";
-            button_unir_evento.Size = new Size(195, 47);
+            button_unir_evento.Size = new Size(139, 72);
             button_unir_evento.TabIndex = 5;
             button_unir_evento.Text = "Unirme a un evento";
-            button_unir_evento.UseVisualStyleBackColor = true;
+            button_unir_evento.UseVisualStyleBackColor = false;
             // 
             // button_info_equipo_admin
             // 
-            button_info_equipo_admin.Location = new Point(517, 436);
+            button_info_equipo_admin.BackColor = Color.DodgerBlue;
+            button_info_equipo_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_info_equipo_admin.ForeColor = Color.Black;
+            button_info_equipo_admin.Location = new Point(501, 442);
             button_info_equipo_admin.Name = "button_info_equipo_admin";
-            button_info_equipo_admin.Size = new Size(103, 52);
+            button_info_equipo_admin.Size = new Size(137, 57);
             button_info_equipo_admin.TabIndex = 4;
             button_info_equipo_admin.Text = "Ver Información";
-            button_info_equipo_admin.UseVisualStyleBackColor = true;
+            button_info_equipo_admin.UseVisualStyleBackColor = false;
             button_info_equipo_admin.Click += button_info_equipo_admin_Click;
             // 
             // listBox_equipos_admin
             // 
+            listBox_equipos_admin.BorderStyle = BorderStyle.FixedSingle;
             listBox_equipos_admin.Font = new Font("Segoe UI", 10F);
             listBox_equipos_admin.FormattingEnabled = true;
             listBox_equipos_admin.HorizontalScrollbar = true;
             listBox_equipos_admin.ItemHeight = 23;
             listBox_equipos_admin.Location = new Point(33, 135);
             listBox_equipos_admin.Name = "listBox_equipos_admin";
-            listBox_equipos_admin.Size = new Size(750, 257);
+            listBox_equipos_admin.Size = new Size(750, 255);
             listBox_equipos_admin.TabIndex = 3;
             // 
             // label_equipos_admin
             // 
             label_equipos_admin.AutoSize = true;
-            label_equipos_admin.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label_equipos_admin.Location = new Point(329, 20);
+            label_equipos_admin.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_equipos_admin.ForeColor = Color.OliveDrab;
+            label_equipos_admin.Location = new Point(249, 15);
             label_equipos_admin.Name = "label_equipos_admin";
-            label_equipos_admin.Size = new Size(204, 35);
+            label_equipos_admin.Size = new Size(269, 46);
             label_equipos_admin.TabIndex = 1;
             label_equipos_admin.Text = "Lista de Equipos";
             // 
@@ -285,63 +308,77 @@
             // 
             // button_crear_torneo_admin
             // 
-            button_crear_torneo_admin.Location = new Point(38, 521);
+            button_crear_torneo_admin.BackColor = Color.DodgerBlue;
+            button_crear_torneo_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_crear_torneo_admin.ForeColor = Color.Black;
+            button_crear_torneo_admin.Location = new Point(38, 537);
             button_crear_torneo_admin.Name = "button_crear_torneo_admin";
-            button_crear_torneo_admin.Size = new Size(103, 52);
+            button_crear_torneo_admin.Size = new Size(130, 65);
             button_crear_torneo_admin.TabIndex = 60;
             button_crear_torneo_admin.Text = "Crear torneo";
-            button_crear_torneo_admin.UseVisualStyleBackColor = true;
+            button_crear_torneo_admin.UseVisualStyleBackColor = false;
             button_crear_torneo_admin.Click += button_crear_torneo_admin_Click;
             // 
             // button_editar_torneo_admin
             // 
-            button_editar_torneo_admin.Location = new Point(490, 521);
+            button_editar_torneo_admin.BackColor = Color.DodgerBlue;
+            button_editar_torneo_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_editar_torneo_admin.ForeColor = Color.Black;
+            button_editar_torneo_admin.Location = new Point(490, 537);
             button_editar_torneo_admin.Name = "button_editar_torneo_admin";
-            button_editar_torneo_admin.Size = new Size(114, 52);
+            button_editar_torneo_admin.Size = new Size(141, 65);
             button_editar_torneo_admin.TabIndex = 59;
             button_editar_torneo_admin.Text = "Editar torneo";
-            button_editar_torneo_admin.UseVisualStyleBackColor = true;
+            button_editar_torneo_admin.UseVisualStyleBackColor = false;
             button_editar_torneo_admin.Click += button_editar_torneo_admin_Click;
             // 
             // button_borrar_torneo_admin
             // 
-            button_borrar_torneo_admin.Location = new Point(334, 521);
+            button_borrar_torneo_admin.BackColor = Color.FromArgb(255, 0, 127);
+            button_borrar_torneo_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_borrar_torneo_admin.Location = new Point(334, 537);
             button_borrar_torneo_admin.Name = "button_borrar_torneo_admin";
-            button_borrar_torneo_admin.Size = new Size(103, 52);
+            button_borrar_torneo_admin.Size = new Size(130, 65);
             button_borrar_torneo_admin.TabIndex = 58;
             button_borrar_torneo_admin.Text = "Borrar";
-            button_borrar_torneo_admin.UseVisualStyleBackColor = true;
+            button_borrar_torneo_admin.UseVisualStyleBackColor = false;
             button_borrar_torneo_admin.Click += button_borrar_torneo_admin_Click;
             // 
             // label_estado_torneo_admin
             // 
             label_estado_torneo_admin.AutoSize = true;
-            label_estado_torneo_admin.Font = new Font("Segoe UI", 15F);
+            label_estado_torneo_admin.Font = new Font("Segoe UI", 18F);
+            label_estado_torneo_admin.ForeColor = Color.FromArgb(51, 51, 51);
             label_estado_torneo_admin.Location = new Point(27, 79);
             label_estado_torneo_admin.Name = "label_estado_torneo_admin";
-            label_estado_torneo_admin.Size = new Size(90, 35);
+            label_estado_torneo_admin.Size = new Size(107, 41);
             label_estado_torneo_admin.TabIndex = 57;
             label_estado_torneo_admin.Text = "Estado";
             // 
             // button_info_torneo_admin
             // 
-            button_info_torneo_admin.Location = new Point(653, 521);
+            button_info_torneo_admin.BackColor = Color.DodgerBlue;
+            button_info_torneo_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_info_torneo_admin.ForeColor = Color.Black;
+            button_info_torneo_admin.Location = new Point(653, 537);
             button_info_torneo_admin.Name = "button_info_torneo_admin";
-            button_info_torneo_admin.Size = new Size(103, 52);
+            button_info_torneo_admin.Size = new Size(130, 65);
             button_info_torneo_admin.TabIndex = 56;
             button_info_torneo_admin.Text = "Ver Información";
-            button_info_torneo_admin.UseVisualStyleBackColor = true;
+            button_info_torneo_admin.UseVisualStyleBackColor = false;
             button_info_torneo_admin.Click += button_info_torneo_admin_Click;
             // 
             // listBox_torneo_admin
             // 
+            listBox_torneo_admin.BackColor = Color.White;
+            listBox_torneo_admin.BorderStyle = BorderStyle.FixedSingle;
             listBox_torneo_admin.Font = new Font("Segoe UI", 10F);
             listBox_torneo_admin.FormattingEnabled = true;
             listBox_torneo_admin.HorizontalScrollbar = true;
             listBox_torneo_admin.ItemHeight = 23;
             listBox_torneo_admin.Location = new Point(38, 148);
             listBox_torneo_admin.Name = "listBox_torneo_admin";
-            listBox_torneo_admin.Size = new Size(718, 326);
+            listBox_torneo_admin.Size = new Size(718, 324);
             listBox_torneo_admin.TabIndex = 55;
             // 
             // comboBox_estado_torneo_admin
@@ -358,10 +395,11 @@
             // label_torneo_admin
             // 
             label_torneo_admin.AutoSize = true;
-            label_torneo_admin.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label_torneo_admin.Location = new Point(313, 20);
+            label_torneo_admin.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_torneo_admin.ForeColor = Color.OliveDrab;
+            label_torneo_admin.Location = new Point(267, 16);
             label_torneo_admin.Name = "label_torneo_admin";
-            label_torneo_admin.Size = new Size(205, 35);
+            label_torneo_admin.Size = new Size(269, 46);
             label_torneo_admin.TabIndex = 1;
             label_torneo_admin.Text = "Lista de Torneos";
             // 
@@ -393,6 +431,8 @@
             // 
             // textBox_email_admin
             // 
+            textBox_email_admin.BackColor = Color.White;
+            textBox_email_admin.BorderStyle = BorderStyle.FixedSingle;
             textBox_email_admin.Location = new Point(194, 496);
             textBox_email_admin.Name = "textBox_email_admin";
             textBox_email_admin.Size = new Size(578, 27);
@@ -402,6 +442,7 @@
             // 
             label_email_admin.AutoSize = true;
             label_email_admin.Font = new Font("Segoe UI", 15F);
+            label_email_admin.ForeColor = Color.FromArgb(81, 51, 51);
             label_email_admin.Location = new Point(12, 496);
             label_email_admin.Name = "label_email_admin";
             label_email_admin.Size = new Size(75, 35);
@@ -410,17 +451,20 @@
             // 
             // button_crear_admin
             // 
-            button_crear_admin.Font = new Font("Segoe UI", 12F);
+            button_crear_admin.BackColor = Color.DodgerBlue;
+            button_crear_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button_crear_admin.Location = new Point(313, 564);
             button_crear_admin.Name = "button_crear_admin";
-            button_crear_admin.Size = new Size(198, 37);
+            button_crear_admin.Size = new Size(204, 45);
             button_crear_admin.TabIndex = 21;
             button_crear_admin.Text = "Crear Administrador";
-            button_crear_admin.UseVisualStyleBackColor = true;
+            button_crear_admin.UseVisualStyleBackColor = false;
             button_crear_admin.Click += button_crear_admin_Click;
             // 
             // textBox_dni_admin
             // 
+            textBox_dni_admin.BackColor = Color.White;
+            textBox_dni_admin.BorderStyle = BorderStyle.FixedSingle;
             textBox_dni_admin.Location = new Point(194, 427);
             textBox_dni_admin.Name = "textBox_dni_admin";
             textBox_dni_admin.Size = new Size(578, 27);
@@ -430,6 +474,7 @@
             // 
             label_dni_admin.AutoSize = true;
             label_dni_admin.Font = new Font("Segoe UI", 15F);
+            label_dni_admin.ForeColor = Color.FromArgb(81, 51, 51);
             label_dni_admin.Location = new Point(12, 427);
             label_dni_admin.Name = "label_dni_admin";
             label_dni_admin.Size = new Size(53, 35);
@@ -438,6 +483,8 @@
             // 
             // textBox_telefono_admin
             // 
+            textBox_telefono_admin.BackColor = Color.White;
+            textBox_telefono_admin.BorderStyle = BorderStyle.FixedSingle;
             textBox_telefono_admin.Location = new Point(194, 358);
             textBox_telefono_admin.Name = "textBox_telefono_admin";
             textBox_telefono_admin.Size = new Size(578, 27);
@@ -447,6 +494,7 @@
             // 
             label_teléfono_admin.AutoSize = true;
             label_teléfono_admin.Font = new Font("Segoe UI", 15F);
+            label_teléfono_admin.ForeColor = Color.FromArgb(81, 51, 51);
             label_teléfono_admin.Location = new Point(12, 358);
             label_teléfono_admin.Name = "label_teléfono_admin";
             label_teléfono_admin.Size = new Size(110, 35);
@@ -455,6 +503,8 @@
             // 
             // textBox_apellidos_admin
             // 
+            textBox_apellidos_admin.BackColor = Color.White;
+            textBox_apellidos_admin.BorderStyle = BorderStyle.FixedSingle;
             textBox_apellidos_admin.Location = new Point(194, 286);
             textBox_apellidos_admin.Name = "textBox_apellidos_admin";
             textBox_apellidos_admin.Size = new Size(578, 27);
@@ -464,6 +514,7 @@
             // 
             label_apellidos_admin.AutoSize = true;
             label_apellidos_admin.Font = new Font("Segoe UI", 15F);
+            label_apellidos_admin.ForeColor = Color.FromArgb(81, 51, 51);
             label_apellidos_admin.Location = new Point(12, 286);
             label_apellidos_admin.Name = "label_apellidos_admin";
             label_apellidos_admin.Size = new Size(118, 35);
@@ -472,6 +523,8 @@
             // 
             // textBox_nombre_admin
             // 
+            textBox_nombre_admin.BackColor = Color.White;
+            textBox_nombre_admin.BorderStyle = BorderStyle.FixedSingle;
             textBox_nombre_admin.Location = new Point(196, 215);
             textBox_nombre_admin.Name = "textBox_nombre_admin";
             textBox_nombre_admin.Size = new Size(578, 27);
@@ -481,6 +534,7 @@
             // 
             label_nombre_admin.AutoSize = true;
             label_nombre_admin.Font = new Font("Segoe UI", 15F);
+            label_nombre_admin.ForeColor = Color.FromArgb(81, 51, 51);
             label_nombre_admin.Location = new Point(14, 215);
             label_nombre_admin.Name = "label_nombre_admin";
             label_nombre_admin.Size = new Size(108, 35);
@@ -489,6 +543,8 @@
             // 
             // textBox_contrasena_admin
             // 
+            textBox_contrasena_admin.BackColor = Color.White;
+            textBox_contrasena_admin.BorderStyle = BorderStyle.FixedSingle;
             textBox_contrasena_admin.Location = new Point(196, 146);
             textBox_contrasena_admin.Name = "textBox_contrasena_admin";
             textBox_contrasena_admin.Size = new Size(578, 27);
@@ -499,6 +555,7 @@
             // 
             label_contrasena_admin.AutoSize = true;
             label_contrasena_admin.Font = new Font("Segoe UI", 15F);
+            label_contrasena_admin.ForeColor = Color.FromArgb(81, 51, 51);
             label_contrasena_admin.Location = new Point(14, 146);
             label_contrasena_admin.Name = "label_contrasena_admin";
             label_contrasena_admin.Size = new Size(140, 35);
@@ -507,6 +564,8 @@
             // 
             // textBox_usuario_admin
             // 
+            textBox_usuario_admin.BackColor = Color.White;
+            textBox_usuario_admin.BorderStyle = BorderStyle.FixedSingle;
             textBox_usuario_admin.Location = new Point(196, 77);
             textBox_usuario_admin.Name = "textBox_usuario_admin";
             textBox_usuario_admin.Size = new Size(578, 27);
@@ -516,6 +575,7 @@
             // 
             label_usuario_admin.AutoSize = true;
             label_usuario_admin.Font = new Font("Segoe UI", 15F);
+            label_usuario_admin.ForeColor = Color.FromArgb(81, 51, 51);
             label_usuario_admin.Location = new Point(14, 77);
             label_usuario_admin.Name = "label_usuario_admin";
             label_usuario_admin.Size = new Size(100, 35);
@@ -525,28 +585,32 @@
             // label_crear_administrador
             // 
             label_crear_administrador.AutoSize = true;
-            label_crear_administrador.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
-            label_crear_administrador.Location = new Point(281, 14);
+            label_crear_administrador.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_crear_administrador.ForeColor = Color.OliveDrab;
+            label_crear_administrador.Location = new Point(240, 13);
             label_crear_administrador.Name = "label_crear_administrador";
-            label_crear_administrador.Size = new Size(254, 35);
+            label_crear_administrador.Size = new Size(334, 46);
             label_crear_administrador.TabIndex = 1;
             label_crear_administrador.Text = "Crear Administrador";
             // 
             // button_cerrar_sesion
             // 
-            button_cerrar_sesion.Font = new Font("Segoe UI", 12F);
-            button_cerrar_sesion.Location = new Point(701, 12);
+            button_cerrar_sesion.BackColor = Color.Orange;
+            button_cerrar_sesion.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_cerrar_sesion.ForeColor = Color.Black;
+            button_cerrar_sesion.Location = new Point(664, 20);
             button_cerrar_sesion.Name = "button_cerrar_sesion";
-            button_cerrar_sesion.Size = new Size(136, 35);
+            button_cerrar_sesion.Size = new Size(152, 42);
             button_cerrar_sesion.TabIndex = 19;
             button_cerrar_sesion.Text = "Cerrar Sesión";
-            button_cerrar_sesion.UseVisualStyleBackColor = true;
+            button_cerrar_sesion.UseVisualStyleBackColor = false;
             button_cerrar_sesion.Click += button_cerrar_sesion_Click;
             // 
             // AdminForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(856, 723);
             Controls.Add(button_cerrar_sesion);
             Controls.Add(tabControl_usuario);

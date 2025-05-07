@@ -38,57 +38,63 @@
             // label_titulo_torneo
             // 
             label_titulo_torneo.AutoSize = true;
-            label_titulo_torneo.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label_titulo_torneo.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_titulo_torneo.ForeColor = Color.OliveDrab;
             label_titulo_torneo.Location = new Point(319, 9);
             label_titulo_torneo.Name = "label_titulo_torneo";
-            label_titulo_torneo.Size = new Size(97, 35);
+            label_titulo_torneo.Size = new Size(127, 46);
             label_titulo_torneo.TabIndex = 45;
             label_titulo_torneo.Text = "Torneo";
             // 
             // button_calendario
             // 
-            button_calendario.Font = new Font("Segoe UI", 12F);
+            button_calendario.BackColor = Color.DodgerBlue;
+            button_calendario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_calendario.Location = new Point(157, 116);
             button_calendario.Name = "button_calendario";
             button_calendario.Size = new Size(150, 66);
             button_calendario.TabIndex = 49;
             button_calendario.Text = "Calendario";
-            button_calendario.UseVisualStyleBackColor = true;
+            button_calendario.UseVisualStyleBackColor = false;
             // 
             // button_resultado_partidas
             // 
-            button_resultado_partidas.Font = new Font("Segoe UI", 12F);
+            button_resultado_partidas.BackColor = Color.DodgerBlue;
+            button_resultado_partidas.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_resultado_partidas.Location = new Point(157, 264);
             button_resultado_partidas.Name = "button_resultado_partidas";
             button_resultado_partidas.Size = new Size(150, 66);
             button_resultado_partidas.TabIndex = 50;
             button_resultado_partidas.Text = "Resultado partidas";
-            button_resultado_partidas.UseVisualStyleBackColor = true;
+            button_resultado_partidas.UseVisualStyleBackColor = false;
             // 
             // button_clasificacion
             // 
-            button_clasificacion.Font = new Font("Segoe UI", 12F);
+            button_clasificacion.BackColor = Color.DodgerBlue;
+            button_clasificacion.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_clasificacion.Location = new Point(454, 116);
             button_clasificacion.Name = "button_clasificacion";
             button_clasificacion.Size = new Size(150, 66);
             button_clasificacion.TabIndex = 51;
             button_clasificacion.Text = "Clasificación";
-            button_clasificacion.UseVisualStyleBackColor = true;
+            button_clasificacion.UseVisualStyleBackColor = false;
             // 
             // button_estadisticas
             // 
-            button_estadisticas.Font = new Font("Segoe UI", 12F);
+            button_estadisticas.BackColor = Color.DodgerBlue;
+            button_estadisticas.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_estadisticas.Location = new Point(454, 264);
             button_estadisticas.Name = "button_estadisticas";
             button_estadisticas.Size = new Size(150, 66);
             button_estadisticas.TabIndex = 52;
             button_estadisticas.Text = "Estadísticas";
-            button_estadisticas.UseVisualStyleBackColor = true;
+            button_estadisticas.UseVisualStyleBackColor = false;
             // 
             // infoTorneos
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(800, 450);
             Controls.Add(button_estadisticas);
             Controls.Add(button_clasificacion);

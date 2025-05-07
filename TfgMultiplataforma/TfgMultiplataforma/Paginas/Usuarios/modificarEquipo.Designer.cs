@@ -42,10 +42,12 @@
             // 
             // listBox_miembros_editar
             // 
+            listBox_miembros_editar.BackColor = Color.White;
+            listBox_miembros_editar.BorderStyle = BorderStyle.FixedSingle;
             listBox_miembros_editar.FormattingEnabled = true;
             listBox_miembros_editar.Location = new Point(179, 169);
             listBox_miembros_editar.Name = "listBox_miembros_editar";
-            listBox_miembros_editar.Size = new Size(716, 144);
+            listBox_miembros_editar.Size = new Size(716, 142);
             listBox_miembros_editar.TabIndex = 23;
             listBox_miembros_editar.DoubleClick += listBox_miembros_editar_DoubleClick;
             // 
@@ -53,6 +55,7 @@
             // 
             label_miembros_editar.AutoSize = true;
             label_miembros_editar.Font = new Font("Segoe UI", 15F);
+            label_miembros_editar.ForeColor = Color.FromArgb(51, 51, 51);
             label_miembros_editar.Location = new Point(19, 169);
             label_miembros_editar.Name = "label_miembros_editar";
             label_miembros_editar.Size = new Size(128, 35);
@@ -63,6 +66,7 @@
             // 
             label_nombre_editar.AutoSize = true;
             label_nombre_editar.Font = new Font("Segoe UI", 15F);
+            label_nombre_editar.ForeColor = Color.FromArgb(51, 51, 51);
             label_nombre_editar.Location = new Point(19, 92);
             label_nombre_editar.Name = "label_nombre_editar";
             label_nombre_editar.Size = new Size(108, 35);
@@ -72,25 +76,29 @@
             // label_editar_nombre
             // 
             label_editar_nombre.AutoSize = true;
-            label_editar_nombre.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label_editar_nombre.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_editar_nombre.ForeColor = Color.OliveDrab;
             label_editar_nombre.Location = new Point(396, 9);
             label_editar_nombre.Name = "label_editar_nombre";
-            label_editar_nombre.Size = new Size(134, 35);
+            label_editar_nombre.Size = new Size(184, 46);
             label_editar_nombre.TabIndex = 24;
             label_editar_nombre.Text = "Mi Equipo";
             // 
             // button_anadir_miembro
             // 
+            button_anadir_miembro.BackColor = Color.Orange;
+            button_anadir_miembro.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_anadir_miembro.Location = new Point(462, 333);
             button_anadir_miembro.Name = "button_anadir_miembro";
-            button_anadir_miembro.Size = new Size(140, 33);
+            button_anadir_miembro.Size = new Size(151, 44);
             button_anadir_miembro.TabIndex = 25;
             button_anadir_miembro.Text = "Añadir miembro";
-            button_anadir_miembro.UseVisualStyleBackColor = true;
+            button_anadir_miembro.UseVisualStyleBackColor = false;
             button_anadir_miembro.Click += button_anadir_miembro_Click;
             // 
             // comboBox_visible
             // 
+            comboBox_visible.BackColor = Color.White;
             comboBox_visible.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_visible.FormattingEnabled = true;
             comboBox_visible.Location = new Point(396, 405);
@@ -102,6 +110,7 @@
             // 
             label_visible.AutoSize = true;
             label_visible.Font = new Font("Segoe UI", 15F);
+            label_visible.ForeColor = Color.FromArgb(51, 51, 51);
             label_visible.Location = new Point(19, 396);
             label_visible.Name = "label_visible";
             label_visible.Size = new Size(328, 35);
@@ -110,28 +119,32 @@
             // 
             // button_editar
             // 
-            button_editar.Font = new Font("Segoe UI", 12F);
+            button_editar.BackColor = Color.DodgerBlue;
+            button_editar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_editar.Location = new Point(655, 540);
             button_editar.Name = "button_editar";
-            button_editar.Size = new Size(151, 50);
+            button_editar.Size = new Size(162, 61);
             button_editar.TabIndex = 30;
             button_editar.Text = "Editar equipo";
-            button_editar.UseVisualStyleBackColor = true;
+            button_editar.UseVisualStyleBackColor = false;
             button_editar.Click += button_editar_Click;
             // 
             // button_cancelar
             // 
-            button_cancelar.Font = new Font("Segoe UI", 12F);
+            button_cancelar.BackColor = Color.FromArgb(255, 0, 127);
+            button_cancelar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_cancelar.Location = new Point(196, 540);
             button_cancelar.Name = "button_cancelar";
-            button_cancelar.Size = new Size(151, 50);
+            button_cancelar.Size = new Size(162, 61);
             button_cancelar.TabIndex = 31;
             button_cancelar.Text = "Cancelar";
-            button_cancelar.UseVisualStyleBackColor = true;
+            button_cancelar.UseVisualStyleBackColor = false;
             button_cancelar.Click += button_cancelar_Click;
             // 
             // textBox_nombre_editar
             // 
+            textBox_nombre_editar.BackColor = Color.White;
+            textBox_nombre_editar.BorderStyle = BorderStyle.FixedSingle;
             textBox_nombre_editar.Location = new Point(179, 92);
             textBox_nombre_editar.Name = "textBox_nombre_editar";
             textBox_nombre_editar.Size = new Size(716, 27);
@@ -141,6 +154,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(970, 615);
             Controls.Add(textBox_nombre_editar);
             Controls.Add(button_cancelar);

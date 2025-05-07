@@ -63,6 +63,7 @@
             // 
             // tabPage_usuario_equipo
             // 
+            tabPage_usuario_equipo.BackColor = Color.White;
             tabPage_usuario_equipo.Controls.Add(listBox_miembros);
             tabPage_usuario_equipo.Controls.Add(button_abandonar_equipo);
             tabPage_usuario_equipo.Controls.Add(button_editar_equipo);
@@ -76,42 +77,46 @@
             tabPage_usuario_equipo.Size = new Size(789, 396);
             tabPage_usuario_equipo.TabIndex = 0;
             tabPage_usuario_equipo.Text = "Equipo";
-            tabPage_usuario_equipo.UseVisualStyleBackColor = true;
             // 
             // listBox_miembros
             // 
+            listBox_miembros.BackColor = Color.White;
+            listBox_miembros.BorderStyle = BorderStyle.FixedSingle;
             listBox_miembros.FormattingEnabled = true;
             listBox_miembros.Location = new Point(166, 169);
             listBox_miembros.Name = "listBox_miembros";
-            listBox_miembros.Size = new Size(597, 144);
+            listBox_miembros.Size = new Size(597, 142);
             listBox_miembros.TabIndex = 19;
             // 
             // button_abandonar_equipo
             // 
-            button_abandonar_equipo.Font = new Font("Segoe UI", 12F);
+            button_abandonar_equipo.BackColor = Color.DodgerBlue;
+            button_abandonar_equipo.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_abandonar_equipo.Location = new Point(196, 332);
             button_abandonar_equipo.Name = "button_abandonar_equipo";
-            button_abandonar_equipo.Size = new Size(187, 58);
+            button_abandonar_equipo.Size = new Size(175, 58);
             button_abandonar_equipo.TabIndex = 18;
             button_abandonar_equipo.Text = "Abandonar equipo";
-            button_abandonar_equipo.UseVisualStyleBackColor = true;
+            button_abandonar_equipo.UseVisualStyleBackColor = false;
             button_abandonar_equipo.Click += button_abandonar_equipo_Click;
             // 
             // button_editar_equipo
             // 
-            button_editar_equipo.Font = new Font("Segoe UI", 12F);
+            button_editar_equipo.BackColor = Color.DodgerBlue;
+            button_editar_equipo.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_editar_equipo.Location = new Point(437, 332);
             button_editar_equipo.Name = "button_editar_equipo";
-            button_editar_equipo.Size = new Size(187, 58);
+            button_editar_equipo.Size = new Size(175, 58);
             button_editar_equipo.TabIndex = 17;
             button_editar_equipo.Text = "Editar equipo";
-            button_editar_equipo.UseVisualStyleBackColor = true;
+            button_editar_equipo.UseVisualStyleBackColor = false;
             button_editar_equipo.Click += button_editar_equipo_Click;
             // 
             // label_miembros_equipo
             // 
             label_miembros_equipo.AutoSize = true;
             label_miembros_equipo.Font = new Font("Segoe UI", 15F);
+            label_miembros_equipo.ForeColor = Color.FromArgb(51, 51, 51);
             label_miembros_equipo.Location = new Point(6, 169);
             label_miembros_equipo.Name = "label_miembros_equipo";
             label_miembros_equipo.Size = new Size(128, 35);
@@ -120,6 +125,8 @@
             // 
             // textBox_nombre_equipo
             // 
+            textBox_nombre_equipo.BackColor = Color.White;
+            textBox_nombre_equipo.BorderStyle = BorderStyle.FixedSingle;
             textBox_nombre_equipo.Enabled = false;
             textBox_nombre_equipo.Location = new Point(166, 101);
             textBox_nombre_equipo.Name = "textBox_nombre_equipo";
@@ -130,6 +137,7 @@
             // 
             label_nombre_equipo.AutoSize = true;
             label_nombre_equipo.Font = new Font("Segoe UI", 15F);
+            label_nombre_equipo.ForeColor = Color.FromArgb(51, 51, 51);
             label_nombre_equipo.Location = new Point(6, 92);
             label_nombre_equipo.Name = "label_nombre_equipo";
             label_nombre_equipo.Size = new Size(108, 35);
@@ -139,15 +147,17 @@
             // label_usuario_nombre_equipo
             // 
             label_usuario_nombre_equipo.AutoSize = true;
-            label_usuario_nombre_equipo.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label_usuario_nombre_equipo.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_usuario_nombre_equipo.ForeColor = Color.OliveDrab;
             label_usuario_nombre_equipo.Location = new Point(346, 15);
             label_usuario_nombre_equipo.Name = "label_usuario_nombre_equipo";
-            label_usuario_nombre_equipo.Size = new Size(134, 35);
+            label_usuario_nombre_equipo.Size = new Size(176, 46);
             label_usuario_nombre_equipo.TabIndex = 0;
             label_usuario_nombre_equipo.Text = "Mi Equipo";
             // 
             // tabPage_usuario_eventos
             // 
+            tabPage_usuario_eventos.BackColor = Color.White;
             tabPage_usuario_eventos.Controls.Add(button_unir_torneo);
             tabPage_usuario_eventos.Controls.Add(label_estado_torneo);
             tabPage_usuario_eventos.Controls.Add(button_unir_evento);
@@ -161,22 +171,24 @@
             tabPage_usuario_eventos.Size = new Size(789, 396);
             tabPage_usuario_eventos.TabIndex = 1;
             tabPage_usuario_eventos.Text = "Torneos";
-            tabPage_usuario_eventos.UseVisualStyleBackColor = true;
             // 
             // button_unir_torneo
             // 
-            button_unir_torneo.Location = new Point(213, 323);
+            button_unir_torneo.BackColor = Color.DodgerBlue;
+            button_unir_torneo.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_unir_torneo.Location = new Point(213, 312);
             button_unir_torneo.Name = "button_unir_torneo";
-            button_unir_torneo.Size = new Size(103, 52);
+            button_unir_torneo.Size = new Size(123, 63);
             button_unir_torneo.TabIndex = 48;
             button_unir_torneo.Text = "Unirme a un torneo";
-            button_unir_torneo.UseVisualStyleBackColor = true;
+            button_unir_torneo.UseVisualStyleBackColor = false;
             button_unir_torneo.Click += button_unir_torneo_Click;
             // 
             // label_estado_torneo
             // 
             label_estado_torneo.AutoSize = true;
             label_estado_torneo.Font = new Font("Segoe UI", 15F);
+            label_estado_torneo.ForeColor = Color.FromArgb(51, 51, 51);
             label_estado_torneo.Location = new Point(22, 66);
             label_estado_torneo.Name = "label_estado_torneo";
             label_estado_torneo.Size = new Size(90, 35);
@@ -195,27 +207,32 @@
             // 
             // button_info_torneo
             // 
-            button_info_torneo.Location = new Point(480, 323);
+            button_info_torneo.BackColor = Color.DodgerBlue;
+            button_info_torneo.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_info_torneo.Location = new Point(480, 312);
             button_info_torneo.Name = "button_info_torneo";
-            button_info_torneo.Size = new Size(103, 52);
+            button_info_torneo.Size = new Size(123, 63);
             button_info_torneo.TabIndex = 4;
             button_info_torneo.Text = "Ver Información";
-            button_info_torneo.UseVisualStyleBackColor = true;
+            button_info_torneo.UseVisualStyleBackColor = false;
             // 
             // listBox_torneos
             // 
+            listBox_torneos.BackColor = Color.White;
+            listBox_torneos.BorderStyle = BorderStyle.FixedSingle;
             listBox_torneos.Font = new Font("Segoe UI", 10F);
             listBox_torneos.FormattingEnabled = true;
             listBox_torneos.HorizontalScrollbar = true;
             listBox_torneos.ItemHeight = 23;
             listBox_torneos.Location = new Point(33, 135);
             listBox_torneos.Name = "listBox_torneos";
-            listBox_torneos.Size = new Size(718, 165);
+            listBox_torneos.Size = new Size(718, 163);
             listBox_torneos.TabIndex = 3;
             listBox_torneos.SelectedIndexChanged += listBox_torneos_SelectedIndexChanged;
             // 
             // comboBox_eventos
             // 
+            comboBox_eventos.BackColor = Color.White;
             comboBox_eventos.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_eventos.Font = new Font("Segoe UI", 12F);
             comboBox_eventos.FormattingEnabled = true;
@@ -228,28 +245,31 @@
             // label_usuarios_torneo
             // 
             label_usuarios_torneo.AutoSize = true;
-            label_usuarios_torneo.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label_usuarios_torneo.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_usuarios_torneo.ForeColor = Color.OliveDrab;
             label_usuarios_torneo.Location = new Point(326, 16);
             label_usuarios_torneo.Name = "label_usuarios_torneo";
-            label_usuarios_torneo.Size = new Size(108, 35);
+            label_usuarios_torneo.Size = new Size(142, 46);
             label_usuarios_torneo.TabIndex = 1;
             label_usuarios_torneo.Text = "Torneos";
             // 
             // button_ver_perfil
             // 
-            button_ver_perfil.Font = new Font("Segoe UI", 12F);
+            button_ver_perfil.BackColor = Color.Orange;
+            button_ver_perfil.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button_ver_perfil.Location = new Point(683, 12);
             button_ver_perfil.Name = "button_ver_perfil";
-            button_ver_perfil.Size = new Size(110, 35);
+            button_ver_perfil.Size = new Size(98, 35);
             button_ver_perfil.TabIndex = 18;
             button_ver_perfil.Text = "Perfil";
-            button_ver_perfil.UseVisualStyleBackColor = true;
+            button_ver_perfil.UseVisualStyleBackColor = false;
             button_ver_perfil.Click += button_ver_perfil_Click;
             // 
             // UsuariosForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(812, 479);
             Controls.Add(button_ver_perfil);
             Controls.Add(tabControl_usuario);

@@ -96,6 +96,8 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             buttonCrearEquipo.Size = new Size(200, 40);
             buttonCrearEquipo.Location = new Point((this.ClientSize.Width - buttonCrearEquipo.Width) / 2, mensaje.Bottom + 20);
             buttonCrearEquipo.Click += ButtonCrearEquipo_Click;
+            buttonCrearEquipo.BackColor = Color.DodgerBlue;
+            buttonCrearEquipo.ForeColor = Color.Black;
             this.Controls.Add(buttonCrearEquipo);
 
             //Crear el botón para unirse a un equipo
@@ -104,6 +106,8 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             buttonUnirseEquipo.Size = new Size(200, 40);
             buttonUnirseEquipo.Location = new Point((this.ClientSize.Width - buttonUnirseEquipo.Width) / 2, buttonCrearEquipo.Bottom + 20);
             buttonUnirseEquipo.Click += ButtonUnirseEquipo_Click;
+            buttonUnirseEquipo.BackColor= Color.DodgerBlue;
+            buttonUnirseEquipo.ForeColor= Color.Black;
             this.Controls.Add(buttonUnirseEquipo);
         }
 
