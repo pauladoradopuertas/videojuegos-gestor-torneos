@@ -81,6 +81,7 @@
             // 
             // tabControl_usuario
             // 
+            tabControl_usuario.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tabControl_usuario.Controls.Add(tabPage_usuario_admin);
             tabControl_usuario.Controls.Add(tabPage_equipo_admin);
             tabControl_usuario.Controls.Add(tabPage_torneo_admin);
@@ -88,7 +89,7 @@
             tabControl_usuario.Location = new Point(12, 39);
             tabControl_usuario.Name = "tabControl_usuario";
             tabControl_usuario.SelectedIndex = 0;
-            tabControl_usuario.Size = new Size(832, 672);
+            tabControl_usuario.Size = new Size(976, 950);
             tabControl_usuario.TabIndex = 1;
             // 
             // tabPage_usuario_admin
@@ -103,7 +104,7 @@
             tabPage_usuario_admin.Location = new Point(4, 29);
             tabPage_usuario_admin.Name = "tabPage_usuario_admin";
             tabPage_usuario_admin.Padding = new Padding(3);
-            tabPage_usuario_admin.Size = new Size(824, 639);
+            tabPage_usuario_admin.Size = new Size(897, 774);
             tabPage_usuario_admin.TabIndex = 0;
             tabPage_usuario_admin.Text = "Usuarios";
             // 
@@ -190,7 +191,7 @@
             tabPage_equipo_admin.Location = new Point(4, 29);
             tabPage_equipo_admin.Name = "tabPage_equipo_admin";
             tabPage_equipo_admin.Padding = new Padding(3);
-            tabPage_equipo_admin.Size = new Size(824, 639);
+            tabPage_equipo_admin.Size = new Size(897, 774);
             tabPage_equipo_admin.TabIndex = 1;
             tabPage_equipo_admin.Text = "Equipos";
             tabPage_equipo_admin.UseVisualStyleBackColor = true;
@@ -301,7 +302,7 @@
             tabPage_torneo_admin.Location = new Point(4, 29);
             tabPage_torneo_admin.Name = "tabPage_torneo_admin";
             tabPage_torneo_admin.Padding = new Padding(3);
-            tabPage_torneo_admin.Size = new Size(824, 639);
+            tabPage_torneo_admin.Size = new Size(897, 774);
             tabPage_torneo_admin.TabIndex = 2;
             tabPage_torneo_admin.Text = "Torneos";
             tabPage_torneo_admin.UseVisualStyleBackColor = true;
@@ -424,38 +425,44 @@
             tabPage_crear_admin.Location = new Point(4, 29);
             tabPage_crear_admin.Name = "tabPage_crear_admin";
             tabPage_crear_admin.Padding = new Padding(3);
-            tabPage_crear_admin.Size = new Size(824, 639);
+            tabPage_crear_admin.Size = new Size(968, 917);
             tabPage_crear_admin.TabIndex = 3;
             tabPage_crear_admin.Text = "Crear cuenta admin";
             tabPage_crear_admin.UseVisualStyleBackColor = true;
             // 
             // textBox_email_admin
             // 
+            textBox_email_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBox_email_admin.BackColor = Color.White;
             textBox_email_admin.BorderStyle = BorderStyle.FixedSingle;
-            textBox_email_admin.Location = new Point(194, 496);
+            textBox_email_admin.Cursor = Cursors.IBeam;
+            textBox_email_admin.Font = new Font("Segoe UI", 15F);
+            textBox_email_admin.Location = new Point(284, 765);
             textBox_email_admin.Name = "textBox_email_admin";
-            textBox_email_admin.Size = new Size(578, 27);
+            textBox_email_admin.Size = new Size(649, 41);
             textBox_email_admin.TabIndex = 23;
             // 
             // label_email_admin
             // 
+            label_email_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label_email_admin.AutoSize = true;
-            label_email_admin.Font = new Font("Segoe UI", 15F);
+            label_email_admin.Font = new Font("Segoe UI", 20F);
             label_email_admin.ForeColor = Color.FromArgb(81, 51, 51);
-            label_email_admin.Location = new Point(12, 496);
+            label_email_admin.Location = new Point(51, 765);
             label_email_admin.Name = "label_email_admin";
-            label_email_admin.Size = new Size(75, 35);
+            label_email_admin.Size = new Size(99, 46);
             label_email_admin.TabIndex = 22;
             label_email_admin.Text = "Email";
             // 
             // button_crear_admin
             // 
+            button_crear_admin.Anchor = AnchorStyles.Top;
             button_crear_admin.BackColor = Color.DodgerBlue;
-            button_crear_admin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button_crear_admin.Location = new Point(313, 564);
+            button_crear_admin.Cursor = Cursors.Hand;
+            button_crear_admin.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            button_crear_admin.Location = new Point(404, 838);
             button_crear_admin.Name = "button_crear_admin";
-            button_crear_admin.Size = new Size(204, 45);
+            button_crear_admin.Size = new Size(180, 73);
             button_crear_admin.TabIndex = 21;
             button_crear_admin.Text = "Crear Administrador";
             button_crear_admin.UseVisualStyleBackColor = false;
@@ -463,142 +470,168 @@
             // 
             // textBox_dni_admin
             // 
+            textBox_dni_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBox_dni_admin.BackColor = Color.White;
             textBox_dni_admin.BorderStyle = BorderStyle.FixedSingle;
-            textBox_dni_admin.Location = new Point(194, 427);
+            textBox_dni_admin.Cursor = Cursors.IBeam;
+            textBox_dni_admin.Font = new Font("Segoe UI", 15F);
+            textBox_dni_admin.Location = new Point(284, 665);
             textBox_dni_admin.Name = "textBox_dni_admin";
-            textBox_dni_admin.Size = new Size(578, 27);
+            textBox_dni_admin.Size = new Size(649, 41);
             textBox_dni_admin.TabIndex = 20;
             // 
             // label_dni_admin
             // 
+            label_dni_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label_dni_admin.AutoSize = true;
-            label_dni_admin.Font = new Font("Segoe UI", 15F);
+            label_dni_admin.Font = new Font("Segoe UI", 20F);
             label_dni_admin.ForeColor = Color.FromArgb(81, 51, 51);
-            label_dni_admin.Location = new Point(12, 427);
+            label_dni_admin.Location = new Point(51, 665);
             label_dni_admin.Name = "label_dni_admin";
-            label_dni_admin.Size = new Size(53, 35);
+            label_dni_admin.Size = new Size(71, 46);
             label_dni_admin.TabIndex = 19;
             label_dni_admin.Text = "Dni";
             // 
             // textBox_telefono_admin
             // 
+            textBox_telefono_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBox_telefono_admin.BackColor = Color.White;
             textBox_telefono_admin.BorderStyle = BorderStyle.FixedSingle;
-            textBox_telefono_admin.Location = new Point(194, 358);
+            textBox_telefono_admin.Cursor = Cursors.IBeam;
+            textBox_telefono_admin.Font = new Font("Segoe UI", 15F);
+            textBox_telefono_admin.Location = new Point(284, 559);
             textBox_telefono_admin.Name = "textBox_telefono_admin";
-            textBox_telefono_admin.Size = new Size(578, 27);
+            textBox_telefono_admin.Size = new Size(649, 41);
             textBox_telefono_admin.TabIndex = 17;
             // 
             // label_teléfono_admin
             // 
+            label_teléfono_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label_teléfono_admin.AutoSize = true;
-            label_teléfono_admin.Font = new Font("Segoe UI", 15F);
+            label_teléfono_admin.Font = new Font("Segoe UI", 20F);
             label_teléfono_admin.ForeColor = Color.FromArgb(81, 51, 51);
-            label_teléfono_admin.Location = new Point(12, 358);
+            label_teléfono_admin.Location = new Point(51, 559);
             label_teléfono_admin.Name = "label_teléfono_admin";
-            label_teléfono_admin.Size = new Size(110, 35);
+            label_teléfono_admin.Size = new Size(149, 46);
             label_teléfono_admin.TabIndex = 16;
             label_teléfono_admin.Text = "Teléfono";
             // 
             // textBox_apellidos_admin
             // 
+            textBox_apellidos_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBox_apellidos_admin.BackColor = Color.White;
             textBox_apellidos_admin.BorderStyle = BorderStyle.FixedSingle;
-            textBox_apellidos_admin.Location = new Point(194, 286);
+            textBox_apellidos_admin.Cursor = Cursors.IBeam;
+            textBox_apellidos_admin.Font = new Font("Segoe UI", 15F);
+            textBox_apellidos_admin.Location = new Point(284, 454);
             textBox_apellidos_admin.Name = "textBox_apellidos_admin";
-            textBox_apellidos_admin.Size = new Size(578, 27);
+            textBox_apellidos_admin.Size = new Size(649, 41);
             textBox_apellidos_admin.TabIndex = 15;
             // 
             // label_apellidos_admin
             // 
+            label_apellidos_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label_apellidos_admin.AutoSize = true;
-            label_apellidos_admin.Font = new Font("Segoe UI", 15F);
+            label_apellidos_admin.Font = new Font("Segoe UI", 20F);
             label_apellidos_admin.ForeColor = Color.FromArgb(81, 51, 51);
-            label_apellidos_admin.Location = new Point(12, 286);
+            label_apellidos_admin.Location = new Point(49, 454);
             label_apellidos_admin.Name = "label_apellidos_admin";
-            label_apellidos_admin.Size = new Size(118, 35);
+            label_apellidos_admin.Size = new Size(158, 46);
             label_apellidos_admin.TabIndex = 14;
             label_apellidos_admin.Text = "Apellidos";
             // 
             // textBox_nombre_admin
             // 
+            textBox_nombre_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBox_nombre_admin.BackColor = Color.White;
             textBox_nombre_admin.BorderStyle = BorderStyle.FixedSingle;
-            textBox_nombre_admin.Location = new Point(196, 215);
+            textBox_nombre_admin.Cursor = Cursors.IBeam;
+            textBox_nombre_admin.Font = new Font("Segoe UI", 15F);
+            textBox_nombre_admin.Location = new Point(284, 349);
             textBox_nombre_admin.Name = "textBox_nombre_admin";
-            textBox_nombre_admin.Size = new Size(578, 27);
+            textBox_nombre_admin.Size = new Size(649, 41);
             textBox_nombre_admin.TabIndex = 13;
             // 
             // label_nombre_admin
             // 
+            label_nombre_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label_nombre_admin.AutoSize = true;
-            label_nombre_admin.Font = new Font("Segoe UI", 15F);
+            label_nombre_admin.Font = new Font("Segoe UI", 20F);
             label_nombre_admin.ForeColor = Color.FromArgb(81, 51, 51);
-            label_nombre_admin.Location = new Point(14, 215);
+            label_nombre_admin.Location = new Point(49, 349);
             label_nombre_admin.Name = "label_nombre_admin";
-            label_nombre_admin.Size = new Size(108, 35);
+            label_nombre_admin.Size = new Size(144, 46);
             label_nombre_admin.TabIndex = 12;
             label_nombre_admin.Text = "Nombre";
             // 
             // textBox_contrasena_admin
             // 
+            textBox_contrasena_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBox_contrasena_admin.BackColor = Color.White;
             textBox_contrasena_admin.BorderStyle = BorderStyle.FixedSingle;
-            textBox_contrasena_admin.Location = new Point(196, 146);
+            textBox_contrasena_admin.Cursor = Cursors.IBeam;
+            textBox_contrasena_admin.Font = new Font("Segoe UI", 15F);
+            textBox_contrasena_admin.Location = new Point(284, 248);
             textBox_contrasena_admin.Name = "textBox_contrasena_admin";
-            textBox_contrasena_admin.Size = new Size(578, 27);
+            textBox_contrasena_admin.Size = new Size(649, 41);
             textBox_contrasena_admin.TabIndex = 11;
             textBox_contrasena_admin.UseSystemPasswordChar = true;
             // 
             // label_contrasena_admin
             // 
+            label_contrasena_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label_contrasena_admin.AutoSize = true;
-            label_contrasena_admin.Font = new Font("Segoe UI", 15F);
+            label_contrasena_admin.Font = new Font("Segoe UI", 20F);
             label_contrasena_admin.ForeColor = Color.FromArgb(81, 51, 51);
-            label_contrasena_admin.Location = new Point(14, 146);
+            label_contrasena_admin.Location = new Point(51, 248);
             label_contrasena_admin.Name = "label_contrasena_admin";
-            label_contrasena_admin.Size = new Size(140, 35);
+            label_contrasena_admin.Size = new Size(189, 46);
             label_contrasena_admin.TabIndex = 10;
             label_contrasena_admin.Text = "Contraseña";
             // 
             // textBox_usuario_admin
             // 
+            textBox_usuario_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBox_usuario_admin.BackColor = Color.White;
             textBox_usuario_admin.BorderStyle = BorderStyle.FixedSingle;
-            textBox_usuario_admin.Location = new Point(196, 77);
+            textBox_usuario_admin.Cursor = Cursors.IBeam;
+            textBox_usuario_admin.Font = new Font("Segoe UI", 15F);
+            textBox_usuario_admin.Location = new Point(284, 151);
             textBox_usuario_admin.Name = "textBox_usuario_admin";
-            textBox_usuario_admin.Size = new Size(578, 27);
+            textBox_usuario_admin.Size = new Size(649, 41);
             textBox_usuario_admin.TabIndex = 8;
             // 
             // label_usuario_admin
             // 
+            label_usuario_admin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label_usuario_admin.AutoSize = true;
-            label_usuario_admin.Font = new Font("Segoe UI", 15F);
+            label_usuario_admin.Font = new Font("Segoe UI", 20F);
             label_usuario_admin.ForeColor = Color.FromArgb(81, 51, 51);
-            label_usuario_admin.Location = new Point(14, 77);
+            label_usuario_admin.Location = new Point(51, 151);
             label_usuario_admin.Name = "label_usuario_admin";
-            label_usuario_admin.Size = new Size(100, 35);
+            label_usuario_admin.Size = new Size(133, 46);
             label_usuario_admin.TabIndex = 7;
             label_usuario_admin.Text = "Usuario";
             // 
             // label_crear_administrador
             // 
+            label_crear_administrador.Anchor = AnchorStyles.Top;
             label_crear_administrador.AutoSize = true;
-            label_crear_administrador.Font = new Font("Segoe UI Semibold", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_crear_administrador.Font = new Font("Segoe UI Semibold", 30F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_crear_administrador.ForeColor = Color.OliveDrab;
-            label_crear_administrador.Location = new Point(240, 13);
+            label_crear_administrador.Location = new Point(241, 17);
             label_crear_administrador.Name = "label_crear_administrador";
-            label_crear_administrador.Size = new Size(334, 46);
+            label_crear_administrador.Size = new Size(492, 67);
             label_crear_administrador.TabIndex = 1;
             label_crear_administrador.Text = "Crear Administrador";
             // 
             // button_cerrar_sesion
             // 
             button_cerrar_sesion.BackColor = Color.Orange;
-            button_cerrar_sesion.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button_cerrar_sesion.Cursor = Cursors.Hand;
+            button_cerrar_sesion.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             button_cerrar_sesion.ForeColor = Color.Black;
-            button_cerrar_sesion.Location = new Point(664, 20);
+            button_cerrar_sesion.Location = new Point(829, 12);
             button_cerrar_sesion.Name = "button_cerrar_sesion";
             button_cerrar_sesion.Size = new Size(152, 42);
             button_cerrar_sesion.TabIndex = 19;
@@ -611,7 +644,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(856, 723);
+            ClientSize = new Size(1000, 1001);
             Controls.Add(button_cerrar_sesion);
             Controls.Add(tabControl_usuario);
             Name = "AdminForm";
