@@ -255,5 +255,9 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             panelModal.Visible = false;
         }
 
+        private void label_cant_equipos_crear_torneo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
