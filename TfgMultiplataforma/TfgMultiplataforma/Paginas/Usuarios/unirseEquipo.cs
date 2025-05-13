@@ -1,4 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using Mysqlx.Cursor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -95,17 +97,16 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                 try
                 {
-                    //Actualizar el campo id_equipo de la tabla clientes para asociar al usuario con el equipo
+                    //Actualizar el estado del usuario a "activo"
                     string queryUpdateEquipo = @"
                         UPDATE clientes
                         SET id_estado_usuario = 1
                         WHERE id_cliente = @idUsuario;
 
-                        INSERT INTO `clientes-equipos` (id_cliente, id_equipo, id_rol)
-                        VALUES (@idUsuario, @idEquipo, 2);";
-
-
-                    MySqlCommand cmdUpdateEquipo = new MySqlCommand(queryUpdateEquipo, conn, transaction);
+                        INSERT INTO `clientes-equipos` (id_cliente, id_equipo, id_rol, fecha_inicio)
+                        VALUES(@idUsuario, @idEquipo, 2, NOW()); "; // Se añade la fecha de inicio con NOW()
+        
+            MySqlCommand cmdUpdateEquipo = new MySqlCommand(queryUpdateEquipo, conn, transaction);
                     cmdUpdateEquipo.Parameters.AddWithValue("@idUsuario", idUsuario);
                     cmdUpdateEquipo.Parameters.AddWithValue("@idEquipo", idEquipo);
                     cmdUpdateEquipo.ExecuteNonQuery();
@@ -113,7 +114,12 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     //Confirmar la transacción
                     transaction.Commit();
                     MessageBox.Show("Te has unido al equipo correctamente como Miembro.");
+
+                    // Cierra la ventana después de unirse al equipo (no mostrar el login)
                     this.Close();
+                    // Abrir el formulario de usuarios (UsuariosForm)
+                    UsuariosForm usuariosForm = new UsuariosForm(idUsuario); // Asume que este es tu formulario de usuarios
+                    usuariosForm.Show(); // Muestra el formulario de usuarios
                 }
                 catch (Exception ex)
                 {

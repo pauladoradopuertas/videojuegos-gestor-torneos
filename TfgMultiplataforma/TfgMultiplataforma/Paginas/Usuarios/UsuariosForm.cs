@@ -53,7 +53,9 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     FROM clientes c
                     INNER JOIN `clientes-equipos` ce ON c.id_cliente = ce.id_cliente
                     INNER JOIN equipos e ON ce.id_equipo = e.id_equipo
-                    WHERE c.id_cliente = @idCliente";
+                    WHERE c.id_cliente = @idCliente
+                    AND ce.fecha_fin IS NULL";
+
 
 
 
@@ -99,7 +101,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             buttonCrearEquipo.Size = new Size(200, 40);
             buttonCrearEquipo.Font = new Font("Segoe UI", 12);
             buttonCrearEquipo.Cursor = Cursors.Hand;
-            buttonCrearEquipo.Location = new Point((this.ClientSize.Width - buttonCrearEquipo.Width) / 2, mensaje.Bottom + 20);
+            buttonCrearEquipo.Location = new Point((this.ClientSize.Width - buttonCrearEquipo.Width) / 2, mensaje.Bottom + 100);
             buttonCrearEquipo.Click += ButtonCrearEquipo_Click;
             buttonCrearEquipo.BackColor = Color.DodgerBlue;
             buttonCrearEquipo.ForeColor = Color.Black;
@@ -110,7 +112,8 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             Button buttonUnirseEquipo = new Button();
             buttonUnirseEquipo.Text = "Unirse a un equipo";
             buttonUnirseEquipo.Size = new Size(200, 40);
-            buttonUnirseEquipo.Location = new Point((this.ClientSize.Width - buttonUnirseEquipo.Width) / 2, buttonCrearEquipo.Bottom + 20);
+            buttonUnirseEquipo.Font = new Font("Segoe UI", 12);
+            buttonUnirseEquipo.Location = new Point((this.ClientSize.Width - buttonUnirseEquipo.Width) / 2, buttonCrearEquipo.Bottom + 100);
             buttonUnirseEquipo.Click += ButtonUnirseEquipo_Click;
             buttonUnirseEquipo.BackColor= Color.DodgerBlue;
             buttonUnirseEquipo.ForeColor= Color.Black;
@@ -153,7 +156,8 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     FROM clientes c
                     INNER JOIN `clientes-equipos` ce ON c.id_cliente = ce.id_cliente
                     LEFT JOIN roles_usuario ru ON ce.id_rol = ru.id_rol_usuario
-                    WHERE ce.id_equipo = @idEquipo";
+                    WHERE ce.id_equipo = @idEquipo
+                    AND ce.fecha_fin IS NULL";
 
 
 
@@ -201,12 +205,11 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 MySqlTransaction transaction = conn.BeginTransaction();
                 try
                 {
-                    //Eliminar la relación de cliente y equipo
+                    // Eliminar la relación de cliente y equipo (poner fecha_fin con la fecha actual)
                     string queryActualizar = @"
                         UPDATE `clientes-equipos`
                         SET fecha_fin = NOW()
                         WHERE id_cliente = @idCliente AND id_equipo = @idEquipo";
-
 
                     using (MySqlCommand cmd = new MySqlCommand(queryActualizar, conn))
                     {
@@ -216,11 +219,11 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         cmd.ExecuteNonQuery();
                     }
 
-                    //Actualizar los campos id_estado_usuario y id_rol_usuario en la tabla clientes
+                    // Actualizar el estado del usuario a inactivo en la tabla clientes
                     string queryActualizarCliente = @"
-                        UPDATE `clientes-equipos`
-                        SET id_rol = NULL
-                        WHERE id_cliente = @idCliente AND id_equipo = @idEquipo";
+                        UPDATE clientes
+                        SET id_estado_usuario = 2  -- Poner el estado como inactivo
+                        WHERE id_cliente = @idCliente";
 
                     using (MySqlCommand cmd = new MySqlCommand(queryActualizarCliente, conn))
                     {
@@ -229,7 +232,21 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         cmd.ExecuteNonQuery();
                     }
 
-                    //Confirmar la transacción
+                    // Actualizar el rol en la tabla `clientes-equipos` si es necesario
+                    string queryActualizarRol = @"
+                        UPDATE `clientes-equipos`
+                        SET id_rol = NULL   -- Eliminar el rol ya que ha abandonado el equipo
+                        WHERE id_cliente = @idCliente AND id_equipo = @idEquipo AND fecha_fin IS NULL";
+
+                    using (MySqlCommand cmd = new MySqlCommand(queryActualizarRol, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
+                        cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
+                        cmd.Transaction = transaction;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Confirmar la transacción
                     transaction.Commit();
 
                     MessageBox.Show("Has abandonado el equipo correctamente.");

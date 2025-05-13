@@ -29,6 +29,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             CrearPanelModalJuego();
             CargarJuegos();
             CargarPartidas();
+            ActualizarEstadisticasTorneosFinalizados();
         }
 
         //Cargamos los juegos y los metemos en el comboBox
@@ -95,6 +96,16 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     cmd.Parameters.AddWithValue("@idEstado", idEstado);
 
                     cmd.ExecuteNonQuery();
+
+                    // Obtener el ID del torneo recién creado
+                    cmd.CommandText = "SELECT LAST_INSERT_ID()";
+                    int idTorneoCreado = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    // Si el torneo comienza hoy, generar partidas automáticamente
+                    if (fechaInicio.Date == DateTime.Today)
+                    {
+                        GenerarPartidas(idTorneoCreado);
+                    }
                 }
 
                 MessageBox.Show("Torneo creado correctamente.");
@@ -254,6 +265,249 @@ namespace TfgMultiplataforma.Paginas.Aministrador
         {
             panelModal.Visible = false;
         }
+
+        private void GenerarPartidas(int idTorneo)
+        {
+            using (var conn = new MySqlConnection("Server=localhost;Database=bbdd_tfg;Uid=root;Pwd=;"))
+            {
+                conn.Open();
+
+                // Obtener datos del torneo
+                var cmdTorneo = new MySqlCommand(@"
+                    SELECT fecha_inicio, fecha_fin, dia_partida 
+                    FROM torneos 
+                    WHERE id_torneo = @idTorneo", conn);
+                cmdTorneo.Parameters.AddWithValue("@idTorneo", idTorneo);
+
+                DateTime fechaInicio, fechaFin;
+                string diaPartida;
+                using (var reader = cmdTorneo.ExecuteReader())
+                {
+                    if (!reader.Read()) return;
+                    fechaInicio = reader.GetDateTime("fecha_inicio");
+                    fechaFin = reader.GetDateTime("fecha_fin");
+                    diaPartida = reader.GetString("dia_partida");
+                }
+
+                // Obtener equipos inscritos
+                List<int> equipos = new List<int>();
+                var cmdEquipos = new MySqlCommand("SELECT id_equipo FROM `equipos-torneos` WHERE id_torneo = @idTorneo", conn);
+                cmdEquipos.Parameters.AddWithValue("@idTorneo", idTorneo);
+                using (var reader = cmdEquipos.ExecuteReader())
+                    while (reader.Read())
+                        equipos.Add(reader.GetInt32("id_equipo"));
+
+                int estadoProgramado = ObtenerIdEstado("Programado");
+                int estadoEnCurso = ObtenerIdEstado("En curso");
+                int estadoFinalizado = ObtenerIdEstado("Finalizado");
+
+                // Obtener fechas válidas
+                DayOfWeek dia = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), diaPartida, true);
+                List<DateTime> fechas = new List<DateTime>();
+                DateTime fecha = fechaInicio;
+                while (fecha <= fechaFin)
+                {
+                    if (fecha.DayOfWeek == dia)
+                        fechas.Add(fecha);
+                    fecha = fecha.AddDays(1);
+                }
+
+                // Round robin
+                int totalRondas = fechas.Count;
+                int numEquipos = equipos.Count;
+                bool esImpar = numEquipos % 2 != 0;
+                if (esImpar) equipos.Add(-1); // Equipo fantasma para descanso
+
+                int n = equipos.Count;
+                List<List<(int, int)>> rondas = new List<List<(int, int)>>();
+
+                for (int ronda = 0; ronda < totalRondas; ronda++)
+                {
+                    List<(int, int)> emparejamientos = new List<(int, int)>();
+                    for (int i = 0; i < n / 2; i++)
+                    {
+                        int equipoA = equipos[i];
+                        int equipoB = equipos[n - 1 - i];
+                        if (equipoA != -1 && equipoB != -1)
+                            emparejamientos.Add((equipoA, equipoB));
+                    }
+
+                    // Rotación
+                    int ultimo = equipos[n - 1];
+                    for (int i = n - 1; i > 1; i--)
+                        equipos[i] = equipos[i - 1];
+                    equipos[1] = ultimo;
+
+                    rondas.Add(emparejamientos);
+                }
+
+                // Insertar partidas
+                for (int i = 0; i < fechas.Count; i++)
+                {
+                    DateTime fechaPartida = fechas[i];
+                    int estado;
+                    if (fechaPartida < DateTime.Today) estado = estadoFinalizado;
+                    else if (fechaPartida == DateTime.Today) estado = estadoEnCurso;
+                    else estado = estadoProgramado;
+
+                    foreach (var (equipo1, equipo2) in rondas[i])
+                    {
+                        var insertPartida = new MySqlCommand(@"
+                            INSERT INTO partidas (fecha_partida, id_torneo, id_estado) 
+                            VALUES (@fecha, @torneo, @estado);
+                            SELECT LAST_INSERT_ID();", conn);
+                        insertPartida.Parameters.AddWithValue("@fecha", fechaPartida);
+                        insertPartida.Parameters.AddWithValue("@torneo", idTorneo);
+                        insertPartida.Parameters.AddWithValue("@estado", estado);
+                        int idPartida = Convert.ToInt32(insertPartida.ExecuteScalar());
+
+                        foreach (var eq in new[] { equipo1, equipo2 })
+                        {
+                            var insertEP = new MySqlCommand(@"
+                                INSERT INTO `equipos-partidas` (id_partida, id_equipo, puntos, resultado) 
+                                VALUES (@idPartida, @idEquipo, NULL, NULL)", conn);
+                            insertEP.Parameters.AddWithValue("@idPartida", idPartida);
+                            insertEP.Parameters.AddWithValue("@idEquipo", eq);
+                            insertEP.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ActualizarEstadisticasTorneosFinalizados()
+        {
+            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=bbdd_tfg;Uid=root;Pwd=;"))
+            {
+                conn.Open();
+
+                string torneoQuery = @"SELECT id_torneo FROM torneos WHERE fecha_fin = DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
+                using (MySqlCommand torneoCmd = new MySqlCommand(torneoQuery, conn))
+                using (MySqlDataReader torneoReader = torneoCmd.ExecuteReader())
+                {
+                    List<int> torneosFinalizados = new List<int>();
+                    while (torneoReader.Read())
+                        torneosFinalizados.Add(torneoReader.GetInt32("id_torneo"));
+                    torneoReader.Close();
+
+                    foreach (int idTorneo in torneosFinalizados)
+                    {
+                        ActualizarEstadisticasPorTorneo(conn, idTorneo);
+
+                        // Opcional: actualizar estado del torneo a "Finalizado" (id_estado = 3)
+                        string updateEstado = "UPDATE torneos SET id_estado = 3 WHERE id_torneo = @idTorneo";
+                        using (MySqlCommand cmd = new MySqlCommand(updateEstado, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ActualizarEstadisticasPorTorneo(MySqlConnection conn, int idTorneo)
+        {
+            string equiposQuery = @"SELECT id_equipo FROM equipos-torneos WHERE id_torneo = @idTorneo";
+            using (MySqlCommand cmdEquipos = new MySqlCommand(equiposQuery, conn))
+            {
+                cmdEquipos.Parameters.AddWithValue("@idTorneo", idTorneo);
+                using (MySqlDataReader reader = cmdEquipos.ExecuteReader())
+                {
+                    List<int> equipos = new List<int>();
+                    while (reader.Read())
+                        equipos.Add(reader.GetInt32("id_equipo"));
+                    reader.Close();
+
+                    foreach (int idEquipo in equipos)
+                    {
+                        int puntos = 0, jugadas = 0, ganadas = 0, perdidas = 0, empatadas = 0, diferencia = 0;
+
+                        // Obtener todas las partidas del equipo en este torneo
+                        string partidasQuery = @"
+                            SELECT ep.id_partida, ep.puntos, ep.resultado
+                            FROM equipos-partidas ep
+                            JOIN partidas p ON ep.id_partida = p.id_partida
+                            WHERE ep.id_equipo = @idEquipo AND p.id_torneo = @idTorneo";
+
+                        using (MySqlCommand cmdPartidas = new MySqlCommand(partidasQuery, conn))
+                        {
+                            cmdPartidas.Parameters.AddWithValue("@idEquipo", idEquipo);
+                            cmdPartidas.Parameters.AddWithValue("@idTorneo", idTorneo);
+
+                            using (MySqlDataReader partidaReader = cmdPartidas.ExecuteReader())
+                            {
+                                Dictionary<int, int> puntosPorPartida = new Dictionary<int, int>();
+                                Dictionary<int, int> puntosRivales = new Dictionary<int, int>();
+
+                                while (partidaReader.Read())
+                                {
+                                    int idPartida = partidaReader.GetInt32("id_partida");
+                                    int? puntosEquipo = partidaReader["puntos"] == DBNull.Value ? 0 : Convert.ToInt32(partidaReader["puntos"]);
+                                    string resultado = partidaReader["resultado"]?.ToString() ?? "";
+
+                                    puntos += puntosEquipo.Value;
+                                    jugadas++;
+
+                                    switch (resultado)
+                                    {
+                                        case "victoria": ganadas++; break;
+                                        case "derrota": perdidas++; break;
+                                        case "empate": empatadas++; break;
+                                    }
+
+                                    puntosPorPartida[idPartida] = puntosEquipo.Value;
+                                }
+                                partidaReader.Close();
+
+                                // Ahora obtener los puntos del rival por partida para calcular diferencia
+                                foreach (var kvp in puntosPorPartida)
+                                {
+                                    int idPartida = kvp.Key;
+                                    string rivalQuery = @"
+                                        SELECT puntos FROM equipos-partidas 
+                                        WHERE id_partida = @idPartida AND id_equipo != @idEquipo LIMIT 1";
+
+                                    using (MySqlCommand cmdRival = new MySqlCommand(rivalQuery, conn))
+                                    {
+                                        cmdRival.Parameters.AddWithValue("@idPartida", idPartida);
+                                        cmdRival.Parameters.AddWithValue("@idEquipo", idEquipo);
+                                        object puntosRivalObj = cmdRival.ExecuteScalar();
+                                        int puntosRival = puntosRivalObj == DBNull.Value ? 0 : Convert.ToInt32(puntosRivalObj);
+                                        diferencia += puntosPorPartida[idPartida] - puntosRival;
+                                    }
+                                }
+                            }
+                        }
+
+                        // Actualizar la tabla equipos-torneos
+                        string updateEquipoTorneo = @"
+                            UPDATE `equipos-torneos` 
+                            SET puntos = @puntos,
+                                partidas_jugadas = @jugadas,
+                                partidas_ganadas = @ganadas,
+                                partidas_empatadas = @empatadas,
+                                partidas_perdidas = @perdidas,
+                                diferencia_puntos = @diferencia
+                            WHERE id_torneo = @idTorneo AND id_equipo = @idEquipo";
+
+                        using (MySqlCommand updateCmd = new MySqlCommand(updateEquipoTorneo, conn))
+                        {
+                            updateCmd.Parameters.AddWithValue("@puntos", puntos);
+                            updateCmd.Parameters.AddWithValue("@jugadas", jugadas);
+                            updateCmd.Parameters.AddWithValue("@ganadas", ganadas);
+                            updateCmd.Parameters.AddWithValue("@empatadas", empatadas);
+                            updateCmd.Parameters.AddWithValue("@perdidas", perdidas);
+                            updateCmd.Parameters.AddWithValue("@diferencia", diferencia);
+                            updateCmd.Parameters.AddWithValue("@idTorneo", idTorneo);
+                            updateCmd.Parameters.AddWithValue("@idEquipo", idEquipo);
+                            updateCmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+
 
         private void label_cant_equipos_crear_torneo_Click(object sender, EventArgs e)
         {
