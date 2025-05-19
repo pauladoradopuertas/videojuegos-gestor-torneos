@@ -261,7 +261,13 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
                 using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=bbdd_tfg;Uid=root;Pwd=;"))
                 {
+
                     conn.Open();
+
+                    int idEquipo1 = ObtenerIdEquipo(equipo1, conn);
+                    int idEquipo2 = ObtenerIdEquipo(equipo2, conn);
+                    int idTorneo = ObtenerIdTorneoDesdePartida(idPartida, conn);
+
 
                     string updateQuery = @"
                         UPDATE `equipos-partidas` ep
@@ -283,6 +289,93 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         cmd.Parameters["@resultado"].Value = resultado2;
                         cmd.Parameters["@equipo"].Value = equipo2;
                         cmd.ExecuteNonQuery();
+
+                        // ACTUALIZAR ESTADÍSTICAS EN equipos-torneos
+                        string updateEstadisticas = @"
+                            UPDATE `equipos-torneos` et
+                            SET 
+                                et.partidas_jugadas = IFNULL(et.partidas_jugadas, 0) + 1,
+                                et.partidas_ganadas = IFNULL(et.partidas_ganadas, 0) + @ganadas,
+                                et.partidas_empatadas = IFNULL(et.partidas_empatadas, 0) + @empatadas,
+                                et.partidas_perdidas = IFNULL(et.partidas_perdidas, 0) + @perdidas,
+                                et.puntos = IFNULL(et.puntos, 0) + @puntosSumar,
+                                et.diferencia_puntos = IFNULL(et.diferencia_puntos, 0) + @difPuntos
+                            WHERE et.id_equipo = @idEquipo AND et.id_torneo = @idTorneo;
+                        ";
+
+                        // PARA EQUIPO 1
+                        using (MySqlCommand cmdEst1 = new MySqlCommand(updateEstadisticas, conn))
+                        {
+                            cmdEst1.Parameters.AddWithValue("@ganadas", resultado1 == "victoria" ? 1 : 0);
+                            cmdEst1.Parameters.AddWithValue("@empatadas", resultado1 == "empate" ? 1 : 0);
+                            cmdEst1.Parameters.AddWithValue("@perdidas", resultado1 == "derrota" ? 1 : 0);
+                            cmdEst1.Parameters.AddWithValue("@puntosSumar", resultado1 == "victoria" ? 3 : (resultado1 == "empate" ? 1 : 0));
+                            cmdEst1.Parameters.AddWithValue("@difPuntos", newP1 - newP2);
+                            cmdEst1.Parameters.AddWithValue("@idEquipo", idEquipo1); // debes tenerlo definido
+                            cmdEst1.Parameters.AddWithValue("@idTorneo", idTorneo); // debes tenerlo definido
+                            cmdEst1.ExecuteNonQuery();
+
+                            // Insertar o actualizar estadísticas para equipo 1 (por cada cliente en ese equipo)
+                            string insertEstadisticas1 = @"
+                                INSERT INTO estadisticas (id_cliente, id_torneo, id_equipo, partidas_jugadas, partidas_ganadas, partidas_empatadas, partidas_perdidas)
+                                SELECT ce.id_cliente, @idTorneo, @idEquipo, 1,
+                                       @ganadas, @empatadas, @perdidas
+                                FROM `clientes-equipos` ce
+                                WHERE ce.id_equipo = @idEquipo
+                                ON DUPLICATE KEY UPDATE
+                                    partidas_jugadas = partidas_jugadas + 1,
+                                    partidas_ganadas = partidas_ganadas + VALUES(partidas_ganadas),
+                                    partidas_empatadas = partidas_empatadas + VALUES(partidas_empatadas),
+                                    partidas_perdidas = partidas_perdidas + VALUES(partidas_perdidas);";
+
+                            using (MySqlCommand cmdEstCli1 = new MySqlCommand(insertEstadisticas1, conn))
+                            {
+                                cmdEstCli1.Parameters.AddWithValue("@idTorneo", idTorneo);
+                                cmdEstCli1.Parameters.AddWithValue("@idEquipo", idEquipo1);
+                                cmdEstCli1.Parameters.AddWithValue("@ganadas", resultado1 == "victoria" ? 1 : 0);
+                                cmdEstCli1.Parameters.AddWithValue("@empatadas", resultado1 == "empate" ? 1 : 0);
+                                cmdEstCli1.Parameters.AddWithValue("@perdidas", resultado1 == "derrota" ? 1 : 0);
+                                cmdEstCli1.ExecuteNonQuery();
+
+                                string insertEstadisticas2 = @"
+                                    INSERT INTO estadisticas (id_cliente, id_torneo, id_equipo, partidas_jugadas, partidas_ganadas, partidas_empatadas, partidas_perdidas)
+                                    SELECT ce.id_cliente, @idTorneo, @idEquipo, 1,
+                                           @ganadas, @empatadas, @perdidas
+                                    FROM `clientes-equipos` ce
+                                    WHERE ce.id_equipo = @idEquipo
+                                    ON DUPLICATE KEY UPDATE
+                                        partidas_jugadas = partidas_jugadas + 1,
+                                        partidas_ganadas = partidas_ganadas + VALUES(partidas_ganadas),
+                                        partidas_empatadas = partidas_empatadas + VALUES(partidas_empatadas),
+                                        partidas_perdidas = partidas_perdidas + VALUES(partidas_perdidas);";
+
+                                using (MySqlCommand cmdEstCli2 = new MySqlCommand(insertEstadisticas2, conn))
+                                {
+                                    cmdEstCli2.Parameters.AddWithValue("@idTorneo", idTorneo);
+                                    cmdEstCli2.Parameters.AddWithValue("@idEquipo", idEquipo2);
+                                    cmdEstCli2.Parameters.AddWithValue("@ganadas", resultado2 == "victoria" ? 1 : 0);
+                                    cmdEstCli2.Parameters.AddWithValue("@empatadas", resultado2 == "empate" ? 1 : 0);
+                                    cmdEstCli2.Parameters.AddWithValue("@perdidas", resultado2 == "derrota" ? 1 : 0);
+                                    cmdEstCli2.ExecuteNonQuery();
+                                }
+
+                            }
+
+                        }
+
+                        // PARA EQUIPO 2
+                        using (MySqlCommand cmdEst2 = new MySqlCommand(updateEstadisticas, conn))
+                        {
+                            cmdEst2.Parameters.AddWithValue("@ganadas", resultado2 == "victoria" ? 1 : 0);
+                            cmdEst2.Parameters.AddWithValue("@empatadas", resultado2 == "empate" ? 1 : 0);
+                            cmdEst2.Parameters.AddWithValue("@perdidas", resultado2 == "derrota" ? 1 : 0);
+                            cmdEst2.Parameters.AddWithValue("@puntosSumar", resultado2 == "victoria" ? 3 : (resultado2 == "empate" ? 1 : 0));
+                            cmdEst2.Parameters.AddWithValue("@difPuntos", newP2 - newP1);
+                            cmdEst2.Parameters.AddWithValue("@idEquipo", idEquipo2); // debes tenerlo definido
+                            cmdEst2.Parameters.AddWithValue("@idTorneo", idTorneo); // debes tenerlo definido
+                            cmdEst2.ExecuteNonQuery();
+                        }
+
                     }
                 }
 
@@ -293,6 +386,24 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
             modal.ShowDialog();
         }
+        private int ObtenerIdEquipo(string nombreEquipo, MySqlConnection conn)
+        {
+            using (MySqlCommand cmd = new MySqlCommand("SELECT id_equipo FROM equipos WHERE nombre = @nombre", conn))
+            {
+                cmd.Parameters.AddWithValue("@nombre", nombreEquipo);
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
+        private int ObtenerIdTorneoDesdePartida(int idPartida, MySqlConnection conn)
+        {
+            using (MySqlCommand cmd = new MySqlCommand("SELECT id_torneo FROM partidas WHERE id_partida = @id", conn))
+            {
+                cmd.Parameters.AddWithValue("@id", idPartida);
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
 
         //Mostramos en un listbox la posicion de cada equipo y los puntos que tiene
         private void CargarClasificacion(int idTorneo)

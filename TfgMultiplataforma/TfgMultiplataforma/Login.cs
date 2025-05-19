@@ -100,5 +100,66 @@ namespace TfgMultiplataforma
                 textBox_contrasena_login.Clear();
             }
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            ActualizarEstadosTorneos();
+            ActualizarEstadosPartidas();
+        }
+
+        private void ActualizarEstadosTorneos()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(conexionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                UPDATE torneos
+                SET id_estado = 
+                    CASE 
+                        WHEN CURDATE() < fecha_inicio THEN 1
+                        WHEN CURDATE() BETWEEN fecha_inicio AND fecha_fin THEN 2
+                        WHEN CURDATE() > fecha_fin THEN 3
+                    END;";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar estados de torneos: " + ex.Message);
+            }
+        }
+
+        private void ActualizarEstadosPartidas()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(conexionString))
+                {
+                    conn.Open();
+
+                    // Actualización de estados de las partidas
+                    string query = @"
+                        UPDATE partidas
+                        SET id_estado = 
+                            CASE 
+                                WHEN fecha_partida > CURDATE() THEN 1  -- Programado
+                                WHEN fecha_partida = CURDATE() THEN 2  -- En curso
+                                WHEN fecha_partida < CURDATE() THEN 3  -- Finalizado
+                            END;";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar estados de partidas: " + ex.Message);
+            }
+        }
     }
 }
