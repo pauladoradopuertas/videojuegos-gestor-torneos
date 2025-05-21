@@ -151,9 +151,9 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     SET fecha_fin = CURRENT_DATE()
                     WHERE id_cliente = @idCliente AND fecha_fin IS NULL;
 
-                UPDATE clientes
-                SET id_estado_usuario = 2
-                WHERE id_cliente = @idCliente;";
+                    UPDATE clientes
+                    SET id_estado_usuario = 2
+                    WHERE id_cliente = @idCliente;";
 
                 using (MySqlCommand cmd = new MySqlCommand(queryEliminar, conn))
                 {
@@ -180,7 +180,17 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             string nuevoNombre = textBox_nombre_editar.Text.Trim();
             string nuevoVisible = comboBox_visible.SelectedItem?.ToString();
 
-            //Verificar si hay algún dato que actualizar
+            // Expresión regular para permitir solo letras, números, espacios, guiones y guiones bajos
+            string pattern = @"^[a-zA-Z0-9\s\-_]+$";
+
+            // Verificar si el nombre del equipo contiene caracteres no permitidos
+            if (!System.Text.RegularExpressions.Regex.IsMatch(nuevoNombre, pattern))
+            {
+                MessageBox.Show("El nombre del equipo contiene caracteres no permitidos. Solo se permiten letras, números, espacios, guiones y guiones bajos.");
+                return;
+            }
+
+            // Verificar si hay algún dato que actualizar
             if (string.IsNullOrEmpty(nuevoNombre) && string.IsNullOrEmpty(nuevoVisible))
             {
                 MessageBox.Show("No hay cambios para guardar.");

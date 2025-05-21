@@ -46,6 +46,17 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         private void button_anadir_Click(object sender, EventArgs e)
         {
             string usuario = textBox_usuario_anadir.Text;
+
+            // Expresión regular para permitir solo letras, números, guiones, guiones bajos y puntos
+            string pattern = @"^[a-zA-Z0-9\-_\.]+$";
+
+            // Verificar si el nombre de usuario contiene caracteres no permitidos
+            if (!System.Text.RegularExpressions.Regex.IsMatch(usuario, pattern))
+            {
+                MessageBox.Show("El nombre de usuario contiene caracteres no permitidos. Solo se permiten letras, números, guiones, guiones bajos y puntos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             int idRol = Convert.ToInt32(comboBox_rol_anadir.SelectedValue);
             //Por defecto ponemos el estado activo
             int idEstadoActivo = 1;

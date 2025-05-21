@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Security.Cryptography;
 
 
 namespace TfgMultiplataforma
@@ -21,17 +22,42 @@ namespace TfgMultiplataforma
             InitializeComponent();
         }
 
+        // Hasheo con SHA256
+        private string HashContrasena(string contrasena)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(contrasena));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        // Limpieza de texto (solo letras, números y algún símbolo permitido)
+        private string LimpiarTexto(string input)
+        {
+            return new string(input.Where(c => char.IsLetterOrDigit(c) || c == '_' || c == '@' || c == '.').ToArray());
+        }
+
         //Boton para registrarse
         private void button_registro_Click(object sender, EventArgs e)
         {
-            //Obtiene los datos
-            string nombre = textBox_nombre_registro.Text;
-            string apellidos = textBox_apellidos_registro.Text;
-            string usuario = textBox_usuario_registro.Text;
-            string contrasena = textBox_contrasena_registro.Text;
-            string telefono = textBox_telefono_registro.Text;
-            string dni = textBox_dni_registro.Text;
-            string email = textBox_email_registro.Text;
+            //Obtiene los datos y limpia los campos
+            string nombre = LimpiarTexto(textBox_nombre_registro.Text);
+            string apellidos = LimpiarTexto(textBox_apellidos_registro.Text);
+            string usuario = LimpiarTexto(textBox_usuario_registro.Text);
+            // Limpia la contraseña antes de hashearla
+            string contrasenaLimpia = LimpiarTexto(textBox_contrasena_registro.Text.Trim());
+
+            // Luego, hashea la contraseña limpia
+            string contrasena = HashContrasena(contrasenaLimpia);
+            string telefono = LimpiarTexto(textBox_telefono_registro.Text);
+            string dni = LimpiarTexto(textBox_dni_registro.Text);
+            string email = LimpiarTexto(textBox_email_registro.Text);
 
             //Comprobar que no estan vacios
             if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(apellidos) ||

@@ -42,9 +42,19 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             string nombreEquipo = textBox_nombre_crear.Text.Trim();
             string visible = comboBox_visible_crear.SelectedItem?.ToString();
 
+            // Expresión regular para permitir solo letras, números, espacios, guiones y guiones bajos
+            string pattern = @"^[a-zA-Z0-9\s\-_]+$";
+
+            // Validar si el nombre del equipo coincide con la expresión regular
             if (string.IsNullOrEmpty(nombreEquipo) || string.IsNullOrEmpty(visible))
             {
                 MessageBox.Show("Por favor, completa todos los campos.");
+                return;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(nombreEquipo, pattern))
+            {
+                MessageBox.Show("El nombre del equipo contiene caracteres no permitidos. Solo se permiten letras, números, espacios, guiones y guiones bajos.");
                 return;
             }
 
@@ -114,32 +124,40 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                 try
                 {
-                    //Asignar el rol de Capitán al cliente en la base de datos
-                    string queryActualizarRol = @"
-                        UPDATE `clientes-equipos` ce
-                        JOIN roles_usuario ru ON ru.nombre = 'capitan'
-                        SET ce.id_rol = ru.id_rol_usuario
-                        WHERE ce.id_cliente = @idUsuario AND ce.fecha_fin IS NULL;
+                    // Insertar la relación entre el usuario y el equipo en la tabla `clientes-equipos` 
+                    string queryInsertRelacion = @"
+                INSERT INTO `clientes-equipos` (id_cliente, id_equipo, fecha_inicio, fecha_fin, id_rol)
+                VALUES (@idUsuario, @idEquipo, CURDATE(), NULL, 1);"; // 1 es el rol de capitán
 
-                    UPDATE clientes
-                    SET id_estado_usuario = 1
-                    WHERE id_cliente = @idUsuario;";
-
-
-                    using (MySqlCommand cmd = new MySqlCommand(queryActualizarRol, conn))
+                    using (MySqlCommand cmdInsertRelacion = new MySqlCommand(queryInsertRelacion, conn))
                     {
-                        cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
-                        cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
-                        cmd.Transaction = transaction;
-                        cmd.ExecuteNonQuery();
+                        cmdInsertRelacion.Parameters.AddWithValue("@idUsuario", idUsuario);
+                        cmdInsertRelacion.Parameters.AddWithValue("@idEquipo", idEquipo);
+                        cmdInsertRelacion.Transaction = transaction;
+                        cmdInsertRelacion.ExecuteNonQuery();
                     }
 
-                    //Confirmar la transacción
+                    // Actualizar el estado del usuario a activo (si no está ya activo)
+                    string queryActualizarEstado = @"
+                UPDATE clientes
+                SET id_estado_usuario = 1
+                WHERE id_cliente = @idUsuario;"; // Estado 1 es activo
+
+                    using (MySqlCommand cmdActualizarEstado = new MySqlCommand(queryActualizarEstado, conn))
+                    {
+                        cmdActualizarEstado.Parameters.AddWithValue("@idUsuario", idUsuario);
+                        cmdActualizarEstado.Transaction = transaction;
+                        cmdActualizarEstado.ExecuteNonQuery();
+                    }
+
+                    // Confirmar la transacción
                     transaction.Commit();
+
+                    MessageBox.Show("El equipo ha sido creado y el usuario asignado como capitán correctamente.");
                 }
                 catch (Exception ex)
                 {
-                    //En caso de error, revertir la transacción
+                    // En caso de error, revertir la transacción
                     transaction.Rollback();
                     MessageBox.Show("Error al asignar el rol de Capitán y el estado activo: " + ex.Message);
                 }

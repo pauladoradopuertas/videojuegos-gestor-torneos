@@ -105,8 +105,8 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                         INSERT INTO `clientes-equipos` (id_cliente, id_equipo, id_rol, fecha_inicio)
                         VALUES(@idUsuario, @idEquipo, 2, NOW()); "; // Se añade la fecha de inicio con NOW()
-        
-            MySqlCommand cmdUpdateEquipo = new MySqlCommand(queryUpdateEquipo, conn, transaction);
+
+                    MySqlCommand cmdUpdateEquipo = new MySqlCommand(queryUpdateEquipo, conn, transaction);
                     cmdUpdateEquipo.Parameters.AddWithValue("@idUsuario", idUsuario);
                     cmdUpdateEquipo.Parameters.AddWithValue("@idEquipo", idEquipo);
                     cmdUpdateEquipo.ExecuteNonQuery();
@@ -127,6 +127,11 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     MessageBox.Show("Error al unirse al equipo: " + ex.Message);
                 }
             }
+        }
+
+        private void textBox_buscar_equipo_TextChanged(object sender, EventArgs e)
+        {
+            CargarEquipos(textBox_buscar_equipo.Text.Trim());
         }
     }
 }

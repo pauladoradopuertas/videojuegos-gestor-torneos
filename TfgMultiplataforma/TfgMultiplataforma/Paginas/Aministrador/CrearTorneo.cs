@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -69,8 +70,22 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             DateTime fechaInicio = dateTimePicker_fechaIn_crear_torneo.Value;
             DateTime fechaFin = dateTimePicker_fechaFin_crear_torneo.Value;
             string diaPartida = comboBox_partida_crear_torneo.SelectedItem?.ToString();
-            int maxEquipos = int.Parse(textBox_cant_equipos_crear_torneo.Text);
+            int maxEquipos;
+
+            // Validar que la cantidad de equipos es un número válido
+            if (!int.TryParse(textBox_cant_equipos_crear_torneo.Text, out maxEquipos) || maxEquipos <= 0)
+            {
+                MessageBox.Show("Por favor, ingresa una cantidad válida de equipos.");
+                return;
+            }
             int idJuego = (int)comboBox_juego_crear_torneo.SelectedValue;
+
+            // Validación de nombre del torneo: solo permite letras, números, guiones y espacios
+            if (!ValidarNombreTorneo(nombre))
+            {
+                MessageBox.Show("El nombre del torneo contiene caracteres no válidos.");
+                return;
+            }
 
             //Calcular el estado
             string estado = ObtenerEstadoDesdeFechas(fechaInicio, fechaFin);
@@ -103,6 +118,14 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 MessageBox.Show("Torneo creado correctamente.");
                 this.Close();
             }
+        }
+
+        // Función para validar el nombre del torneo (solo letras, números, guion y espacio)
+        private bool ValidarNombreTorneo(string nombre)
+        {
+            string patron = @"^[a-zA-Z0-9\s\-]+$"; // Solo permite letras, números, espacios y guiones
+            Regex regex = new Regex(patron);
+            return regex.IsMatch(nombre);
         }
 
         //Calculamos el estado del torneo según la fecha actual
@@ -217,6 +240,13 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             if (string.IsNullOrEmpty(nuevoJuego))
             {
                 MessageBox.Show("Introduce un nombre válido.");
+                return;
+            }
+
+            // Validar que el nombre del juego sea válido
+            if (!ValidarNombreTorneo(nuevoJuego))
+            {
+                MessageBox.Show("El nombre del juego contiene caracteres no válidos.");
                 return;
             }
 

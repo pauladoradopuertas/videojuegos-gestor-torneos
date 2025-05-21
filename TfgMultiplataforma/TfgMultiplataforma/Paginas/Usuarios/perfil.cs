@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
+
 
 namespace TfgMultiplataforma.Paginas.Usuarios
 {
@@ -28,6 +31,25 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             CargarDatosCliente(idCliente);
             CargarHistorialPartidas(idCliente);
             CargarEstadisticasCliente(idCliente);
+        }
+
+        private string HashContrasena(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // Convertir la contraseña en un arreglo de bytes
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Convertir el arreglo de bytes en una cadena hexadecimal
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+
+                // Retornar el hash de la contraseña
+                return builder.ToString();
+            }
         }
 
         //Cargar datos del cliente
@@ -104,6 +126,52 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
         }
 
+        private bool ValidarNombreApellidoUsuario(string texto)
+        {
+            // Asegura que solo contenga letras y espacios, sin caracteres especiales
+            string patron = @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$";
+            return Regex.IsMatch(texto, patron);
+        }
+
+        private bool ValidarTelefono(string telefono)
+        {
+            // Asegura que tenga exactamente 9 dígitos
+            return telefono.Length == 9 && telefono.All(char.IsDigit);
+        }
+
+        private bool ValidarDni(string dni)
+        {
+            // Asegura que tenga 8 dígitos seguidos de una letra
+            string patron = @"^\d{8}[A-Za-z]$";
+            return Regex.IsMatch(dni, patron);
+        }
+
+        private bool ValidarEmail(string email)
+        {
+            // Expresión regular para validar el formato del email
+            string patron = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            return Regex.IsMatch(email, patron);
+        }
+
+        // Método para obtener el valor actual del campo desde la base de datos antes de hacer la actualización
+        private string ObtenerValorAnterior(string campo)
+        {
+            using (MySqlConnection conn = new MySqlConnection(conexionString))
+            {
+                conn.Open();
+
+                string query = "SELECT " + campo + " FROM clientes WHERE id_cliente = @idCliente";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@idCliente", idCliente);
+
+                    object result = cmd.ExecuteScalar();
+                    return result != null ? result.ToString() : string.Empty;
+                }
+            }
+        }
+
         //Guardar los cambios
         private void GuardarCambios()
         {
@@ -117,20 +185,50 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            //Comprobar si el usuario, teléfono o email ya existen en la base de datos
-            if (ExisteValorEnBaseDeDatos("usuario", textBox_usuario_perfil.Text, idCliente))
+            // Validar nombre, apellidos y usuario
+            if (!ValidarNombreApellidoUsuario(textBox_nombre_perfil.Text) ||
+                !ValidarNombreApellidoUsuario(textBox_apellidos_perfil.Text) ||
+                !ValidarNombreApellidoUsuario(textBox_usuario_perfil.Text))
+            {
+                MessageBox.Show("El nombre, apellidos y usuario solo pueden contener letras y espacios.");
+                return;
+            }
+
+            // Validar teléfono (9 dígitos)
+            if (!ValidarTelefono(textBox_telefono_perfil.Text))
+            {
+                MessageBox.Show("El número de teléfono debe tener 9 dígitos.");
+                return;
+            }
+
+            // Validar DNI
+            if (!ValidarDni(textBox_dni_perfil.Text))
+            {
+                MessageBox.Show("El DNI debe tener 8 dígitos seguidos de una letra.");
+                return;
+            }
+
+            // Validar email
+            if (!ValidarEmail(textBox_email_perfil.Text))
+            {
+                MessageBox.Show("El correo electrónico no tiene un formato válido.");
+                return;
+            }
+
+            // Comprobar si el usuario, teléfono o email ya existen en la base de datos solo si han sido modificados
+            if (textBox_usuario_perfil.Text != ObtenerValorAnterior("usuario") && ExisteValorEnBaseDeDatos("usuario", textBox_usuario_perfil.Text, idCliente))
             {
                 MessageBox.Show("Este nombre de usuario ya está en uso. Elija otro.");
                 return;
             }
 
-            if (ExisteValorEnBaseDeDatos("telefono", textBox_telefono_perfil.Text, idCliente))
+            if (textBox_telefono_perfil.Text != ObtenerValorAnterior("telefono") && ExisteValorEnBaseDeDatos("telefono", textBox_telefono_perfil.Text, idCliente))
             {
                 MessageBox.Show("Este número de teléfono ya está en uso. Elija otro.");
                 return;
             }
 
-            if (ExisteValorEnBaseDeDatos("email", textBox_email_perfil.Text, idCliente))
+            if (textBox_email_perfil.Text != ObtenerValorAnterior("email") && ExisteValorEnBaseDeDatos("email", textBox_email_perfil.Text, idCliente))
             {
                 MessageBox.Show("Este correo electrónico ya está en uso. Elija otro.");
                 return;
@@ -157,7 +255,9 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     cmd.Parameters.AddWithValue("@nombre", textBox_nombre_perfil.Text);
                     cmd.Parameters.AddWithValue("@apellidos", textBox_apellidos_perfil.Text);
                     cmd.Parameters.AddWithValue("@usuario", textBox_usuario_perfil.Text);
-                    cmd.Parameters.AddWithValue("@contrasena", textBox_contrasena_perfil.Text);
+                    // Generar el hash de la contraseña antes de guardarla
+                    string hashedPassword = HashContrasena(textBox_contrasena_perfil.Text);
+                    cmd.Parameters.AddWithValue("@contrasena", hashedPassword);
                     cmd.Parameters.AddWithValue("@telefono", textBox_telefono_perfil.Text);
                     cmd.Parameters.AddWithValue("@dni", textBox_dni_perfil.Text);
                     cmd.Parameters.AddWithValue("@email", textBox_email_perfil.Text);

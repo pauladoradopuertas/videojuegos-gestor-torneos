@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TfgMultiplataforma.Paginas.Aministrador;
 using TfgMultiplataforma.Paginas.Usuarios;
+using System.Security.Cryptography;
 
 namespace TfgMultiplataforma
 {
@@ -22,6 +23,26 @@ namespace TfgMultiplataforma
             InitializeComponent();
         }
 
+        private string HashContrasena(string contrasena)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(contrasena));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        private string LimpiarTexto(string input)
+        {
+            // Solo letras y números (ajústalo según tus necesidades)
+            return new string(input.Where(c => char.IsLetterOrDigit(c)).ToArray());
+        }
+
         //Boton para registrarse
         private void button_registro_Click(object sender, EventArgs e)
         {
@@ -32,10 +53,10 @@ namespace TfgMultiplataforma
         //Boton para iniciar sesion
         private void button_login_Click(object sender, EventArgs e)
         {
-            string usuario = textBox_usuario_login.Text;
-            string contrasena = textBox_contrasena_login.Text;
+            string usuario = LimpiarTexto(textBox_usuario_login.Text);
+            string contrasenaIngresada = LimpiarTexto(textBox_contrasena_login.Text); // Limpiar la contraseña
 
-            if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasena))
+            if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasenaIngresada))
             {
                 MessageBox.Show("Por favor, ingrese usuario y contraseña.");
                 return;
@@ -47,43 +68,47 @@ namespace TfgMultiplataforma
                 {
                     conexion.Open();
 
-                    string consulta = @"
-                        SELECT id_cliente, admin 
-                        FROM clientes 
-                        WHERE usuario = @usuario AND contrasena = @contrasena";
+                    string consulta = @"SELECT id_cliente, admin, contrasena FROM clientes WHERE usuario = @usuario";
 
                     using (MySqlCommand comando = new MySqlCommand(consulta, conexion))
                     {
                         comando.Parameters.AddWithValue("@usuario", usuario);
-                        comando.Parameters.AddWithValue("@contrasena", contrasena);
 
                         using (MySqlDataReader reader = comando.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                int idCliente = Convert.ToInt32(reader["id_cliente"]);
-                                string esAdmin = reader["admin"].ToString(); // Obtiene el valor del enum 'admin'
+                                string hashEnBD = reader["contrasena"].ToString();
+                                string hashIngresado = HashContrasena(contrasenaIngresada);
 
-                                this.Hide();
-
-                                // Admin
-                                if (esAdmin == "si")
+                                if (hashIngresado == hashEnBD)
                                 {
-                                    AdminForm adminForm = new AdminForm();
-                                    adminForm.FormClosed += (s, args) => this.Show();
-                                    adminForm.Show();
+                                    int idCliente = Convert.ToInt32(reader["id_cliente"]);
+                                    string esAdmin = reader["admin"].ToString();
+
+                                    this.Hide();
+
+                                    if (esAdmin == "si")
+                                    {
+                                        AdminForm adminForm = new AdminForm();
+                                        adminForm.FormClosed += (s, args) => this.Show();
+                                        adminForm.Show();
+                                    }
+                                    else
+                                    {
+                                        UsuariosForm usuariosForm = new UsuariosForm(idCliente);
+                                        usuariosForm.FormClosed += (s, args) => this.Show();
+                                        usuariosForm.Show();
+                                    }
                                 }
-                                // Capitán o miembro
                                 else
                                 {
-                                    UsuariosForm usuariosForm = new UsuariosForm(idCliente);
-                                    usuariosForm.FormClosed += (s, args) => this.Show();
-                                    usuariosForm.Show();
+                                    MessageBox.Show("Contraseña incorrecta.");
                                 }
                             }
                             else
                             {
-                                MessageBox.Show("Usuario o Contraseña Incorrecta");
+                                MessageBox.Show("Usuario no encontrado.");
                             }
                         }
                     }
@@ -95,7 +120,6 @@ namespace TfgMultiplataforma
             }
             finally
             {
-                //Limpiar campos después del login
                 textBox_usuario_login.Clear();
                 textBox_contrasena_login.Clear();
             }

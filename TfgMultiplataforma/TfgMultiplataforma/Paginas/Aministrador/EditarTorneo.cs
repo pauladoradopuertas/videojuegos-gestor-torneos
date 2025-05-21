@@ -34,6 +34,12 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             CargarDatosTorneo(nombreTorneo);
         }
 
+        private string LimpiarTexto(string input)
+        {
+            // Permitir solo letras y números, eliminar otros caracteres
+            return new string(input.Where(c => char.IsLetterOrDigit(c) || c == ' ').ToArray());
+        }
+
         //Cargamos los datos del torneo
         private void CargarDatosTorneo(string nombreTorneo)
         {
@@ -154,11 +160,40 @@ namespace TfgMultiplataforma.Paginas.Aministrador
         //Guardamos los datos que hemos modificado en el torneo
         private void button_editar_torneo_Click_1(object sender, EventArgs e)
         {
-            string nombre = textBox_nombre_editar_torneo.Text;
-            DateTime fechaInicio = DateTime.Parse(textBox_fecha_inicio_editar_torneo.Text);
-            DateTime fechaFin = DateTime.Parse(textBox_fecha_fin_editar_torneo.Text);
+            // Limpiar y validar nombre
+            string nombre = LimpiarTexto(textBox_nombre_editar_torneo.Text);
+
+            // Validar fecha de inicio y fin
+            DateTime fechaInicio;
+            DateTime fechaFin;
+
+            if (!DateTime.TryParse(textBox_fecha_inicio_editar_torneo.Text, out fechaInicio))
+            {
+                MessageBox.Show("Por favor, ingresa una fecha de inicio válida.");
+                return;
+            }
+
+            if (!DateTime.TryParse(textBox_fecha_fin_editar_torneo.Text, out fechaFin))
+            {
+                MessageBox.Show("Por favor, ingresa una fecha de fin válida.");
+                return;
+            }
+
+            if (fechaInicio > fechaFin)
+            {
+                MessageBox.Show("La fecha de inicio no puede ser posterior a la fecha de fin.");
+                return;
+            }
+
+            // Validar cantidad de equipos
+            int maxEquipos;
+            if (!int.TryParse(textBox_cant_equipos_editar_torneo.Text, out maxEquipos) || maxEquipos <= 0)
+            {
+                MessageBox.Show("Por favor, ingresa un número válido para la cantidad de equipos.");
+                return;
+            }
+
             string diaPartida = comboBox_partida_editar_torneo.SelectedItem.ToString();
-            int maxEquipos = int.Parse(textBox_cant_equipos_editar_torneo.Text);
             int idJuego = (int)comboBox_juego_editar_torneo.SelectedValue;
             string estado = textBox_estado_editar_torneo.Text;
 

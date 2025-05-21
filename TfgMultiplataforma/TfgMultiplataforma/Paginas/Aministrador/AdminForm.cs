@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Security.Cryptography;
+
 
 namespace TfgMultiplataforma.Paginas.Aministrador
 {
@@ -515,20 +517,43 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             CrearNuevoAdmin();
         }
 
+        // Limpieza de texto (solo letras, números y algún símbolo permitido)
+        private string LimpiarTexto(string input)
+        {
+            return new string(input.Where(c => char.IsLetterOrDigit(c) || c == '_' || c == '@' || c == '.').ToArray());
+        }
+
+        // Hasheo con SHA256
+        private string HashContrasena(string contrasena)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(contrasena));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
         private void CrearNuevoAdmin()
         {
-            string usuario = textBox_usuario_admin.Text.Trim();
-            string contrasena = textBox_contrasena_admin.Text.Trim();
-            string nombre = textBox_nombre_admin.Text.Trim();
-            string apellidos = textBox_apellidos_admin.Text.Trim();
-            string telefono = textBox_telefono_admin.Text.Trim();
-            string dni = textBox_dni_admin.Text.Trim().ToUpper();
-            string email = textBox_email_admin.Text.Trim();
+            string usuario = LimpiarTexto(textBox_usuario_admin.Text.Trim());
+            string contrasena = LimpiarTexto(textBox_contrasena_admin.Text.Trim());
+            string nombre = LimpiarTexto(textBox_nombre_admin.Text.Trim());
+            string apellidos = LimpiarTexto(textBox_apellidos_admin.Text.Trim());
+            string telefono = LimpiarTexto(textBox_telefono_admin.Text.Trim());
+            string dni = LimpiarTexto(textBox_dni_admin.Text.Trim()).ToUpper();
+            string email = LimpiarTexto(textBox_email_admin.Text.Trim());
 
-            //Validaciones
-            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena))
+            // Validaciones
+            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena) ||
+                string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellidos) ||
+                string.IsNullOrWhiteSpace(telefono) || string.IsNullOrWhiteSpace(dni) || string.IsNullOrWhiteSpace(email))
             {
-                MessageBox.Show("Usuario y contraseña son obligatorios.");
+                MessageBox.Show("Por favor complete todos los campos obligatorios.");
                 return;
             }
 
@@ -549,6 +574,9 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 MessageBox.Show("El DNI debe tener 8 números seguidos de una letra (ej: 12345678A).");
                 return;
             }
+
+            // Hashear la contraseña antes de insertarla (igual que en el registro)
+            string contrasenaHasheada = HashContrasena(contrasena);
 
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
@@ -585,7 +613,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     insertCmd.Parameters.AddWithValue("@nombre", nombre);
                     insertCmd.Parameters.AddWithValue("@apellidos", apellidos);
                     insertCmd.Parameters.AddWithValue("@usuario", usuario);
-                    insertCmd.Parameters.AddWithValue("@contrasena", contrasena);
+                    insertCmd.Parameters.AddWithValue("@contrasena", contrasenaHasheada); // Almacena el hash de la contraseña
                     insertCmd.Parameters.AddWithValue("@telefono", telefono);
                     insertCmd.Parameters.AddWithValue("@dni", dni);
                     insertCmd.Parameters.AddWithValue("@email", email);

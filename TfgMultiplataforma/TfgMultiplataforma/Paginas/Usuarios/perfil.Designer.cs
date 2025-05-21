@@ -301,6 +301,7 @@
             textBox_contrasena_perfil.Name = "textBox_contrasena_perfil";
             textBox_contrasena_perfil.Size = new Size(668, 41);
             textBox_contrasena_perfil.TabIndex = 22;
+            textBox_contrasena_perfil.UseSystemPasswordChar = true;
             // 
             // label_contrasena_perfil
             // 

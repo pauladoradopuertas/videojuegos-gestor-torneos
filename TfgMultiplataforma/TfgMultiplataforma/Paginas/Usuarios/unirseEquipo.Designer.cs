@@ -62,6 +62,7 @@
             textBox_buscar_equipo.Name = "textBox_buscar_equipo";
             textBox_buscar_equipo.Size = new Size(624, 41);
             textBox_buscar_equipo.TabIndex = 45;
+            textBox_buscar_equipo.TextChanged += textBox_buscar_equipo_TextChanged;
             // 
             // label_buscar_equipo
             // 
