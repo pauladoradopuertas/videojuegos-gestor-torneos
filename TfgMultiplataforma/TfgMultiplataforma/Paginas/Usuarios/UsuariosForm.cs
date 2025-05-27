@@ -57,9 +57,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     WHERE c.id_cliente = @idCliente
                     AND ce.fecha_fin IS NULL";
 
-
-
-
                 using (MySqlCommand cmd = new MySqlCommand(queryEquipo, conn))
                 {
                     cmd.Parameters.AddWithValue("@idCliente", idCliente);
@@ -125,31 +122,29 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             this.Controls.Add(buttonUnirseEquipo);
         }
 
+        //Boton crear equipo
         private void ButtonCrearEquipo_Click(object sender, EventArgs e)
         {
-            // Crear el formulario crearEquipo
+            //Crear el formulario crearEquipo
             crearEquipo formularioCrearEquipo = new crearEquipo(idCliente);
-
-            // Ocultar el formulario actual (por ejemplo UsuariosForm)
+            //Ocultar el formulario
             this.Hide();
-
-            // Cuando se cierre el formulario de crearEquipo, volver a mostrar el actual
+            //Cuando se cierre el formulario de crearEquipo, mostrar el actual
             formularioCrearEquipo.FormClosed += (s, args) => this.Show();
-
-            // Mostrar crearEquipo
+            //Mostrar crearEquipo
             formularioCrearEquipo.Show();
         }
 
+        //Boton unirse a un equipo
         private void ButtonUnirseEquipo_Click(object sender, EventArgs e)
         {
-            this.Hide(); // Oculta UsuariosForm
+            this.Hide();
 
             unirseEquipo formUnirse = new unirseEquipo(idCliente);
 
-            // Cuando se cierre el formulario de unirseEquipo, volver a mostrar UsuariosForm
+            //Cuando se cierre el formulario de unirseEquipo, mostrar UsuariosForm
             formUnirse.FormClosed += (s, args) => this.Show();
-
-            formUnirse.Show(); // No ShowDialog
+            formUnirse.Show();
          }
 
         //Método para cargar los miembros del equipo
@@ -166,8 +161,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     LEFT JOIN roles_usuario ru ON ce.id_rol = ru.id_rol_usuario
                     WHERE ce.id_equipo = @idEquipo
                     AND ce.fecha_fin IS NULL";
-
-
 
                 using (MySqlCommand cmd = new MySqlCommand(queryMiembros, conn))
                 {
@@ -213,7 +206,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 MySqlTransaction transaction = conn.BeginTransaction();
                 try
                 {
-                    // Eliminar la relación de cliente y equipo (poner fecha_fin con la fecha actual)
+                    //Eliminar la relación de cliente y equipo poner en la fecha de fin la fecha actual
                     string queryActualizar = @"
                         UPDATE `clientes-equipos`
                         SET fecha_fin = NOW()
@@ -227,10 +220,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         cmd.ExecuteNonQuery();
                     }
 
-                    // Actualizar el estado del usuario a inactivo en la tabla clientes
+                    //Actualizar el estado del usuario a inactivo en la tabla clientes
                     string queryActualizarCliente = @"
                         UPDATE clientes
-                        SET id_estado_usuario = 2  -- Poner el estado como inactivo
+                        SET id_estado_usuario = 2
                         WHERE id_cliente = @idCliente";
 
                     using (MySqlCommand cmd = new MySqlCommand(queryActualizarCliente, conn))
@@ -240,10 +233,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         cmd.ExecuteNonQuery();
                     }
 
-                    // Actualizar el rol en la tabla `clientes-equipos` si es necesario
+                    //Actualizar el rol en la tabla `clientes-equipos`
                     string queryActualizarRol = @"
                         UPDATE `clientes-equipos`
-                        SET id_rol = NULL   -- Eliminar el rol ya que ha abandonado el equipo
+                        SET id_rol = NULL
                         WHERE id_cliente = @idCliente AND id_equipo = @idEquipo AND fecha_fin IS NULL";
 
                     using (MySqlCommand cmd = new MySqlCommand(queryActualizarRol, conn))
@@ -254,7 +247,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         cmd.ExecuteNonQuery();
                     }
 
-                    // Confirmar la transacción
                     transaction.Commit();
 
                     MessageBox.Show("Has abandonado el equipo correctamente.");
@@ -298,7 +290,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     WHERE ce.id_cliente = @idCliente 
                     AND ce.id_equipo = @idEquipo
                     AND ru.nombre = 'capitan'";
-
 
                 using (MySqlCommand cmd = new MySqlCommand(queryCapitan, conn))
                 {
@@ -474,7 +465,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         {
             //Crear una nueva instancia del formulario perfil
             perfil perfilForm = new perfil(idCliente);
-
             //Mostrar el formulario de perfil
             perfilForm.ShowDialog();
         }

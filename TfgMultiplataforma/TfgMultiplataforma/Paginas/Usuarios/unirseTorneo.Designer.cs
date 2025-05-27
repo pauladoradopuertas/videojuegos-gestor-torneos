@@ -61,7 +61,6 @@
             label_juegos.Size = new Size(123, 46);
             label_juegos.TabIndex = 53;
             label_juegos.Text = "Juegos";
-            label_juegos.Click += label_juegos_Click;
             // 
             // button_volver_torneo
             // 

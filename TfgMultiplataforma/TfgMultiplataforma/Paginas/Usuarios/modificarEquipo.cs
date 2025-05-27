@@ -180,17 +180,17 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             string nuevoNombre = textBox_nombre_editar.Text.Trim();
             string nuevoVisible = comboBox_visible.SelectedItem?.ToString();
 
-            // Expresión regular para permitir solo letras, números, espacios, guiones y guiones bajos
+            //Solo letras, números, espacios, guiones y guiones bajos
             string pattern = @"^[a-zA-Z0-9\s\-_]+$";
 
-            // Verificar si el nombre del equipo contiene caracteres no permitidos
+            //Verificar el nombre del equipo
             if (!System.Text.RegularExpressions.Regex.IsMatch(nuevoNombre, pattern))
             {
                 MessageBox.Show("El nombre del equipo contiene caracteres no permitidos. Solo se permiten letras, números, espacios, guiones y guiones bajos.");
                 return;
             }
 
-            // Verificar si hay algún dato que actualizar
+            //Verificar si hay algún dato que actualizar
             if (string.IsNullOrEmpty(nuevoNombre) && string.IsNullOrEmpty(nuevoVisible))
             {
                 MessageBox.Show("No hay cambios para guardar.");
@@ -201,7 +201,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             {
                 conn.Open();
 
-                //Construir la consulta dinámicamente
+                //Construir la consulta
                 List<string> camposActualizar = new List<string>();
                 if (!string.IsNullOrEmpty(nuevoNombre))
                     camposActualizar.Add("nombre = @nuevoNombre");

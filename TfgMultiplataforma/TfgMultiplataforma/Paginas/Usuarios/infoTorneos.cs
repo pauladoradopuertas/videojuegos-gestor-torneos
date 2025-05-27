@@ -257,12 +257,12 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             {
                 Dock = DockStyle.Fill,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true,  // Que sea solo lectura
+                ReadOnly = true,  //Solo lectura
                 AllowUserToAddRows = false,  //No se pueden agregar filas
                 AllowUserToDeleteRows = false,  //No se pueden eliminar filas
                 AllowUserToOrderColumns = false,  //No se pueden ordenar las columnas
                 AllowUserToResizeRows = false,  //No se pueden redimensionar filas
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,  //Permite seleccionar filas completas
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 RowHeadersVisible = false  //No muestra los encabezados de fila
             };
 
@@ -369,7 +369,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             };
 
             DataTable dt = new DataTable();
-            dt.Columns.Add("Resultado", typeof(string));  // Columna "Resultado"
+            dt.Columns.Add("Resultado", typeof(string));
 
             //Añadir los resultados
             foreach (var resultado in resultados)
@@ -393,12 +393,9 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 {
                     conn.Open();
                     string query = @"
-                        SELECT 
-                            ep.resultado
-                        FROM 
-                            `equipos-partidas` ep
-                        WHERE 
-                            ep.id_equipo = @idEquipo";
+                        SELECT ep.resultado
+                        FROM `equipos-partidas` ep
+                        WHERE ep.id_equipo = @idEquipo";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {

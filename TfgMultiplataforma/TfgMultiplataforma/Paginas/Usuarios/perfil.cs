@@ -33,21 +33,22 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             CargarEstadisticasCliente(idCliente);
         }
 
+        //Hashear contraseña
         private string HashContrasena(string password)
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {
-                // Convertir la contraseña en un arreglo de bytes
+                //Convertir la contraseña en bytes
                 byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-                // Convertir el arreglo de bytes en una cadena hexadecimal
+                //Convertir los bytes en una cadena hexadecimal
                 StringBuilder builder = new StringBuilder();
                 foreach (byte b in bytes)
                 {
                     builder.Append(b.ToString("x2"));
                 }
 
-                // Retornar el hash de la contraseña
+                //Retornar el hash de la contraseña
                 return builder.ToString();
             }
         }
@@ -128,32 +129,32 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
         private bool ValidarNombreApellidoUsuario(string texto)
         {
-            // Asegura que solo contenga letras y espacios, sin caracteres especiales
+            //Validar nombre
             string patron = @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$";
             return Regex.IsMatch(texto, patron);
         }
 
+        //Validar telefono
         private bool ValidarTelefono(string telefono)
         {
-            // Asegura que tenga exactamente 9 dígitos
             return telefono.Length == 9 && telefono.All(char.IsDigit);
         }
 
+        //Validar dni
         private bool ValidarDni(string dni)
         {
-            // Asegura que tenga 8 dígitos seguidos de una letra
             string patron = @"^\d{8}[A-Za-z]$";
             return Regex.IsMatch(dni, patron);
         }
 
+        //Validar email
         private bool ValidarEmail(string email)
         {
-            // Expresión regular para validar el formato del email
             string patron = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
             return Regex.IsMatch(email, patron);
         }
 
-        // Método para obtener el valor actual del campo desde la base de datos antes de hacer la actualización
+        //Obbtener el valor actual del campo desde la base de datos antes de hacer la actualización
         private string ObtenerValorAnterior(string campo)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -185,7 +186,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            // Validar nombre, apellidos y usuario
+            //Validar nombre, apellidos y usuario
             if (!ValidarNombreApellidoUsuario(textBox_nombre_perfil.Text) ||
                 !ValidarNombreApellidoUsuario(textBox_apellidos_perfil.Text) ||
                 !ValidarNombreApellidoUsuario(textBox_usuario_perfil.Text))
@@ -194,28 +195,28 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            // Validar teléfono (9 dígitos)
+            //Validar teléfono 9 dígitos
             if (!ValidarTelefono(textBox_telefono_perfil.Text))
             {
                 MessageBox.Show("El número de teléfono debe tener 9 dígitos.");
                 return;
             }
 
-            // Validar DNI
+            //Validar dni
             if (!ValidarDni(textBox_dni_perfil.Text))
             {
                 MessageBox.Show("El DNI debe tener 8 dígitos seguidos de una letra.");
                 return;
             }
 
-            // Validar email
+            //Validar email
             if (!ValidarEmail(textBox_email_perfil.Text))
             {
                 MessageBox.Show("El correo electrónico no tiene un formato válido.");
                 return;
             }
 
-            // Comprobar si el usuario, teléfono o email ya existen en la base de datos solo si han sido modificados
+            //Comprobar si el usuario, teléfono o email ya existen en la base de datos solo si han sido modificados
             if (textBox_usuario_perfil.Text != ObtenerValorAnterior("usuario") && ExisteValorEnBaseDeDatos("usuario", textBox_usuario_perfil.Text, idCliente))
             {
                 MessageBox.Show("Este nombre de usuario ya está en uso. Elija otro.");
@@ -255,7 +256,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     cmd.Parameters.AddWithValue("@nombre", textBox_nombre_perfil.Text);
                     cmd.Parameters.AddWithValue("@apellidos", textBox_apellidos_perfil.Text);
                     cmd.Parameters.AddWithValue("@usuario", textBox_usuario_perfil.Text);
-                    // Generar el hash de la contraseña antes de guardarla
                     string hashedPassword = HashContrasena(textBox_contrasena_perfil.Text);
                     cmd.Parameters.AddWithValue("@contrasena", hashedPassword);
                     cmd.Parameters.AddWithValue("@telefono", textBox_telefono_perfil.Text);
@@ -298,16 +298,11 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         e2.nombre AS equipo2, 
                         ep1.puntos AS puntos_equipo1, 
                         ep2.puntos AS puntos_equipo2
-                    FROM 
-                        `equipos-partidas` ep1
-                    INNER JOIN 
-                        `equipos-partidas` ep2 ON ep1.id_partida = ep2.id_partida AND ep1.id_equipo != ep2.id_equipo
-                    INNER JOIN 
-                        equipos e1 ON ep1.id_equipo = e1.id_equipo
-                    INNER JOIN 
-                        equipos e2 ON ep2.id_equipo = e2.id_equipo
-                    WHERE 
-                        ep1.id_partida IN (SELECT id_partida FROM `equipos-partidas` WHERE id_equipo = @idEquipo)
+                    FROM `equipos-partidas` ep1
+                    INNER JOIN `equipos-partidas` ep2 ON ep1.id_partida = ep2.id_partida AND ep1.id_equipo != ep2.id_equipo
+                    INNER JOIN equipos e1 ON ep1.id_equipo = e1.id_equipo
+                    INNER JOIN equipos e2 ON ep2.id_equipo = e2.id_equipo
+                    WHERE ep1.id_partida IN (SELECT id_partida FROM `equipos-partidas` WHERE id_equipo = @idEquipo)
                     ORDER BY ep1.id_partida";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -429,8 +424,8 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             if (result == DialogResult.Yes)
             {
                 //Cierra todos los formularios
-                System.Diagnostics.Process.Start(Application.ExecutablePath); //Abre el login
-                Application.Exit(); //Cierra la aplicación
+                System.Diagnostics.Process.Start(Application.ExecutablePath);
+                Application.Exit();
 
                 //Mostrar el formulario de login
                 Login loginForm = new Login();

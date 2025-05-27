@@ -351,7 +351,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     comboBox_estado_torneo_admin.DataSource = estados;
                 }
             }
-
         }
 
         //Cargamos los torneos segun el estado y los mete en el listbox
@@ -371,7 +370,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     {
                         listBox_torneo_admin.Items.Clear();
                         bool hayTorneos = false;
-
 
                         while (reader.Read())
                         {
@@ -531,13 +529,13 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             CrearNuevoAdmin();
         }
 
-        // Limpieza de texto (solo letras, números y algún símbolo permitido)
+        //Limpiar texto: solo letras, números, etc
         private string LimpiarTexto(string input)
         {
             return new string(input.Where(c => char.IsLetterOrDigit(c) || c == '_' || c == '@' || c == '.').ToArray());
         }
 
-        // Hasheo con SHA256
+        //Hashear la contraseña
         private string HashContrasena(string contrasena)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -552,6 +550,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
+        //Crear una cuenta nueva para el administrador
         private void CrearNuevoAdmin()
         {
             string usuario = LimpiarTexto(textBox_usuario_admin.Text.Trim());
@@ -562,34 +561,37 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             string dni = LimpiarTexto(textBox_dni_admin.Text.Trim()).ToUpper();
             string email = LimpiarTexto(textBox_email_admin.Text.Trim());
 
-            // Validaciones
+            //Validar campos de texto
             if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena) ||
                 string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellidos) ||
                 string.IsNullOrWhiteSpace(telefono) || string.IsNullOrWhiteSpace(dni) || string.IsNullOrWhiteSpace(email))
             {
-                MessageBox.Show("Por favor complete todos los campos obligatorios.");
+                MessageBox.Show("Por favor, complete todos los campos obligatorios.");
                 return;
             }
 
+            //Email
             if (!System.Text.RegularExpressions.Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 MessageBox.Show("Formato de email inválido.");
                 return;
             }
 
+            //Telefono
             if (!System.Text.RegularExpressions.Regex.IsMatch(telefono, @"^\d{9}$"))
             {
                 MessageBox.Show("El teléfono debe tener exactamente 9 dígitos.");
                 return;
             }
 
+            //Dni
             if (!System.Text.RegularExpressions.Regex.IsMatch(dni, @"^\d{8}[A-Za-z]$"))
             {
                 MessageBox.Show("El DNI debe tener 8 números seguidos de una letra (ej: 12345678A).");
                 return;
             }
 
-            // Hashear la contraseña antes de insertarla (igual que en el registro)
+            //Hashear la contraseña
             string contrasenaHasheada = HashContrasena(contrasena);
 
             using (MySqlConnection conn = new MySqlConnection(conexionString))
@@ -627,7 +629,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     insertCmd.Parameters.AddWithValue("@nombre", nombre);
                     insertCmd.Parameters.AddWithValue("@apellidos", apellidos);
                     insertCmd.Parameters.AddWithValue("@usuario", usuario);
-                    insertCmd.Parameters.AddWithValue("@contrasena", contrasenaHasheada); // Almacena el hash de la contraseña
+                    insertCmd.Parameters.AddWithValue("@contrasena", contrasenaHasheada);
                     insertCmd.Parameters.AddWithValue("@telefono", telefono);
                     insertCmd.Parameters.AddWithValue("@dni", dni);
                     insertCmd.Parameters.AddWithValue("@email", email);
@@ -637,6 +639,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     if (filasAfectadas > 0)
                     {
                         MessageBox.Show("Administrador creado correctamente.");
+
                         // Limpiar los campos del formulario
                         textBox_usuario_admin.Text = "";
                         textBox_contrasena_admin.Text = "";
@@ -654,17 +657,13 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             }
         }
 
-        //Cerrar sesión. Cierra el formulario
+        //Cerrar sesión
         private void button_cerrar_sesion_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void textBox_usuario_admin_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        //Boton crear partida
         private void button_crear_partida_Click(object sender, EventArgs e)
         {
             int idTorneo = ObtenerIdTorneoSeleccionado();
@@ -673,13 +672,13 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             CrearPartidasDelTorneo(idTorneo);
         }
 
+        //Metodo para crear las partidas del torneo seleccionado
         private void CrearPartidasDelTorneo(int idTorneo)
         {
             using (MySqlConnection conn = new MySqlConnection(conexionString))
             {
                 conn.Open();
 
-                // Obtener datos del torneo
                 string queryTorneo = @"SELECT fecha_inicio, fecha_fin, dia_partida FROM torneos WHERE id_torneo = @idTorneo";
                 DateTime fechaInicio, fechaFin;
                 string diaPartida;
@@ -696,11 +695,11 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         }
                         fechaInicio = reader.GetDateTime("fecha_inicio");
                         fechaFin = reader.GetDateTime("fecha_fin");
-                        diaPartida = reader.GetString("dia_partida").ToLower(); // Enum: lunes, martes...
+                        diaPartida = reader.GetString("dia_partida").ToLower();
                     }
                 }
 
-                // Obtener equipos inscritos
+                //Obtener equipos inscritos al torneo
                 List<int> equipos = new List<int>();
                 string queryEquipos = "SELECT id_equipo FROM `equipos-torneos` WHERE id_torneo = @idTorneo";
                 using (MySqlCommand cmd = new MySqlCommand(queryEquipos, conn))
@@ -719,7 +718,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     return;
                 }
 
-                // Generar fechas válidas (filtradas por el día de la semana elegido)
+                //Generar fechas según el día de partida seleccionado en el torneo
                 List<DateTime> fechasPartidas = new List<DateTime>();
                 for (var fecha = fechaInicio; fecha <= fechaFin; fecha = fecha.AddDays(1))
                 {
@@ -727,7 +726,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         fechasPartidas.Add(fecha);
                 }
 
-                // Generar rondas semanales con enfrentamientos rotativos
+                //Generar partidas semanales
                 int estadoProgramado = 1, estadoEnCurso = 2, estadoFinalizado = 3;
                 int ronda = 0;
                 Random rng = new Random();
@@ -741,12 +740,12 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
                     if (equiposTemp.Count % 2 != 0)
                     {
-                        // Si impar, un equipo descansa diferente cada semana
+                        //Impar, un equipo descansa
                         equipoDescansa = equiposTemp[ronda % equiposTemp.Count];
                         equiposTemp.Remove(equipoDescansa);
                     }
 
-                    // Mezcla para generar enfrentamientos aleatorios
+                    //Partidas aleatorias
                     equiposTemp = equiposTemp.OrderBy(x => rng.Next()).ToList();
 
                     for (int i = 0; i < equiposTemp.Count; i += 2)
@@ -754,15 +753,15 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         int equipo1 = equiposTemp[i];
                         int equipo2 = equiposTemp[i + 1];
 
-                        // Determinar estado de la partida
+                        //Estado de la partida
                         int idEstado = fecha.Date < DateTime.Today ? estadoFinalizado :
                                        fecha.Date == DateTime.Today ? estadoEnCurso : estadoProgramado;
 
-                        // Insertar partida
+                        //Agregar la partida
                         int idPartida;
                         string insertPartida = @"INSERT INTO partidas (fecha_partida, id_torneo, id_estado)
-                                         VALUES (@fecha, @idTorneo, @estado);
-                                         SELECT LAST_INSERT_ID();";
+                            VALUES (@fecha, @idTorneo, @estado);
+                            SELECT LAST_INSERT_ID();";
                         using (MySqlCommand cmd = new MySqlCommand(insertPartida, conn))
                         {
                             cmd.Parameters.AddWithValue("@fecha", fecha);
@@ -773,7 +772,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
                         // Insertar equipos-partidas
                         string insertEquiposPartida = @"INSERT INTO `equipos-partidas` (id_partida, id_equipo, puntos, resultado)
-                                                VALUES (@idPartida, @idEquipo, NULL, NULL)";
+                            VALUES (@idPartida, @idEquipo, NULL, NULL)";
                         using (MySqlCommand cmd = new MySqlCommand(insertEquiposPartida, conn))
                         {
                             cmd.Parameters.AddWithValue("@idPartida", idPartida);
@@ -786,10 +785,8 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         }
                     }
                 }
-
                 MessageBox.Show("Partidas generadas correctamente.");
             }
         }
-
     }
 }

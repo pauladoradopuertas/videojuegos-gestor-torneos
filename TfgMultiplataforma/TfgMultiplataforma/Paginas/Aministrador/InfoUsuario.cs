@@ -106,7 +106,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     return;
                 }
 
-                // Obtener los juegos de todos los equipos
+                //Obtener los juegos de los equipos
                 string queryJuegos = $@"
                     SELECT DISTINCT j.nombre 
                     FROM torneos t
@@ -200,11 +200,11 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                             string puntos2 = reader["equipo2_puntos"].ToString();
                             string resultado = reader["equipo1_resultado"].ToString();
 
-                            // Marca el equipo del usuario
+                            //Equipo del usuario
                             if (equiposUsuario.Contains(equipo1Id))
-                                equipo1 = $"[MI EQUIPO] {equipo1}";
+                                equipo1 = $"[EQUIPO] {equipo1}";
                             if (equiposUsuario.Contains(equipo2Id))
-                                equipo2 = $"[MI EQUIPO] {equipo2}";
+                                equipo2 = $"[EQUIPO] {equipo2}";
 
                             string resultadoTexto = (resultado.ToLower() == "victoria") ? "Victoria" : "Derrota";
 
@@ -256,7 +256,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     }
                 }
             }
-
         }
 
         //Al seleccionar un juego cargar las estadisticas
@@ -364,11 +363,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         t.nombre AS nombre_torneo,
                         et1.puntos AS puntos_equipo_usuario,
                         e.nombre AS nombre_equipo_usuario,
-                        (
-                            SELECT MAX(et2.puntos)
-                            FROM `equipos-torneos` et2
-                            WHERE et2.id_torneo = et1.id_torneo
-                        ) AS max_puntos
+                        (SELECT MAX(et2.puntos) FROM `equipos-torneos` et2 WHERE et2.id_torneo = et1.id_torneo) AS max_puntos
                     FROM `equipos-torneos` et1
                     JOIN torneos t ON et1.id_torneo = t.id_torneo
                     JOIN equipos e ON et1.id_equipo = e.id_equipo
@@ -386,34 +381,17 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         {
                             string torneo = reader["nombre_torneo"].ToString();
                             string equipo = reader["nombre_equipo_usuario"].ToString();
-
-                            int puntosEquipo = reader["puntos_equipo_usuario"] != DBNull.Value
-                                ? Convert.ToInt32(reader["puntos_equipo_usuario"])
-                                : 0;
-
-                            int maxPuntos = reader["max_puntos"] != DBNull.Value
-                                ? Convert.ToInt32(reader["max_puntos"])
-                                : 0;
+                            int puntosEquipo = reader["puntos_equipo_usuario"] != DBNull.Value ? Convert.ToInt32(reader["puntos_equipo_usuario"]): 0;
+                            int maxPuntos = reader["max_puntos"] != DBNull.Value ? Convert.ToInt32(reader["max_puntos"]): 0;
 
                             string resultado = puntosEquipo == maxPuntos ? "Ganado" : "Perdido";
 
                             string texto = $"Torneo: {torneo} | Equipo: {equipo} | Resultado: {resultado}";
                             listBox_torneos_torneos.Items.Add(texto);
                         }
-
                     }
                 }
             }
-        }
-
-        private void textBox_info_usuario_admin_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_juegos_historial_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

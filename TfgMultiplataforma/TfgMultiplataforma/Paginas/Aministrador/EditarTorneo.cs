@@ -15,7 +15,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
     {
         private string nombreTorneo;
         private AdminForm adminForm;
-        //Almacenar los id de los equipos para eliminarlos
         private List<int> equiposAEliminar = new List<int>();
 
         public EditarTorneo(string nombreTorneo, AdminForm adminForm)
@@ -36,7 +35,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
         private string LimpiarTexto(string input)
         {
-            // Permitir solo letras y números, eliminar otros caracteres
+            //Solo letras y números
             return new string(input.Where(c => char.IsLetterOrDigit(c) || c == ' ').ToArray());
         }
 
@@ -64,7 +63,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                             textBox_nombre_editar_torneo.Text = reader["nombre"].ToString();
                             DateTime fechaInicio = Convert.ToDateTime(reader["fecha_inicio"]);
                             DateTime fechaFin = Convert.ToDateTime(reader["fecha_fin"]);
-
                             textBox_fecha_inicio_editar_torneo.Text = fechaInicio.ToString("yyyy-MM-dd");
                             textBox_fecha_fin_editar_torneo.Text = fechaFin.ToString("yyyy-MM-dd");
                             textBox_cant_equipos_editar_torneo.Text = reader["max_equipos"].ToString();
@@ -100,7 +98,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
             comboBox_partida_editar_torneo.Items.Add("viernes");
             comboBox_partida_editar_torneo.Items.Add("sabado");
             comboBox_partida_editar_torneo.Items.Add("domingo");
-
         }
 
         //Cargar los juegos desde la base de datos
@@ -160,10 +157,10 @@ namespace TfgMultiplataforma.Paginas.Aministrador
         //Guardamos los datos que hemos modificado en el torneo
         private void button_editar_torneo_Click_1(object sender, EventArgs e)
         {
-            // Limpiar y validar nombre
+            //Limpiar y validar el nombre
             string nombre = LimpiarTexto(textBox_nombre_editar_torneo.Text);
 
-            // Validar fecha de inicio y fin
+            //Validar fecha de inicio y de fin
             DateTime fechaInicio;
             DateTime fechaFin;
 
@@ -185,7 +182,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 return;
             }
 
-            // Validar cantidad de equipos
+            //Validar cantidad de equipos
             int maxEquipos;
             if (!int.TryParse(textBox_cant_equipos_editar_torneo.Text, out maxEquipos) || maxEquipos <= 0)
             {
@@ -257,7 +254,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 CargarEquiposInscritos();
                 this.Close();
             }
-
         }
 
         //Cerramos el formulario sin guardar los cambios
@@ -314,7 +310,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 }
             }
         }
-
 
         private int ObtenerIdTorneo(string nombreTorneo)
         {

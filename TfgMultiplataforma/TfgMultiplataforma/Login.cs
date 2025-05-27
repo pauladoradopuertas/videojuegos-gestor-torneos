@@ -23,6 +23,7 @@ namespace TfgMultiplataforma
             InitializeComponent();
         }
 
+        //Hashear contraseña
         private string HashContrasena(string contrasena)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -39,7 +40,7 @@ namespace TfgMultiplataforma
 
         private string LimpiarTexto(string input)
         {
-            // Solo letras y números (ajústalo según tus necesidades)
+            //Solo letras y números
             return new string(input.Where(c => char.IsLetterOrDigit(c)).ToArray());
         }
 
@@ -54,7 +55,7 @@ namespace TfgMultiplataforma
         private void button_login_Click(object sender, EventArgs e)
         {
             string usuario = LimpiarTexto(textBox_usuario_login.Text);
-            string contrasenaIngresada = LimpiarTexto(textBox_contrasena_login.Text); // Limpiar la contraseña
+            string contrasenaIngresada = LimpiarTexto(textBox_contrasena_login.Text);
 
             if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasenaIngresada))
             {
@@ -131,6 +132,7 @@ namespace TfgMultiplataforma
             ActualizarEstadosPartidas();
         }
 
+        //Actualizar estados de los torneos
         private void ActualizarEstadosTorneos()
         {
             try
@@ -140,13 +142,13 @@ namespace TfgMultiplataforma
                     conn.Open();
 
                     string query = @"
-                UPDATE torneos
-                SET id_estado = 
-                    CASE 
-                        WHEN CURDATE() < fecha_inicio THEN 1
-                        WHEN CURDATE() BETWEEN fecha_inicio AND fecha_fin THEN 2
-                        WHEN CURDATE() > fecha_fin THEN 3
-                    END;";
+                        UPDATE torneos
+                        SET id_estado = 
+                            CASE 
+                                WHEN CURDATE() < fecha_inicio THEN 1
+                                WHEN CURDATE() BETWEEN fecha_inicio AND fecha_fin THEN 2
+                                WHEN CURDATE() > fecha_fin THEN 3
+                            END;";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.ExecuteNonQuery();
@@ -158,6 +160,7 @@ namespace TfgMultiplataforma
             }
         }
 
+        //Actualizar estados de las partidas
         private void ActualizarEstadosPartidas()
         {
             try
@@ -166,14 +169,14 @@ namespace TfgMultiplataforma
                 {
                     conn.Open();
 
-                    // Actualización de estados de las partidas
+                    //Actualización de los estados de las partidas
                     string query = @"
                         UPDATE partidas
                         SET id_estado = 
                             CASE 
-                                WHEN fecha_partida > CURDATE() THEN 1  -- Programado
-                                WHEN fecha_partida = CURDATE() THEN 2  -- En curso
-                                WHEN fecha_partida < CURDATE() THEN 3  -- Finalizado
+                                WHEN fecha_partida > CURDATE() THEN 1
+                                WHEN fecha_partida = CURDATE() THEN 2
+                                WHEN fecha_partida < CURDATE() THEN 3
                             END;";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);

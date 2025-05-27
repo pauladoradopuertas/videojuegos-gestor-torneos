@@ -150,7 +150,6 @@
             textBox_nombre_equipo_admin.ReadOnly = true;
             textBox_nombre_equipo_admin.Size = new Size(694, 41);
             textBox_nombre_equipo_admin.TabIndex = 49;
-            textBox_nombre_equipo_admin.TextChanged += textBox_nombre_equipo_admin_TextChanged;
             // 
             // label_visible_equipo_admin
             // 

@@ -74,6 +74,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         }
                     }
                 }
+
                 //Obtenemos las partidas del torneo con resultados
                 string queryPartidas = @"
                     SELECT 
@@ -107,19 +108,18 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                             string equipo1 = reader.GetString("equipo1");
                             string equipo2 = reader.GetString("equipo2");
 
-                            //Comprobar si los puntos son NULL antes de obtenerlos
+                            //Comprobar si los puntos son NULL
                             int puntos1 = reader.IsDBNull(reader.GetOrdinal("puntos1")) ? -1 : reader.GetInt32("puntos1");
                             int puntos2 = reader.IsDBNull(reader.GetOrdinal("puntos2")) ? -1 : reader.GetInt32("puntos2");
-
                             string resultado1 = reader.IsDBNull(reader.GetOrdinal("resultado1")) ? "sin resultado" : reader.GetString("resultado1");
                             string resultado2 = reader.IsDBNull(reader.GetOrdinal("resultado2")) ? "sin resultado" : reader.GetString("resultado2");
 
 
-                            //Usar un marcador (-) para los puntos NULL
+                            //Usar - para los puntos NULL
                             string puntos1Texto = puntos1 == -1 ? "-" : puntos1.ToString();
                             string puntos2Texto = puntos2 == -1 ? "-" : puntos2.ToString();
 
-                            //Crear el texto para la partida en el formato esperado
+                            //Texto para la partida
                             string info = $"Partida {idPartida} ({fecha.ToShortDateString()}): " +
                                           $"{equipo1} ({puntos1Texto} pts | {resultado1}) vs " +
                                           $"{equipo2} ({puntos2Texto} pts | {resultado2})";
@@ -129,7 +129,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         }
                     }
                 }
-
             }
         }
 
@@ -180,7 +179,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         {
                             string nombre = reader.GetString("nombre");
 
-                            //Verificar si puntos es NULL antes de intentar obtener el valor
+                            //Verificar si puntos es NULL
                             int puntos = reader.IsDBNull(reader.GetOrdinal("puntos")) ? 0 : reader.GetInt32("puntos");
 
                             if (nombre == equipo1) puntos1 = puntos;
@@ -309,7 +308,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         cmd.Parameters["@equipo"].Value = equipo2;
                         cmd.ExecuteNonQuery();
 
-                        // ACTUALIZAR ESTADÍSTICAS EN equipos-torneos
+                        //Actualizar la tabla equipos-torneos
                         string updateEstadisticas = @"
                             UPDATE `equipos-torneos` et
                             SET 
@@ -319,10 +318,9 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                                 et.partidas_perdidas = IFNULL(et.partidas_perdidas, 0) + @perdidas,
                                 et.puntos = IFNULL(et.puntos, 0) + @puntosSumar,
                                 et.diferencia_puntos = IFNULL(et.diferencia_puntos, 0) + @difPuntos
-                            WHERE et.id_equipo = @idEquipo AND et.id_torneo = @idTorneo;
-                        ";
+                            WHERE et.id_equipo = @idEquipo AND et.id_torneo = @idTorneo;";
 
-                        // PARA EQUIPO 1
+                        //Equipo 1
                         using (MySqlCommand cmdEst1 = new MySqlCommand(updateEstadisticas, conn))
                         {
                             cmdEst1.Parameters.AddWithValue("@ganadas", resultado1 == "victoria" ? 1 : 0);
@@ -330,15 +328,14 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                             cmdEst1.Parameters.AddWithValue("@perdidas", resultado1 == "derrota" ? 1 : 0);
                             cmdEst1.Parameters.AddWithValue("@puntosSumar", resultado1 == "victoria" ? 3 : (resultado1 == "empate" ? 1 : 0));
                             cmdEst1.Parameters.AddWithValue("@difPuntos", newP1 - newP2);
-                            cmdEst1.Parameters.AddWithValue("@idEquipo", idEquipo1); // debes tenerlo definido
-                            cmdEst1.Parameters.AddWithValue("@idTorneo", idTorneo); // debes tenerlo definido
+                            cmdEst1.Parameters.AddWithValue("@idEquipo", idEquipo1);
+                            cmdEst1.Parameters.AddWithValue("@idTorneo", idTorneo);
                             cmdEst1.ExecuteNonQuery();
 
-                            // Insertar o actualizar estadísticas para equipo 1 (por cada cliente en ese equipo)
+                            //Insertar o actualizar estadísticas para equipo 1
                             string insertEstadisticas1 = @"
                                 INSERT INTO estadisticas (id_cliente, id_torneo, id_equipo, partidas_jugadas, partidas_ganadas, partidas_empatadas, partidas_perdidas)
-                                SELECT ce.id_cliente, @idTorneo, @idEquipo, 1,
-                                       @ganadas, @empatadas, @perdidas
+                                SELECT ce.id_cliente, @idTorneo, @idEquipo, 1, @ganadas, @empatadas, @perdidas
                                 FROM `clientes-equipos` ce
                                 WHERE ce.id_equipo = @idEquipo
                                 ON DUPLICATE KEY UPDATE
@@ -358,8 +355,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
                                 string insertEstadisticas2 = @"
                                     INSERT INTO estadisticas (id_cliente, id_torneo, id_equipo, partidas_jugadas, partidas_ganadas, partidas_empatadas, partidas_perdidas)
-                                    SELECT ce.id_cliente, @idTorneo, @idEquipo, 1,
-                                           @ganadas, @empatadas, @perdidas
+                                    SELECT ce.id_cliente, @idTorneo, @idEquipo, 1, @ganadas, @empatadas, @perdidas
                                     FROM `clientes-equipos` ce
                                     WHERE ce.id_equipo = @idEquipo
                                     ON DUPLICATE KEY UPDATE
@@ -382,7 +378,7 @@ namespace TfgMultiplataforma.Paginas.Aministrador
 
                         }
 
-                        // PARA EQUIPO 2
+                        //Equipo 2
                         using (MySqlCommand cmdEst2 = new MySqlCommand(updateEstadisticas, conn))
                         {
                             cmdEst2.Parameters.AddWithValue("@ganadas", resultado2 == "victoria" ? 1 : 0);
@@ -390,8 +386,8 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                             cmdEst2.Parameters.AddWithValue("@perdidas", resultado2 == "derrota" ? 1 : 0);
                             cmdEst2.Parameters.AddWithValue("@puntosSumar", resultado2 == "victoria" ? 3 : (resultado2 == "empate" ? 1 : 0));
                             cmdEst2.Parameters.AddWithValue("@difPuntos", newP2 - newP1);
-                            cmdEst2.Parameters.AddWithValue("@idEquipo", idEquipo2); // debes tenerlo definido
-                            cmdEst2.Parameters.AddWithValue("@idTorneo", idTorneo); // debes tenerlo definido
+                            cmdEst2.Parameters.AddWithValue("@idEquipo", idEquipo2);
+                            cmdEst2.Parameters.AddWithValue("@idTorneo", idTorneo);
                             cmdEst2.ExecuteNonQuery();
                         }
 
@@ -402,9 +398,9 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 modal.Close();
                 InfoTorneo_Load(null, null);
             };
-
             modal.ShowDialog();
         }
+
         private int ObtenerIdEquipo(string nombreEquipo, MySqlConnection conn)
         {
             using (MySqlCommand cmd = new MySqlCommand("SELECT id_equipo FROM equipos WHERE nombre = @nombre", conn))
@@ -422,7 +418,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
-
 
         //Mostramos en un listbox la posicion de cada equipo y los puntos que tiene
         private void CargarClasificacion(int idTorneo)
@@ -450,7 +445,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         listBox_resultado_torneo.Items.Clear();
-                        //Variable de la posicion
                         int posicion = 1;
 
                         while (reader.Read())
@@ -554,11 +548,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                 modal.Controls.Add(buttonCerrar);
                 modal.ShowDialog();
             }
-        }
-
-        private void label_estado_info_torneo_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

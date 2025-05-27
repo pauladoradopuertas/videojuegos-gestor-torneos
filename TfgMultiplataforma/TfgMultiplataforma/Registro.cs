@@ -22,7 +22,7 @@ namespace TfgMultiplataforma
             InitializeComponent();
         }
 
-        // Hasheo con SHA256
+        //Hashear contraseña
         private string HashContrasena(string contrasena)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -37,7 +37,7 @@ namespace TfgMultiplataforma
             }
         }
 
-        // Limpieza de texto (solo letras, números y algún símbolo permitido)
+        //Limpiar campos de texto
         private string LimpiarTexto(string input)
         {
             return new string(input.Where(c => char.IsLetterOrDigit(c) || c == '_' || c == '@' || c == '.').ToArray());
@@ -50,10 +50,7 @@ namespace TfgMultiplataforma
             string nombre = LimpiarTexto(textBox_nombre_registro.Text);
             string apellidos = LimpiarTexto(textBox_apellidos_registro.Text);
             string usuario = LimpiarTexto(textBox_usuario_registro.Text);
-            // Limpia la contraseña antes de hashearla
             string contrasenaLimpia = LimpiarTexto(textBox_contrasena_registro.Text.Trim());
-
-            // Luego, hashea la contraseña limpia
             string contrasena = HashContrasena(contrasenaLimpia);
             string telefono = LimpiarTexto(textBox_telefono_registro.Text);
             string dni = LimpiarTexto(textBox_dni_registro.Text);

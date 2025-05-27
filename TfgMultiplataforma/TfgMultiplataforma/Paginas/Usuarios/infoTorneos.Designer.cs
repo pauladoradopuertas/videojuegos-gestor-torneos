@@ -41,7 +41,7 @@
             label_titulo_torneo.AutoSize = true;
             label_titulo_torneo.Font = new Font("Segoe UI Semibold", 30F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_titulo_torneo.ForeColor = Color.OliveDrab;
-            label_titulo_torneo.Location = new Point(67, 37);
+            label_titulo_torneo.Location = new Point(3, 37);
             label_titulo_torneo.Name = "label_titulo_torneo";
             label_titulo_torneo.Size = new Size(187, 67);
             label_titulo_torneo.TabIndex = 45;

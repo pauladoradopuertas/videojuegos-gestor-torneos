@@ -26,7 +26,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             //Añadir los valores de la base de datos en el comboBox
             comboBox_visible_crear.Items.Add("si");
             comboBox_visible_crear.Items.Add("no");
-            //Seleccionamos por defecto si
             comboBox_visible_crear.SelectedIndex = 0;
         }
 
@@ -42,10 +41,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             string nombreEquipo = textBox_nombre_crear.Text.Trim();
             string visible = comboBox_visible_crear.SelectedItem?.ToString();
 
-            // Expresión regular para permitir solo letras, números, espacios, guiones y guiones bajos
+            //Solo letras, números, espacios, guiones y guiones bajos
             string pattern = @"^[a-zA-Z0-9\s\-_]+$";
 
-            // Validar si el nombre del equipo coincide con la expresión regular
+            //Validar el nombre del equipo
             if (string.IsNullOrEmpty(nombreEquipo) || string.IsNullOrEmpty(visible))
             {
                 MessageBox.Show("Por favor, completa todos los campos.");
@@ -59,7 +58,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
 
             CrearNuevoEquipo(nombreEquipo, visible);
-            //Abrir UsuariosForm para cargar los datos del nuevo equipo
             UsuariosForm usuariosForm = new UsuariosForm(idUsuario);
             usuariosForm.Show();
             this.Close();
@@ -123,10 +121,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                 try
                 {
-                    // Insertar la relación entre el usuario y el equipo en la tabla `clientes-equipos` 
+                    //Actualizar la tabla `clientes-equipos` 
                     string queryInsertRelacion = @"
                         INSERT INTO `clientes-equipos` (id_cliente, id_equipo, fecha_inicio, fecha_fin, id_rol)
-                        VALUES (@idUsuario, @idEquipo, CURDATE(), NULL, 1);"; // 1 es el rol de capitán
+                        VALUES (@idUsuario, @idEquipo, CURDATE(), NULL, 1);";
 
                     using (MySqlCommand cmdInsertRelacion = new MySqlCommand(queryInsertRelacion, conn))
                     {
@@ -140,7 +138,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     string queryActualizarEstado = @"
                         UPDATE clientes
                         SET id_estado_usuario = 1
-                        WHERE id_cliente = @idUsuario;"; // Estado 1 es activo
+                        WHERE id_cliente = @idUsuario;";
 
                     using (MySqlCommand cmdActualizarEstado = new MySqlCommand(queryActualizarEstado, conn))
                     {
@@ -149,14 +147,12 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         cmdActualizarEstado.ExecuteNonQuery();
                     }
 
-                    // Confirmar la transacción
                     transaction.Commit();
 
                     MessageBox.Show("El equipo ha sido creado y el usuario asignado como capitán correctamente.");
                 }
                 catch (Exception ex)
                 {
-                    // En caso de error, revertir la transacción
                     transaction.Rollback();
                     MessageBox.Show("Error al asignar el rol de Capitán y el estado activo: " + ex.Message);
                 }

@@ -35,9 +35,9 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         {
             public int Id { get; set; }
             public string Nombre { get; set; }
-
             public override string ToString() => Nombre;
         }
+
         //Mostrar los torneos
         private class TorneoItem
         {
@@ -162,12 +162,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     }
                 }
 
-                //Si no está inscrito, insertar en la base de datos
+                //Si no está inscrito, agregar a la base de datos
                 string query = @"
-                    INSERT INTO `equipos-torneos` 
-                    (id_torneo, id_equipo, fecha_inscripcion) 
-                    VALUES 
-                    (@idTorneo, @idEquipo, NOW())";
+                    INSERT INTO `equipos-torneos` (id_torneo, id_equipo, fecha_inscripcion) 
+                    VALUES (@idTorneo, @idEquipo, NOW())";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -204,11 +202,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             {
                 CargarTorneosDisponibles(juegoSeleccionado.Id);
             }
-        }
-
-        private void label_juegos_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

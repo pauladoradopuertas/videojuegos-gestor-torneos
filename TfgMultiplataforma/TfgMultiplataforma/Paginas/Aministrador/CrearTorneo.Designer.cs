@@ -32,8 +32,6 @@
             comboBox_juego_crear_torneo = new ComboBox();
             button_cancelar_crear_torneo = new Button();
             button_crear_torneo = new Button();
-            textBox_estado_crear_torneo = new TextBox();
-            label_estado_crear_torneo = new Label();
             label_partida_crear_torneo = new Label();
             label_juego_crear_torneo = new Label();
             textBox_cant_equipos_crear_torneo = new TextBox();
@@ -78,7 +76,7 @@
             button_cancelar_crear_torneo.BackColor = Color.FromArgb(255, 0, 127);
             button_cancelar_crear_torneo.Cursor = Cursors.Hand;
             button_cancelar_crear_torneo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            button_cancelar_crear_torneo.Location = new Point(174, 825);
+            button_cancelar_crear_torneo.Location = new Point(169, 719);
             button_cancelar_crear_torneo.Name = "button_cancelar_crear_torneo";
             button_cancelar_crear_torneo.Size = new Size(152, 59);
             button_cancelar_crear_torneo.TabIndex = 71;
@@ -92,37 +90,13 @@
             button_crear_torneo.BackColor = Color.DodgerBlue;
             button_crear_torneo.Cursor = Cursors.Hand;
             button_crear_torneo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            button_crear_torneo.Location = new Point(633, 825);
+            button_crear_torneo.Location = new Point(628, 719);
             button_crear_torneo.Name = "button_crear_torneo";
             button_crear_torneo.Size = new Size(152, 59);
             button_crear_torneo.TabIndex = 70;
             button_crear_torneo.Text = "Crear torneo";
             button_crear_torneo.UseVisualStyleBackColor = false;
             button_crear_torneo.Click += button_crear_torneo_Click;
-            // 
-            // textBox_estado_crear_torneo
-            // 
-            textBox_estado_crear_torneo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox_estado_crear_torneo.BackColor = Color.White;
-            textBox_estado_crear_torneo.BorderStyle = BorderStyle.FixedSingle;
-            textBox_estado_crear_torneo.Font = new Font("Segoe UI", 15F);
-            textBox_estado_crear_torneo.Location = new Point(325, 737);
-            textBox_estado_crear_torneo.Name = "textBox_estado_crear_torneo";
-            textBox_estado_crear_torneo.ReadOnly = true;
-            textBox_estado_crear_torneo.Size = new Size(552, 41);
-            textBox_estado_crear_torneo.TabIndex = 69;
-            // 
-            // label_estado_crear_torneo
-            // 
-            label_estado_crear_torneo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label_estado_crear_torneo.AutoSize = true;
-            label_estado_crear_torneo.Font = new Font("Segoe UI", 20F);
-            label_estado_crear_torneo.ForeColor = Color.FromArgb(51, 51, 51);
-            label_estado_crear_torneo.Location = new Point(25, 732);
-            label_estado_crear_torneo.Name = "label_estado_crear_torneo";
-            label_estado_crear_torneo.Size = new Size(120, 46);
-            label_estado_crear_torneo.TabIndex = 68;
-            label_estado_crear_torneo.Text = "Estado";
             // 
             // label_partida_crear_torneo
             // 
@@ -269,7 +243,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(1004, 897);
+            ClientSize = new Size(1004, 792);
             Controls.Add(button_anadir_juego);
             Controls.Add(dateTimePicker_fechaFin_crear_torneo);
             Controls.Add(dateTimePicker_fechaIn_crear_torneo);
@@ -277,8 +251,6 @@
             Controls.Add(comboBox_juego_crear_torneo);
             Controls.Add(button_cancelar_crear_torneo);
             Controls.Add(button_crear_torneo);
-            Controls.Add(textBox_estado_crear_torneo);
-            Controls.Add(label_estado_crear_torneo);
             Controls.Add(label_partida_crear_torneo);
             Controls.Add(label_juego_crear_torneo);
             Controls.Add(textBox_cant_equipos_crear_torneo);
@@ -302,8 +274,6 @@
         private ComboBox comboBox_juego_crear_torneo;
         private Button button_cancelar_crear_torneo;
         private Button button_crear_torneo;
-        private TextBox textBox_estado_crear_torneo;
-        private Label label_estado_crear_torneo;
         private Label label_partida_crear_torneo;
         private Label label_juego_crear_torneo;
         private TextBox textBox_cant_equipos_crear_torneo;

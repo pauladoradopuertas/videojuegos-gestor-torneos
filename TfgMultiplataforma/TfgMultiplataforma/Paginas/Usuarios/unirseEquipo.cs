@@ -26,7 +26,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             CargarEquipos("");
         }
 
-        //Diccionario para mantener relación nombre-ID
+        //Diccionario para mantener relación nombre y ID
         private Dictionary<string, int> equiposDict = new Dictionary<string, int>();
 
         private void CargarEquipos(string filtroNombre)
@@ -70,7 +70,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         private void button_volver_buscar_Click(object sender, EventArgs e)
         {
             this.Close();
-            
         }
 
         //Boton unirse a equipo
@@ -83,7 +82,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
 
             string nombreEquipo = listBox_buscar_equipos.SelectedItem.ToString();
-            int idEquipo = equiposDict[nombreEquipo]; // Obtiene Id
+            int idEquipo = equiposDict[nombreEquipo];
 
             UnirseAEquipo(idUsuario, idEquipo);
         }
@@ -105,7 +104,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         WHERE id_cliente = @idUsuario;
 
                         INSERT INTO `clientes-equipos` (id_cliente, id_equipo, id_rol, fecha_inicio)
-                        VALUES(@idUsuario, @idEquipo, 2, NOW()); "; // Se añade la fecha de inicio con NOW()
+                        VALUES(@idUsuario, @idEquipo, 2, NOW()); ";
 
                     MySqlCommand cmdUpdateEquipo = new MySqlCommand(queryUpdateEquipo, conn, transaction);
                     cmdUpdateEquipo.Parameters.AddWithValue("@idUsuario", idUsuario);
@@ -116,11 +115,12 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     transaction.Commit();
                     MessageBox.Show("Te has unido al equipo correctamente como Miembro.");
 
-                    // Cierra la ventana después de unirse al equipo (no mostrar el login)
+                    // Cierra la ventana después de unirse al equipo
                     this.Close();
-                    // Abrir el formulario de usuarios (UsuariosForm)
-                    UsuariosForm usuariosForm = new UsuariosForm(idUsuario); // Asume que este es tu formulario de usuarios
-                    usuariosForm.Show(); // Muestra el formulario de usuarios
+
+                    // Abrir el formulario de usuarios
+                    UsuariosForm usuariosForm = new UsuariosForm(idUsuario);
+                    usuariosForm.Show();
                 }
                 catch (Exception ex)
                 {

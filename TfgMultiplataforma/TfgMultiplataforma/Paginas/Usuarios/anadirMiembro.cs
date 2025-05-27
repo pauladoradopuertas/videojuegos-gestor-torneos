@@ -47,10 +47,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
         {
             string usuario = textBox_usuario_anadir.Text;
 
-            // Expresión regular para permitir solo letras, números, guiones, guiones bajos y puntos
+            //Solo letras, números, guiones, guiones bajos y puntos
             string pattern = @"^[a-zA-Z0-9\-_\.]+$";
 
-            // Verificar si el nombre de usuario contiene caracteres no permitidos
+            //Verificar el nombre de usuario
             if (!System.Text.RegularExpressions.Regex.IsMatch(usuario, pattern))
             {
                 MessageBox.Show("El nombre de usuario contiene caracteres no permitidos. Solo se permiten letras, números, guiones, guiones bajos y puntos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -58,7 +58,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             }
 
             int idRol = Convert.ToInt32(comboBox_rol_anadir.SelectedValue);
-            //Por defecto ponemos el estado activo
             int idEstadoActivo = 1;
 
             using (MySqlConnection conexion = new MySqlConnection(conexionString))
@@ -66,7 +65,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 conexion.Open();
                 MySqlCommand buscarUsuario = new MySqlCommand("SELECT id_cliente FROM clientes WHERE usuario = @usuario", conexion);
                 buscarUsuario.Parameters.AddWithValue("@usuario", usuario);
-                //Obtenemos el id del usuario si existe
                 object result = buscarUsuario.ExecuteScalar();
 
                 if (result == null)
@@ -79,16 +77,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
 
                 //Actualizamos el cliente
                 // 1. Actualiza solo el estado del cliente en la tabla `clientes`
-                MySqlCommand actualizarEstado = new MySqlCommand(
-                    "UPDATE clientes SET id_estado_usuario = @idEstado WHERE id_cliente = @idCliente", conexion);
+                MySqlCommand actualizarEstado = new MySqlCommand("UPDATE clientes SET id_estado_usuario = @idEstado WHERE id_cliente = @idCliente", conexion);
                 actualizarEstado.Parameters.AddWithValue("@idEstado", idEstadoActivo);
                 actualizarEstado.Parameters.AddWithValue("@idCliente", idCliente);
                 actualizarEstado.ExecuteNonQuery();
 
                 // 2. Inserta la relación cliente-equipo con el rol correspondiente en `clientes-equipos`
-                MySqlCommand insertarRelacion = new MySqlCommand(@"
-                    INSERT INTO `clientes-equipos` (id_cliente, id_equipo, fecha_inicio, id_rol)
-                    VALUES (@idCliente, @idEquipo, NOW(), @idRol)", conexion);
+                MySqlCommand insertarRelacion = new MySqlCommand(@"INSERT INTO `clientes-equipos` (id_cliente, id_equipo, fecha_inicio, id_rol) VALUES (@idCliente, @idEquipo, NOW(), @idRol)", conexion);
                 insertarRelacion.Parameters.AddWithValue("@idCliente", idCliente);
                 insertarRelacion.Parameters.AddWithValue("@idEquipo", idEquipo);
                 insertarRelacion.Parameters.AddWithValue("@idRol", idRol);
