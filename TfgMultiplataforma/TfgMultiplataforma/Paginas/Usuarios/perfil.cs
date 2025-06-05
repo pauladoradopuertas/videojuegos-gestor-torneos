@@ -325,10 +325,10 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                             {
                                 string equipo1 = reader["equipo1"].ToString();
                                 string equipo2 = reader["equipo2"].ToString();
-                                int puntosEquipo1 = Convert.ToInt32(reader["puntos_equipo1"]);
-                                int puntosEquipo2 = Convert.ToInt32(reader["puntos_equipo2"]);
+                                string puntos1 = reader["puntos_equipo1"] != DBNull.Value ? reader["puntos_equipo1"].ToString() : "N/A";
+                                string puntos2 = reader["puntos_equipo2"] != DBNull.Value ? reader["puntos_equipo2"].ToString() : "N/A";
 
-                                string partidaInfo = $"{equipo1} ({puntosEquipo1} puntos) vs {equipo2} ({puntosEquipo2} puntos)";
+                                string partidaInfo = $"{equipo1} ({puntos1} puntos) vs {equipo2} ({puntos2} puntos)";
                                 listBox_partidas_perfil.Items.Add(partidaInfo);
 
                                 //Añadimos el id de la partida al HashSet para evitar duplicados
@@ -358,7 +358,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                     cmd.Parameters.AddWithValue("@idCliente", idCliente);
 
                     object result = cmd.ExecuteScalar();
-                    return result != null ? Convert.ToInt32(result) : 0;
+                    return (result != null && result != DBNull.Value) ? Convert.ToInt32(result) : 0;
                 }
             }
         }
