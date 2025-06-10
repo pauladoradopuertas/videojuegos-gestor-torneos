@@ -55,7 +55,6 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                             textBox_info_dni_admin.Text = reader["dni"].ToString();
                             textBox_info_email_admin.Text = reader["email"].ToString();
                             textBox_info_usuario_admin.Text = usuario;
-                            textBox_info_contrasena_admin.Text = reader["contrasena"].ToString();
 
                             //Modificar el título para incluir el nombre del usuario
                             titulo_usuario_admin.Text = $"Datos del Usuario: {usuario}";

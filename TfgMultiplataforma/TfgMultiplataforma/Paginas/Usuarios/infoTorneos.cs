@@ -333,7 +333,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             public int Puntos { get; set; }
         }
 
-        //Funcion para mostrar el resultado
+        //Función para mostrar el resultado
         private void MostrarResultado()
         {
             if (idEquipo == 0)
@@ -342,7 +342,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            //Obtener los resultados de las partidas para el equipo
+            // Obtener los resultados de las partidas para el equipo
             List<ResultadoPartida> resultados = ObtenerResultadosPartidas(idEquipo);
             if (resultados.Count == 0)
             {
@@ -350,7 +350,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 return;
             }
 
-            //Crear el formulario para mostrar los resultados
+            // Crear el formulario para mostrar los resultados
             Form resultadosForm = new Form
             {
                 Text = "Resultados de Partidas",
@@ -358,7 +358,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 StartPosition = FormStartPosition.CenterParent
             };
 
-            //Crear el DataGridView para mostrar los resultados
+            // Crear el DataGridView para mostrar los resultados
             DataGridView dataGridView = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -371,13 +371,13 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             DataTable dt = new DataTable();
             dt.Columns.Add("Resultado", typeof(string));
 
-            //Añadir los resultados
+            // Añadir los resultados
             foreach (var resultado in resultados)
             {
                 dt.Rows.Add(resultado.Resultado);
             }
 
-            //Asignar el DataTable al DataGridView
+            // Asignar el DataTable al DataGridView
             dataGridView.DataSource = dt;
             resultadosForm.Controls.Add(dataGridView);
             resultadosForm.ShowDialog();
@@ -393,21 +393,52 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                 {
                     conn.Open();
                     string query = @"
-                        SELECT ep.resultado
-                        FROM `equipos-partidas` ep
-                        WHERE ep.id_equipo = @idEquipo";
+                        SELECT 
+                            e1.nombre AS equipo_local,
+                            e2.nombre AS equipo_visitante,
+                            ep1.puntos AS puntos_equipo,
+                            ep2.puntos AS puntos_rival,
+                            ep1.resultado,
+                            t.nombre AS torneo
+                        FROM partidas p
+                        INNER JOIN `equipos-partidas` ep1 ON p.id_partida = ep1.id_partida AND ep1.id_equipo = @idEquipo
+                        INNER JOIN `equipos-partidas` ep2 ON p.id_partida = ep2.id_partida AND ep2.id_equipo != @idEquipo
+                        INNER JOIN equipos e1 ON ep1.id_equipo = e1.id_equipo
+                        INNER JOIN equipos e2 ON ep2.id_equipo = e2.id_equipo
+                        INNER JOIN torneos t ON p.id_torneo = t.id_torneo
+                        WHERE ep1.id_equipo = @idEquipo AND p.id_torneo = @idTorneo
+                        ORDER BY p.fecha_partida DESC";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@idEquipo", idEquipo);
+                        cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
+                                // Manejo seguro de valores nulos
+                                string equipoLocal = reader["equipo_local"] != DBNull.Value ? reader["equipo_local"].ToString() : "Desconocido";
+                                string equipoVisitante = reader["equipo_visitante"] != DBNull.Value ? reader["equipo_visitante"].ToString() : "Desconocido";
+
+                                int puntosEquipo = 0;
+                                int puntosRival = 0;
+
+                                if (reader["puntos_equipo"] != DBNull.Value)
+                                    puntosEquipo = Convert.ToInt32(reader["puntos_equipo"]);
+
+                                if (reader["puntos_rival"] != DBNull.Value)
+                                    puntosRival = Convert.ToInt32(reader["puntos_rival"]);
+
+                                string resultado = reader["resultado"] != DBNull.Value ? reader["resultado"].ToString() : "Sin resultado";
+                                string torneo = reader["torneo"] != DBNull.Value ? reader["torneo"].ToString() : "Torneo desconocido";
+
+                                string resultadoPartida = $"{equipoLocal} {puntosEquipo}-{puntosRival} {equipoVisitante} - {resultado}";
+
                                 resultados.Add(new ResultadoPartida
                                 {
-                                    Resultado = reader["resultado"].ToString()
+                                    Resultado = resultadoPartida
                                 });
                             }
                         }
@@ -418,6 +449,7 @@ namespace TfgMultiplataforma.Paginas.Usuarios
             {
                 MessageBox.Show($"Error al obtener los resultados: {ex.Message}");
             }
+
             return resultados;
         }
 

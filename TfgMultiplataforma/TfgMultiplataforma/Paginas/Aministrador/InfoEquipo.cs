@@ -168,8 +168,8 @@ namespace TfgMultiplataforma.Paginas.Aministrador
                         {
                             string equipo1 = reader["equipo1"].ToString();
                             string equipo2 = reader["equipo2"].ToString();
-                            int puntos1 = Convert.ToInt32(reader["puntos1"]);
-                            int puntos2 = Convert.ToInt32(reader["puntos2"]);
+                            int puntos1 = reader.IsDBNull(reader.GetOrdinal("puntos1")) ? 0 : Convert.ToInt32(reader["puntos1"]);
+                            int puntos2 = reader.IsDBNull(reader.GetOrdinal("puntos2")) ? 0 : Convert.ToInt32(reader["puntos2"]);
                             string resultado = reader["resultado1"].ToString();
 
                             string texto = $"{equipo1}  {puntos1} puntos VS {equipo2}  {puntos2} puntos  |  {resultado}";

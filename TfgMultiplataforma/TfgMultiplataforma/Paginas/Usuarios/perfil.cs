@@ -72,7 +72,6 @@ namespace TfgMultiplataforma.Paginas.Usuarios
                         {
                             //Asignar los datos a los TextBox
                             textBox_usuario_perfil.Text = reader["usuario"].ToString();
-                            textBox_contrasena_perfil.Text = reader["contrasena"].ToString();
                             textBox_nombre_perfil.Text = reader["nombre"].ToString();
                             textBox_apellidos_perfil.Text = reader["apellidos"].ToString();
                             textBox_telefono_perfil.Text = reader["telefono"].ToString();
