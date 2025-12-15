@@ -26,29 +26,14 @@ Proyecto finalizado.
 ### Pantalla principal del usuario
 <img src="images/pantalla-principal-usuario.png" alt="Pantalla principal del usuario" width="300"/>
 
-### Torneos
-<img src="images/Torneos-usuario.png" alt="Torneos" width="300"/>
-
-### Calendario de partidas
-<img src="images/Calendario-partidas.png" alt="Calendario de partidas" width="300"/>
-
 ### Perfil del usuario
 <img src="images/perfil-usuario.png" alt="Perfil del usuario" width="300"/>
 
-### Pantalla principal del administrador
-<img src="images/pantalla-principal-adminstrador.png" alt="Pantalla principal del administrador" width="300"/>
-
 ### Gestión de equipos
 <img src="images/Gestion-de-equipos.png" alt="Gestion de equipos" width="300"/>
-
-### Torneos
-<img src="images/Torneos.png" alt="Torneos" width="300"/>
 
 ### Crear torneo
 <img src="images/Crear-torneo.png" alt="Crear torneo" width="300"/>
 
 ### Editar torneo
 <img src="images/Editar-torneo.png" alt="Editar torneo" width="300"/>
-
-### Crear administrador
-<img src="images/Crear-administrador.png" alt="Crear administrador" width="300"/>
