@@ -1,4 +1,4 @@
-App de Gestión de Equipos y Torneos de Videojuegos
+# App de Gestión de Equipos y Torneos de Videojuegos
 
 Proyecto Final de Grado del ciclo formativo de Desarrollo de Aplicaciones Multiplataforma.
 
