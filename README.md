@@ -37,3 +37,6 @@ Proyecto finalizado.
 
 ### Editar torneo
 <img src="images/Editar-torneo.png" alt="Editar torneo" width="300"/>
+
+## Documentación
+[📄 Manual de usuario (PDF)](docs/manual-usuario.pdf)
